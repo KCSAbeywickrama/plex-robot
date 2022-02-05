@@ -1,1 +1,1 @@
-put all Solid work designes
+put all Solid work CAD designes
