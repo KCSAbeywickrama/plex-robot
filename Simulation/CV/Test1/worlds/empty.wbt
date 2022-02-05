@@ -1,0 +1,172 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.3010935486845421 -0.7923805505189967 -0.5305428711233063 3.9867875130133936
+  position 0.2740843889987454 0.46525702016539233 0.162838139134464
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 5 5
+  floorAppearance Parquetry {
+    type "dark strip"
+    colorOverride 0 0 0
+  }
+}
+DEF Testing Robot {
+  translation 0 0.03 0.14
+  children [
+    Display {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              emissiveColor 1 1 1
+            }
+            texture ImageTexture {
+              filtering 0
+            }
+          }
+        }
+      ]
+    }
+    DEF body Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.14 0.01 0.18
+      }
+    }
+    DEF left HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.075 0 -0.03
+      }
+      device [
+        DEF left_motor RotationalMotor {
+        }
+        DEF left_encoder PositionSensor {
+        }
+      ]
+      endPoint Solid {
+        translation 0.075 0 -0.03
+        rotation -6.776932015611527e-09 6.778312435657952e-09 0.9999999999999999 1.570999999999999
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.03
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF right HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.075 0 -0.03
+      }
+      device [
+        DEF right_encoder PositionSensor {
+        }
+        DEF right_motor RotationalMotor {
+        }
+      ]
+      endPoint Solid {
+        translation -0.075 0 -0.03
+        rotation 8.365866954389101e-10 -8.367571030868461e-10 0.9999999999999999 1.5709999999999993
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.03
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF casterSolid Solid {
+      translation 0 -0.015 0.07
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.015
+            subdivision 2
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+    Camera {
+      translation 0 0 0.09
+      rotation 0 1 0 3.14
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      name "cam"
+    }
+  ]
+  name "PlexCV"
+  boundingObject USE body
+  physics Physics {
+  }
+  controller "testing_controller"
+}
+Solid {
+  translation 0 0.025 0.43
+  rotation 0 0 1 0
+  children [
+    DEF Box Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  boundingObject USE Box
+  physics Physics {
+  }
+}
