@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.3010935486845421 -0.7923805505189967 -0.5305428711233063 3.9867875130133936
-  position 0.2740843889987454 0.46525702016539233 0.162838139134464
+  orientation 0.9963017952388837 0.08055334242898511 0.029898023802517815 5.569968265846585
+  position -0.6289147334072175 5.35339055810589 5.515882402078495
 }
 TexturedBackground {
 }
@@ -17,8 +17,27 @@ RectangleArena {
     colorOverride 0 0 0
   }
 }
+DEF Cylinder Solid {
+  translation -0.82 0.0250411 -0.197845
+  rotation 0.3779971371262353 0.6547112375099662 -0.6545772374613548 2.418935307179586
+  children [
+    DEF Cylinder Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.025
+      }
+    }
+  ]
+  name "solid(5)"
+}
 DEF Testing Robot {
-  translation 0 0.03 0.14
+  translation -0.26 0.03 -0.53
+  rotation 0 1 0 -1.5707953071795862
   children [
     Display {
       children [
@@ -56,7 +75,7 @@ DEF Testing Robot {
       ]
       endPoint Solid {
         translation 0.075 0 -0.03
-        rotation -6.776932015611527e-09 6.778312435657952e-09 0.9999999999999999 1.570999999999999
+        rotation -1.3386574768060869e-09 1.3389301532342457e-09 0.9999999999999999 1.570999999999999
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -87,7 +106,7 @@ DEF Testing Robot {
       ]
       endPoint Solid {
         translation -0.075 0 -0.03
-        rotation 8.365866954389101e-10 -8.367571030868461e-10 0.9999999999999999 1.5709999999999993
+        rotation 6.297395546739671e-09 -6.298678288108912e-09 0.9999999999999999 1.5709999999999993
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -151,8 +170,8 @@ DEF Testing Robot {
   }
   controller "testing_controller"
 }
-Solid {
-  translation 0 0.025 0.43
+DEF Box Solid {
+  translation -0.96 0.025 -0.42
   rotation 0 0 1 0
   children [
     DEF Box Shape {
@@ -169,4 +188,104 @@ Solid {
   boundingObject USE Box
   physics Physics {
   }
+}
+DEF Cyan Solid {
+  translation -0.8 -0.049 -0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.9 0.1 0.92
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF Black Solid {
+  translation -0.8 -0.049 0.72
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.9 0.1 0.92
+      }
+    }
+  ]
+  name "solid(2)"
+}
+DEF Magenta Solid {
+  translation -0.05 -0.049 -0.2
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6 0.1 0.92
+      }
+    }
+  ]
+  name "solid(3)"
+}
+DEF Yellow Solid {
+  translation -0.05 -0.049 0.72
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.6 0.1 0.92
+      }
+    }
+  ]
+  name "solid(4)"
+}
+DEF Mosaic_wall Solid {
+  translation -1.26 0 -0.67
+  scale 0.001 0.001 0.001
+  children [
+    Solid {
+      children [
+        DEF Mosaic_wall Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 0
+            roughness 1
+            metalness 0
+            name "DefaultMaterial"
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                1510 0 1850, 910 0 1850, 1510 250 1850, 910 250 1850, 1520 250 370, 1520 250 1860, 1520 0 370, 1520 0 1860, 910 250 1860, 910 250 1850, 910 0 1860, 910 0 1850, 1520 250 1860, 910 250 1860, 1520 0 1860, 910 0 1860, 910 250 1850, 910 250 1860, 1510 250 1850, 1520 250 1860, 1510 250 370, 1520 250 370, 1510 0 370, 1520 0 370, 1510 0 1850, 1520 0 1860, 910 0 1850, 910 0 1860, 1510 250 370, 1520 250 370, 1510 0 370, 1520 0 370, 1510 250 1850, 1510 250 370, 1510 0 1850, 1510 0 370, 460 250 1850, 460 0 1850, 10 250 1850, 10 0 1850, 0 250 1860, 0 250 0, 0 0 1860, 0 0 0, 460 250 1860, 0 250 1860, 460 0 1860, 0 0 1860, 460 250 1850, 460 250 1860, 460 0 1850, 460 0 1860, 1520 250 9.99999, 1520 250 0, 10 250 9.99999, 0 250 0, 10 250 1850, 0 250 1860, 460 250 1850, 460 250 1860, 460 0 1850, 460 0 1860, 10 0 1850, 0 0 1860, 10 0 9.99999, 0 0 0, 1520 0 9.99999, 1520 0 0, 0 250 0, 1520 250 0, 0 0 0, 1520 0 0, 10 250 1850, 10 0 1850, 10 250 9.99999, 10 0 9.99999, 1520 250 0, 1520 250 9.99999, 1520 0 0, 1520 0 9.99999, 1520 250 9.99999, 10 250 9.99999, 1520 0 9.99999, 10 0 9.99999
+              ]
+            }
+            normal Normal {
+              vector [
+                0 0 -1, 0 0 -1, 0 0 -1, 0 0 -1, 1 0 0, 1 0 0, 1 0 0, 1 0 0, -1 0 1.22465e-16, -1 0 1.22465e-16, -1 0 1.22465e-16, -1 0 1.22465e-16, 0 0 1, 0 0 1, 0 0 1, 0 0 1, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 0 -1, 0 0 -1, 0 0 -1, 0 0 -1, -1 0 0, -1 0 0, -1 0 0, -1 0 0, 0 0 -1, 0 0 -1, 0 0 -1, 0 0 -1, -1 0 0, -1 0 0, -1 0 0, -1 0 0, 0 0 1, 0 0 1, 0 0 1, 0 0 1, 1 0 0, 1 0 0, 1 0 0, 1 0 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 -1 0, 0 0 -1, 0 0 -1, 0 0 -1, 0 0 -1, 1 0 0, 1 0 0, 1 0 0, 1 0 0, 1 0 0, 1 0 0, 1 0 0, 1 0 0, 0 0 1, 0 0 1, 0 0 1, 0 0 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, -1, 2, 1, 3, -1, 4, 5, 6, -1, 6, 5, 7, -1, 8, 9, 10, -1, 10, 9, 11, -1, 12, 13, 14, -1, 14, 13, 15, -1, 16, 17, 18, -1, 18, 17, 19, -1, 18, 19, 20, -1, 20, 19, 21, -1, 22, 23, 24, -1, 24, 23, 25, -1, 24, 25, 26, -1, 26, 25, 27, -1, 28, 29, 30, -1, 30, 29, 31, -1, 32, 33, 34, -1, 34, 33, 35, -1, 36, 37, 38, -1, 38, 37, 39, -1, 40, 41, 42, -1, 42, 41, 43, -1, 44, 45, 46, -1, 46, 45, 47, -1, 48, 49, 50, -1, 50, 49, 51, -1, 52, 53, 54, -1, 54, 53, 55, -1, 54, 55, 56, -1, 56, 55, 57, -1, 56, 57, 58, -1, 58, 57, 59, -1, 60, 61, 62, -1, 62, 61, 63, -1, 62, 63, 64, -1, 64, 63, 65, -1, 64, 65, 66, -1, 66, 65, 67, -1, 68, 69, 70, -1, 70, 69, 71, -1, 72, 73, 74, -1, 74, 73, 75, -1, 76, 77, 78, -1, 78, 77, 79, -1, 80, 81, 82, -1, 82, 81, 83, -1
+            ]
+          }
+        }
+      ]
+      name ""
+    }
+  ]
+  name "<STL_BINARY>"
+  boundingObject USE Mosaic_wall
 }
