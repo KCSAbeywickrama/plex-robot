@@ -2,8 +2,8 @@ build
 com
 webots_catkin_ws
 
-# Compiled source
-# *.exe
+Compiled source
+*.exe
 *.o
 *.d
 *.class
@@ -17,7 +17,7 @@ webots_catkin_ws
 *.pyc
 *.gch
 
-# Packages
+Packages
 *.7z
 *.bz2
 *.dmg
@@ -29,7 +29,7 @@ webots_catkin_ws
 *.xz
 *.zip
 
-# OS generated files
+OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -40,26 +40,26 @@ ehthumbs.db
 Thumbs.db
 *.swp
 
-# Text editor backup files
+Text editor backup files
 *~
 
-# Log files
+Log files
 *.log
 
-# Blender cache
+Blender cache
 *.blend1
 
 # Webots generated files
 *.cache
 
-# IDE files
+IDE files
 .vscode/*
 !.vscode/c_cpp_properties.json
 
 .vs
 x64
-# Local rules #
-###############
+Local rules #
+##############
 
 /.clang-format
 /msys64
