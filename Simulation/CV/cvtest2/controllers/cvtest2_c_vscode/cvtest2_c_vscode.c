@@ -10,11 +10,12 @@
  * You may need to add include files like <webots/distance_sensor.h> or
  * <webots/motor.h>, etc.
  */
+
+// Edit from CSA
 #include <webots/robot.h>
 #include <webots/camera.h>
 #include <webots/motor.h>
 #include <stdio.h>
-
 
 #define TIME_STEP 32
 
@@ -32,8 +33,7 @@ int main()
     //incoming frames become Mat objects
     // Mat frame = Mat(Size(width, height), CV_8UC4);
     const unsigned char *image = wb_camera_get_image(camera);
-    printf("%c\n",image[0]);
-    
+    printf("%c\n", image[0]);
   }
   wb_robot_cleanup();
   return 0;
