@@ -71,7 +71,7 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 INCLUDE = -I$(OPENCV_DIR)/include
-LIBRARIES = -L"$(OPENCV_DIR)/x64/mingw/lib" -lopencv_core452 -lopencv_imgproc452
+LIBRARIES = -L"$(OPENCV_DIR)/x64/mingw/lib" -lopencv_core452 -lopencv_imgproc452 -lopencv_imgcodecs452 -lopencv_highgui452 -lopencv_features2d452
 
 # $(info    VAR is $(INCLUDE))
 # $(info    VAR is $(LIBRARIES))
