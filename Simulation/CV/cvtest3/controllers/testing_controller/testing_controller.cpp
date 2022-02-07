@@ -31,11 +31,11 @@ using namespace cv;
 // a controller program.
 // The arguments of the main function can be specified by the
 // "controllerArgs" field of the Robot node
-int getMaxAreaContourId(vector <vector<cv::Point>> contours) {
+int getMaxAreaContourId(vector <vector<Point>> contours) {
     double maxArea = 0;
     int maxAreaContourId = -1;
     for (int j = 0; j < contours.size(); j++) {
-        double newArea = cv::contourArea(contours.at(j));
+        double newArea = contourArea(contours.at(j));
         if (newArea > maxArea) {
             maxArea = newArea;
             maxAreaContourId = j;
@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
       int largestContour = getMaxAreaContourId(contours);
       Moments mu = moments( contours[largestContour], false );
       int centerx = mu.m10/mu.m00;
-      cout<<centerx;
+      cout<<centerx<<' ';
       float error = width/2 - centerx;
       cout<<error<<endl;
     left_motor->setVelocity(- error * p_coefficient);
