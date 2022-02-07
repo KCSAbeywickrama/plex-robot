@@ -8,6 +8,7 @@
 // <webots/DistanceSensor.hpp>, <webots/Motor.hpp>, etc.
 // and/or to add some other includes
 #include <webots/Robot.hpp>
+#include<webots/Motor.hpp>
 #include <webots/Camera.hpp>
 #include <webots/Display.hpp>
 #include <webots/ImageRef.hpp>
@@ -30,9 +31,32 @@ using namespace cv;
 // a controller program.
 // The arguments of the main function can be specified by the
 // "controllerArgs" field of the Robot node
+int getMaxAreaContourId(vector <vector<cv::Point>> contours) {
+    double maxArea = 0;
+    int maxAreaContourId = -1;
+    for (int j = 0; j < contours.size(); j++) {
+        double newArea = cv::contourArea(contours.at(j));
+        if (newArea > maxArea) {
+            maxArea = newArea;
+            maxAreaContourId = j;
+        } // End if
+    } // End for
+    return maxAreaContourId;
+} // End function
+
 int main(int argc, char **argv) {
   // create the Robot instance.
+  float p_coefficient = 0.1;
   Robot *robot = new Robot();
+  Motor *left_motor = robot->getMotor("left_motor");
+  Motor *right_motor = robot->getMotor("right_motor");
+  
+  left_motor-> setPosition(INFINITY);
+  left_motor->setVelocity(0.0);
+  
+  right_motor-> setPosition(INFINITY);
+  right_motor->setVelocity(0.0);
+  
   Camera *camera = robot->getCamera("cam");
   camera->enable(TIME_STEP);
   const int width = camera->getWidth();
@@ -56,6 +80,11 @@ int main(int argc, char **argv) {
   // - perform simulation steps until Webots is stopping the controller
   const unsigned char *image;
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
+  Mat imgRGB, imgHSV ,final,mask,dis;
+  int hmin = 60, smin = 0, vmin = 0;
+  int hmax = 180, smax = 255, vmax = 255;
+  vector<vector<Point>> contours;
+  vector<Vec4i> hierarchy;
   //Mat imageProccMat;
   while (robot->step(TIME_STEP) != -1) {
     // Read the sensors:
@@ -67,81 +96,52 @@ int main(int argc, char **argv) {
     // Enter here functions to send actuator commands, like:
     //  motor->setPosition(10.0);
   
-image = camera->getImage();
+ image = camera->getImage();
     if (image)
     {
       imageMat.data = (uchar *)image;
-      //GaussianBlur(imageMat, imageProccMat, Size(9, 9), 0);
+      cvtColor(imageMat,imgRGB,COLOR_BGRA2RGB);
+      cvtColor(imgRGB,imgHSV,COLOR_RGB2HSV);
+      //namedWindow("ttt");
 
+      /*namedWindow("Trackbars",(640 , 200));
+      createTrackbar("Hue Min","Trackbars",&hmin,179);
+      createTrackbar("Hue Max","Trackbars",&hmax,179);
+      createTrackbar("Sat Min","Trackbars",&smin,255);
+      createTrackbar("Sat Max","Trackbars",&smax,255);
+      createTrackbar("Val Min","Trackbars",&vmin,255);
+      createTrackbar("Val Max","Trackbars",&vmax,255);*/
 
-      //cv::Mat input = cv::imread("../inputData/RotatedRect.png");
+      Scalar lower(hmin, smin, vmin);
+      Scalar upper(hmax, smax, vmax);
+      inRange(imgHSV, lower, upper, mask);
 
-    // convert to grayscale (you could load as grayscale instead)
-    cv::Mat gray;
-    cv::cvtColor(imageMat,gray, cv::COLOR_BGR2GRAY);
-
-    // compute mask (you could use a simple threshold if the image is always as good as the one you provided)
-    cv::Mat mask;
-    cv::threshold(gray, mask, 0, 255, cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
-
-    // find contours (if always so easy to segment as your image, you could just add the black/rect pixels to a vector)
-    std::vector<std::vector<cv::Point>> contours;
-    std::vector<cv::Vec4i> hierarchy;
-    cv::findContours(mask,contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-
-    /// Draw contours and find biggest contour (if there are other contours in the image, we assume the biggest one is the desired rect)
-    // drawing here is only for demonstration!
-    int biggestContourIdx = -1;
-    float biggestContourArea = 0;
-    cv::Mat drawing = cv::Mat::zeros( mask.size(), CV_8UC3 );
-    for( int i = 0; i< contours.size(); i++ )
-    {
-        cv::Scalar color = cv::Scalar(0, 100, 0);
-        drawContours( drawing, contours, i, color, 1, 8, hierarchy, 0, cv::Point() );
-
-        float ctArea= cv::contourArea(contours[i]);
-        if(ctArea > biggestContourArea)
-        {
-            biggestContourArea = ctArea;
-            biggestContourIdx = i;
-        }
-    }
-
-    // if no contour found
-    if(biggestContourIdx < 0)
-    {
-        std::cout << "no contour found" << std::endl;
-        return 1;
-    }
-
-    // compute the rotated bounding rect of the biggest contour! (this is the part that does what you want/need)
-    cv::RotatedRect boundingBox = cv::minAreaRect(contours[biggestContourIdx]);
-    // one thing to remark: this will compute the OUTER boundary box, so maybe you have to erode/dilate if you want something between the ragged lines
-
-
-
-    // draw the rotated rect
-    cv::Point2f corners[4];
-    boundingBox.points(corners);
-    cv::line(drawing, corners[0], corners[1], cv::Scalar(255,255,255));
-    cv::line(drawing, corners[1], corners[2], cv::Scalar(255,255,255));
-    cv::line(drawing, corners[2], corners[3], cv::Scalar(255,255,255));
-    cv::line(drawing, corners[3], corners[0], cv::Scalar(255,255,255));
-
-    // display
-    
-
-      
-      ImageRef *ir = display->imageNew(width, height, drawing.data, Display::BGRA);
+      cvtColor(mask,final, COLOR_GRAY2RGB);
+      cvtColor(final,dis, COLOR_RGB2BGRA);
+      ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
 
       display->imagePaste(ir, 0, 0, false);
       display->imageDelete(ir);
+
+      findContours(mask, contours,hierarchy, RETR_EXTERNAL,CHAIN_APPROX_NONE);
+      //vector<Point> c = contours.at(getMaxAreaContourId(contours));
+      int largestContour = getMaxAreaContourId(contours);
+      Moments mu = moments( contours[largestContour], false );
+      int centerx = mu.m10/mu.m00;
+      cout<<centerx;
+      float error = width/2 - centerx;
+      cout<<error<<endl;
+    left_motor->setVelocity(- error * p_coefficient);
+    right_motor->setVelocity(error * p_coefficient);
+
+
+      
+    
     }
 
-  };
-
   // Enter here exit cleanup code.
-
+  };
+  //destroyAllWindows();
   delete robot;
   return 0;
 }

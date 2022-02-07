@@ -69,13 +69,15 @@ DEF Testing Robot {
       }
       device [
         DEF left_motor RotationalMotor {
+          name "left_motor"
         }
         DEF left_encoder PositionSensor {
+          name "left_encoder"
         }
       ]
       endPoint Solid {
         translation 0.075 0 -0.03
-        rotation -1.3386574768060869e-09 1.3389301532342457e-09 0.9999999999999999 1.570999999999999
+        rotation -9.891936903585535e-09 9.893951831279695e-09 0.9999999999999998 1.570999999999999
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -100,13 +102,15 @@ DEF Testing Robot {
       }
       device [
         DEF right_encoder PositionSensor {
+          name "right_encoder"
         }
         DEF right_motor RotationalMotor {
+          name "right_motor"
         }
       ]
       endPoint Solid {
         translation -0.075 0 -0.03
-        rotation 6.297395546739671e-09 -6.298678288108912e-09 0.9999999999999999 1.5709999999999993
+        rotation -2.148810084446253e-09 2.1492477840586976e-09 0.9999999999999999 1.5709999999999993
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
