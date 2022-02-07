@@ -1,0 +1,10 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "m:\\Webots\\Projects\\plex-robot\\Simulation\\CV\\cvtest3\\controllers\\testing_controller",
+            "binaryPath": "m:\\Webots\\Projects\\plex-robot\\Simulation\\CV\\cvtest3\\controllers\\testing_controller\\testing_controller.exe",
+            "binaryArgs": []
+        }
+    ]
+}
