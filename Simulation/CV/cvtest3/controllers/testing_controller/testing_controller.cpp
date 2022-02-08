@@ -31,20 +31,17 @@ using namespace cv;
 // a controller program.
 // The arguments of the main function can be specified by the
 // "controllerArgs" field of the Robot node
-int getMaxAreaContourId(vector<vector<cv::Point>> contours)
-{
-  double maxArea = 0;
-  int maxAreaContourId = -1;
-  for (int j = 0; j < contours.size(); j++)
-  {
-    double newArea = cv::contourArea(contours.at(j));
-    if (newArea > maxArea)
-    {
-      maxArea = newArea;
-      maxAreaContourId = j;
-    } // End if
-  }   // End for
-  return maxAreaContourId;
+int getMaxAreaContourId(vector <vector<Point>> contours) {
+    double maxArea = 0;
+    int maxAreaContourId = -1;
+    for (int j = 0; j < contours.size(); j++) {
+        double newArea = contourArea(contours.at(j));
+        if (newArea > maxArea) {
+            maxArea = newArea;
+            maxAreaContourId = j;
+        } // End if
+    } // End for
+    return maxAreaContourId;
 } // End function
 
 int main(int argc, char **argv)
@@ -89,6 +86,7 @@ int main(int argc, char **argv)
   int hmax = 180, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
   vector<Vec4i> hierarchy;
+  RNG rng(12345);
   //Mat imageProccMat;
   while (robot->step(TIME_STEP) != -1)
   {
@@ -109,8 +107,8 @@ int main(int argc, char **argv)
       cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
       //namedWindow("ttt");
 
-      namedWindow("Trackbars", (640, 200));
-      createTrackbar("Hue Min", "Trackbars", &hmin, 179);
+      //namedWindow("Trackbars", (640, 200));
+      //createTrackbar("Hue Min", "Trackbars", &hmin, 179);
       /*createTrackbar("Hue Max","Trackbars",&hmax,179);
       createTrackbar("Sat Min","Trackbars",&smin,255);
       createTrackbar("Sat Max","Trackbars",&smax,255);
@@ -121,23 +119,31 @@ int main(int argc, char **argv)
       Scalar upper(hmax, smax, vmax);
       inRange(imgHSV, lower, upper, mask);
 
-      cvtColor(mask, final, COLOR_GRAY2RGB);
-      cvtColor(final, dis, COLOR_RGB2BGRA);
-      ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
-
-      display->imagePaste(ir, 0, 0, false);
-      display->imageDelete(ir);
+     
 
       findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
       //vector<Point> c = contours.at(getMaxAreaContourId(contours));
       int largestContour = getMaxAreaContourId(contours);
-      Moments mu = moments(contours[largestContour], false);
-      int centerx = mu.m10 / mu.m00;
-      // cout << centerx;
-      float error = width / 2 - centerx;
-      // cout << error << endl;
-      left_motor->setVelocity(-error * p_coefficient);
-      right_motor->setVelocity(error * p_coefficient);
+       Scalar color = Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256) );
+       drawContours( mask, contours, largestContour, color, 2, LINE_8, hierarchy, 0 );
+
+      cvtColor(mask, final, COLOR_GRAY2RGB);
+      //cvtColor(final, dis, COLOR_RGB2BGRA);
+      ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+
+      display->imagePaste(ir, 0, 0, false);
+      display->imageDelete(ir);
+      Moments mu = moments( contours[largestContour], false );
+      int centerx = mu.m10/mu.m00;
+      cout<<centerx<<' ';
+      float error = width/2 - centerx;
+      cout<<error<<endl;
+    left_motor->setVelocity(- error * p_coefficient);
+    right_motor->setVelocity(error * p_coefficient);
+
+
+      
+    
     }
 
     // Enter here exit cleanup code.
