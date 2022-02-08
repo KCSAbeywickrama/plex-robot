@@ -55,6 +55,7 @@ Blender cache
 IDE files
 .vscode
 # !.vscode/c_cpp_properties.json
+imgs
 
 .vs
 x64

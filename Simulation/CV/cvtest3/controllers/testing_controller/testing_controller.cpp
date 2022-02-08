@@ -31,32 +31,40 @@ using namespace cv;
 // a controller program.
 // The arguments of the main function can be specified by the
 // "controllerArgs" field of the Robot node
-int getMaxAreaContourId(vector <vector<Point>> contours) {
-    double maxArea = 0;
-    int maxAreaContourId = -1;
-    for (int j = 0; j < contours.size(); j++) {
-        double newArea = contourArea(contours.at(j));
-        if (newArea > maxArea) {
-            maxArea = newArea;
-            maxAreaContourId = j;
-        } // End if
-    } // End for
-    return maxAreaContourId;
+void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area)
+{
+  double maxArea = 0;
+  id = -1;
+  for (int j = 0; j < contours.size(); j++)
+  {
+    double newArea = contourArea(contours.at(j));
+    if (newArea > maxArea)
+    {
+      maxArea = newArea;
+      id = j;
+    } // End if
+  }   // End for
+
+  area = (int)maxArea;
 } // End function
+
+int gotoObg()
+{
+}
 
 int main(int argc, char **argv)
 {
   // create the Robot instance.
   float p_coefficient = 0.1;
   Robot *robot = new Robot();
-  Motor *left_motor = robot->getMotor("left_motor");
-  Motor *right_motor = robot->getMotor("right_motor");
+  Motor *leftMotor = robot->getMotor("left_motor");
+  Motor *rightMotor = robot->getMotor("right_motor");
 
-  left_motor->setPosition(INFINITY);
-  left_motor->setVelocity(0.0);
+  leftMotor->setPosition(INFINITY);
+  leftMotor->setVelocity(0.0);
 
-  right_motor->setPosition(INFINITY);
-  right_motor->setVelocity(0.0);
+  rightMotor->setPosition(INFINITY);
+  rightMotor->setVelocity(0.0);
 
   Camera *camera = robot->getCamera("cam");
   camera->enable(TIME_STEP);
@@ -64,30 +72,20 @@ int main(int argc, char **argv)
   const int height = camera->getHeight();
   //int imageLength = 4 * width * height * sizeof(unsigned char);
   Display *display = robot->getDisplay("display");
-  //printf("red=%d\n", height);
-  //display->setAlpha(0.5);
-  //display->fillRectangle(10,10,10,10);
 
-  // get the time step of the current world.
-  //int timeStep = (int)robot->getBasicTimeStep();
-
-  // You should insert a getDevice-like function in order to get the
-  // instance of a device of the robot. Something like:
-  //  Motor *motor = robot->getMotor("motorname");
-  //  DistanceSensor *ds = robot->getDistanceSensor("dsname");
-  //  ds->enable(timeStep);
-
-  // Main loop:
-  // - perform simulation steps until Webots is stopping the controller
   const unsigned char *image;
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
   Mat imgRGB, imgHSV, final, mask, dis;
-  int hmin = 60, smin = 0, vmin = 0;
-  int hmax = 180, smax = 255, vmax = 255;
+  int hmin = 30, smin = 0, vmin = 0;
+  int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
   vector<Vec4i> hierarchy;
   RNG rng(12345);
-  //Mat imageProccMat;
+
+  unsigned int timeCounter = 0;
+
+  bool goingToObg = true;
+
   while (robot->step(TIME_STEP) != -1)
   {
     // Read the sensors:
@@ -98,54 +96,62 @@ int main(int argc, char **argv)
 
     // Enter here functions to send actuator commands, like:
     //  motor->setPosition(10.0);
-
-    image = camera->getImage();
-    if (image)
+    while (robot->step(TIME_STEP) != -1 && goingToObg)
     {
-      imageMat.data = (uchar *)image;
-      cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
-      cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
-      //namedWindow("ttt");
+      image = camera->getImage();
+      if (image)
+      {
 
-      //namedWindow("Trackbars", (640, 200));
-      //createTrackbar("Hue Min", "Trackbars", &hmin, 179);
-      /*createTrackbar("Hue Max","Trackbars",&hmax,179);
-      createTrackbar("Sat Min","Trackbars",&smin,255);
-      createTrackbar("Sat Max","Trackbars",&smax,255);
-      createTrackbar("Val Min","Trackbars",&vmin,255);
-      createTrackbar("Val Max","Trackbars",&vmax,255);*/
+        // save images
+        // if (timeCounter % 50 == 0)
+        // {
+        //   string filename = "imgs\\" + to_string(timeCounter / 50) + ".png";
+        //   cout << "Saving" << filename << ':' << endl;
+        //   cout << camera->saveImage(filename, 0) << endl;
+        // }
+        imageMat.data = (uchar *)image;
+        cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+        cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-      Scalar lower(hmin, smin, vmin);
-      Scalar upper(hmax, smax, vmax);
-      inRange(imgHSV, lower, upper, mask);
+        Scalar lower(hmin, smin, vmin);
+        Scalar upper(hmax, smax, vmax);
+        inRange(imgHSV, lower, upper, mask);
 
-     
+        findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+        //vector<Point> c = contours.at(getMaxAreaContourId(contours));
+        int largestContour, largestContourArea;
 
-      findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-      //vector<Point> c = contours.at(getMaxAreaContourId(contours));
-      int largestContour = getMaxAreaContourId(contours);
-       Scalar color = Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256) );
-       drawContours( mask, contours, largestContour, color, 2, LINE_8, hierarchy, 0 );
+        getMaxAreaContourId(contours, largestContour, largestContourArea);
 
-      cvtColor(mask, final, COLOR_GRAY2RGB);
-      //cvtColor(final, dis, COLOR_RGB2BGRA);
-      ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+        cout << largestContourArea << endl;
 
-      display->imagePaste(ir, 0, 0, false);
-      display->imageDelete(ir);
-      Moments mu = moments( contours[largestContour], false );
-      int centerx = mu.m10/mu.m00;
-      cout<<centerx<<' ';
-      float error = width/2 - centerx;
-      cout<<error<<endl;
-    left_motor->setVelocity(- error * p_coefficient);
-    right_motor->setVelocity(error * p_coefficient);
+        if (largestContourArea > 900)
+        {
+          goingToObg = false;
+          leftMotor->setVelocity(0);
+          rightMotor->setVelocity(0);
+          break;
+        }
 
+        Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
+        drawContours(mask, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
 
-      
-    
+        cvtColor(mask, final, COLOR_GRAY2RGB);
+        //cvtColor(final, dis, COLOR_RGB2BGRA);
+        ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+
+        display->imagePaste(ir, 0, 0, false);
+        display->imageDelete(ir);
+        Moments mu = moments(contours[largestContour], false);
+        int centerx = mu.m10 / mu.m00;
+        // cout << centerx << ' ';
+        float error = width / 2 - centerx;
+        // cout << error << endl;
+        leftMotor->setVelocity(-error * p_coefficient + 2);
+        rightMotor->setVelocity(error * p_coefficient + 2);
+      }
     }
-
+    timeCounter++;
     // Enter here exit cleanup code.
   };
   //destroyAllWindows();
