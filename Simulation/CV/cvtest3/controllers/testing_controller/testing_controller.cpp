@@ -84,6 +84,7 @@ int main(int argc, char **argv)
   int hmin = 30, smin = 0, vmin = 0;
   int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
+  vector<vector<Point>> poly;
   vector<Vec4i> hierarchy;
   RNG rng(12345);
 
@@ -130,7 +131,7 @@ int main(int argc, char **argv)
 
         cout << largestContourArea << endl;
 
-        if (largestContourArea > 900)
+        if (largestContourArea > width*height/5)
         {
           goingToObg = false;
           leftMotor->setVelocity(0);
@@ -148,6 +149,7 @@ int main(int argc, char **argv)
         display->imagePaste(ir, 0, 0, false);
         display->imageDelete(ir);
         Moments mu = moments(contours[largestContour], false);
+        approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
         int centerx = mu.m10 / mu.m00;
         // cout << centerx << ' ';
         float error = width / 2 - centerx;
