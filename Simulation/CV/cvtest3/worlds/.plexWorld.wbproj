@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff0000000100000002000000c0000000fa01000000020100000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 0 "controllers/cvtest2_controller/cvtest2_controller.cpp"
+textFiles: 0 "../cvtest2/controllers/cvtest2_controller/cvtest2_controller.cpp"
 consoles: Console:All:All
-renderingDevicePerspectives: PlexCV:camera;1;2.20313;0.00331126;0
-renderingDevicePerspectives: PlexCV:display;1;1.9375;0.789736;0.0078534
+renderingDevicePerspectives: PlexCV:cam;1;1;0.0115894;0.0235602
+renderingDevicePerspectives: PlexCV:display;1;1;0.889073;0.0209424

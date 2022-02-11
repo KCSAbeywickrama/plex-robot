@@ -1,4 +1,4 @@
-# Copyright 1996-2020 Cyberbotics Ltd.
+# Copyright 1996-2021 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -69,14 +69,4 @@
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-
-INCLUDE = -I$(OPENCV_DIR)/include
-LIBRARIES = -L"$(OPENCV_DIR)/x64/mingw/lib" -lopencv_core452 -lopencv_imgproc452 -lopencv_imgcodecs452 -lopencv_highgui452 -lopencv_features2d452
-
-# $(info    VAR is $(INCLUDE))
-# $(info    VAR is $(LIBRARIES))
-# Comiples suscess
-# INCLUDE = -I"M:/OpenCV/mingcv/include/opencv4"
-# LIBRARIES = -L"M:/OpenCV/mingcv/lib" -lopencv_core -lopencv_imgproc
-CXX_SOURCES = testing_controller.cpp plexlibs/vision.cpp
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
