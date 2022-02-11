@@ -7,6 +7,7 @@
 // You may need to add webots include files such as
 // <webots/DistanceSensor.hpp>, <webots/Motor.hpp>, etc.
 // and/or to add some other includes
+
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
 #include <webots/DistanceSensor.hpp>
