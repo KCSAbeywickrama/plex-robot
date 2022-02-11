@@ -18,6 +18,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/features2d.hpp>
+#include "plexlibs/vision.hpp"
 
 #define TIME_STEP 64
 // All the webots classes are defined in the "webots" namespace
@@ -54,6 +55,10 @@ int gotoObg()
 
 int main(int argc, char **argv)
 {
+
+  vision::mainFunction();
+  vision::gotoObject();
+
   // create the Robot instance.
   float p_coefficient = 0.1;
   Robot *robot = new Robot();
@@ -70,7 +75,7 @@ int main(int argc, char **argv)
   camera->enable(TIME_STEP);
   const int width = camera->getWidth();
   const int height = camera->getHeight();
-  //int imageLength = 4 * width * height * sizeof(unsigned char);
+  // int imageLength = 4 * width * height * sizeof(unsigned char);
   Display *display = robot->getDisplay("display");
 
   const unsigned char *image;
@@ -118,7 +123,7 @@ int main(int argc, char **argv)
         inRange(imgHSV, lower, upper, mask);
 
         findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-        //vector<Point> c = contours.at(getMaxAreaContourId(contours));
+        // vector<Point> c = contours.at(getMaxAreaContourId(contours));
         int largestContour, largestContourArea;
 
         getMaxAreaContourId(contours, largestContour, largestContourArea);
@@ -137,7 +142,7 @@ int main(int argc, char **argv)
         drawContours(mask, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
 
         cvtColor(mask, final, COLOR_GRAY2RGB);
-        //cvtColor(final, dis, COLOR_RGB2BGRA);
+        // cvtColor(final, dis, COLOR_RGB2BGRA);
         ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
 
         display->imagePaste(ir, 0, 0, false);
@@ -154,7 +159,7 @@ int main(int argc, char **argv)
     timeCounter++;
     // Enter here exit cleanup code.
   };
-  //destroyAllWindows();
+  // destroyAllWindows();
   delete robot;
   return 0;
 }

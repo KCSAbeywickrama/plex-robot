@@ -13,6 +13,7 @@
 #include <webots/Display.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include "plexlibs/vision.hpp"
 
 // All the webots classes are defined in the "webots" namespace
 using namespace webots;
@@ -28,8 +29,11 @@ using namespace cv;
 
 int main(int argc, char **argv)
 {
-
   // create the Robot instance.
+
+  vision::gotoObject();
+
+
   Robot *robot = new Robot();
   int timeStep = (int)robot->getBasicTimeStep();
 
