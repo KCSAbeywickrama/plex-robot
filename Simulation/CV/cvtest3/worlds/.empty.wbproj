@@ -6,7 +6,7 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/testing_controller/testing_controller.cpp"
-globalOptionalRendering: CoordinateSystem
+globalOptionalRendering: CoordinateSystem::CameraFrustums
 consoles: Console:All:All
 renderingDevicePerspectives: PlexCV:cam;1;3.01563;0.0298119;0.0165485
 renderingDevicePerspectives: PlexCV:display;1;3.03125;0.0331354;0.489928
