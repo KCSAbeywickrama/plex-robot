@@ -14,7 +14,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#define TIME_STEP 32
+#define TIME_STEP 60
 #define MAX_SPEED 5.28
 #define PI 3.141592654
 #define kW 1
