@@ -18,6 +18,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/features2d.hpp>
+#include "plexlibs/vision.hpp"
 
 #define TIME_STEP 64
 // All the webots classes are defined in the "webots" namespace
@@ -54,6 +55,10 @@ int gotoObg()
 
 int main(int argc, char **argv)
 {
+
+  vision::mainFunction();
+  vision::gotoObject();
+
   // create the Robot instance.
   float p_coefficient = 0.1;
   Robot *robot = new Robot();
@@ -70,7 +75,7 @@ int main(int argc, char **argv)
   camera->enable(TIME_STEP);
   const int width = camera->getWidth();
   const int height = camera->getHeight();
-  //int imageLength = 4 * width * height * sizeof(unsigned char);
+  // int imageLength = 4 * width * height * sizeof(unsigned char);
   Display *display = robot->getDisplay("display");
 
   const unsigned char *image;
@@ -79,6 +84,7 @@ int main(int argc, char **argv)
   int hmin = 30, smin = 0, vmin = 0;
   int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
+  vector<vector<Point>> poly;
   vector<Vec4i> hierarchy;
   RNG rng(12345);
 
@@ -118,14 +124,14 @@ int main(int argc, char **argv)
         inRange(imgHSV, lower, upper, mask);
 
         findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-        //vector<Point> c = contours.at(getMaxAreaContourId(contours));
+        // vector<Point> c = contours.at(getMaxAreaContourId(contours));
         int largestContour, largestContourArea;
 
         getMaxAreaContourId(contours, largestContour, largestContourArea);
 
         cout << largestContourArea << endl;
 
-        if (largestContourArea > 900)
+        if (largestContourArea > width*height/5)
         {
           goingToObg = false;
           leftMotor->setVelocity(0);
@@ -137,12 +143,13 @@ int main(int argc, char **argv)
         drawContours(mask, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
 
         cvtColor(mask, final, COLOR_GRAY2RGB);
-        //cvtColor(final, dis, COLOR_RGB2BGRA);
+        // cvtColor(final, dis, COLOR_RGB2BGRA);
         ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
 
         display->imagePaste(ir, 0, 0, false);
         display->imageDelete(ir);
         Moments mu = moments(contours[largestContour], false);
+        approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
         int centerx = mu.m10 / mu.m00;
         // cout << centerx << ' ';
         float error = width / 2 - centerx;
@@ -154,7 +161,7 @@ int main(int argc, char **argv)
     timeCounter++;
     // Enter here exit cleanup code.
   };
-  //destroyAllWindows();
+  // destroyAllWindows();
   delete robot;
   return 0;
 }
