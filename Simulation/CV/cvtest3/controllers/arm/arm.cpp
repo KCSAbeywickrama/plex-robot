@@ -23,13 +23,13 @@ using namespace webots;
 int main(int argc, char **argv) {
   // create the Robot instance.
   Robot *robot = new Robot();
-  Motor *leftArmMotor = robot->getMotor("leftArmMotor");
-  leftArmMotor->setPosition(INFINITY);
-  leftArmMotor->setVelocity(0.0);
+  Motor *leftSlider = robot->getMotor("leftSlider");
+  //leftArmMotor->setPosition(INFINITY);
+  //leftArmMotor->setVelocity(0.0);
   
-  Motor *rightArmMotor = robot->getMotor("rightArmMotor");
-  rightArmMotor->setPosition(INFINITY);
-  rightArmMotor->setVelocity(0.0);
+  Motor *rightSlider = robot->getMotor("rightSlider");
+  //rightArmMotor->setPosition(INFINITY);
+  //rightArmMotor->setVelocity(0.0);
   //Motor *rightMotor = robot->getMotor("motorRight");
   // get the time step of the current world.
   //int timeStep = (int)robot->getBasicTimeStep();
@@ -42,9 +42,16 @@ int main(int argc, char **argv) {
 
   // Main loop:
   // - perform simulation steps until Webots is stopping the controller
+ float ps=0.002;
   while (robot->step(TIME_STEP) != -1) {
-  leftArmMotor->setVelocity(2.0);
-  rightArmMotor->setVelocity(2.0);
+  //leftSlider->setVelocity(2.0);
+  //rightSlider->setVelocity(2.0);
+  leftSlider->setPosition(ps);
+  rightSlider->setPosition(ps);
+  ps+=0.0002;
+  if (ps >=0.045){
+  ps=0;
+  }
     // Read the sensors:
     // Enter here functions to read sensor data, like:
     //  double val = ds->getValue();
