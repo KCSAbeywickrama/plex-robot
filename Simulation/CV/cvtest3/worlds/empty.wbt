@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.27802673255089533 -0.9131910842223648 -0.29796506453585253 4.552999080982396
-  position 2.4177647408670775 2.0502481669017327 0.09012914849711365
+  orientation 0.5245926378613738 -0.8157071586709601 -0.2437711951699683 5.247541376973379
+  position 0.9889623679244604 1.5933052205678828 1.4350691995131595
 }
 TexturedBackground {
 }
@@ -52,6 +52,8 @@ DEF Testing Robot {
           }
         }
       ]
+      width 128
+      height 128
     }
     DEF body Shape {
       appearance PBRAppearance {
@@ -151,8 +153,8 @@ DEF Testing Robot {
       }
     }
     Camera {
-      translation 0 0 0.09
-      rotation 0 1 0 3.14
+      translation 0 0.05 0.09
+      rotation 0.00010394198776057495 -0.9914448832549232 -0.13052598463024384 -3.140015307179586
       children [
         Shape {
           appearance PBRAppearance {
@@ -166,6 +168,8 @@ DEF Testing Robot {
         }
       ]
       name "cam"
+      width 128
+      height 128
     }
   ]
   name "PlexCV"
