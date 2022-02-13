@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.5938205137213625 0.7363003380714676 0.32440562516630284 1.2766661436226494
-  position 0.3733941721233276 0.22646502033842625 0.3110480956276901
+  orientation -0.43791672119789454 0.8920710024754238 0.11152700048767626 0.5561823524949231
+  position 0.48891541146404954 0.2400561351663059 0.6620077693198319
 }
 TexturedBackground {
 }
@@ -13,7 +13,7 @@ TexturedBackgroundLight {
 RectangleArena {
 }
 DEF armBase Solid {
-  translation -0.1677978503544319 0.014968437551567076 0.1595357723931726
+  translation 0.340816 0.0148397 0.250083
   rotation 0.012651640174814988 0.99991984242964 -0.0004946881550284784 0.07816814002960014
   children [
     DEF armBaseShape Shape {
@@ -32,8 +32,8 @@ DEF armBase Solid {
         anchor 0 0.01 0.005
       }
       endPoint Solid {
-        translation -3.3403627019802618e-18 0.00987005326571831 0.004661519259571226
-        rotation 1 -9.22498745232517e-17 -1.095538907718022e-18 0.5408570246560211
+        translation -3.340362701980254e-18 0.009870053265718309 0.00466151925957121
+        rotation 1 -9.224987452319231e-17 -1.0955389077172582e-18 0.5408570246560711
         children [
           DEF arm Group {
             children [
@@ -96,234 +96,7 @@ DEF armBase Solid {
   physics Physics {
   }
 }
-Robot {
-  translation 0 0.03 0
-  children [
-    DEF basePlate Group {
-      children [
-        Transform {
-          translation 0 0 0.005
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 0 1
-                roughness 1
-                metalness 0
-              }
-              geometry Box {
-                size 0.08 0.005 0.07
-              }
-            }
-          ]
-        }
-        Transform {
-          translation 0 0 0.075
-          children [
-            Shape {
-              appearance PBRAppearance {
-                baseColor 0 1 1
-                roughness 1
-                metalness 0
-              }
-              geometry Box {
-                size 0.14 0.005 0.07
-              }
-            }
-          ]
-        }
-      ]
-    }
-    DEF jointLeft HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor 0.057 0 0
-      }
-      device [
-        RotationalMotor {
-          name "motorLeft"
-        }
-      ]
-      endPoint Solid {
-        translation 0.057 -1.1083861204024157e-06 0
-        rotation 0 0 -1 1.57
-        children [
-          DEF wheel Shape {
-            appearance PBRAppearance {
-              baseColor 0 1 0
-              roughness 1
-              metalness 0
-            }
-            geometry Cylinder {
-              height 0.025
-              radius 0.03
-            }
-          }
-        ]
-        boundingObject USE wheel
-        physics Physics {
-        }
-      }
-    }
-    DEF jointRight HingeJoint {
-      jointParameters HingeJointParameters {
-        anchor -0.057 0 0
-      }
-      device [
-        RotationalMotor {
-          name "motorRight"
-        }
-      ]
-      endPoint Solid {
-        translation -0.057 -1.1083861204024157e-06 0
-        rotation 0 0 1 1.57
-        children [
-          DEF wheel Shape {
-            appearance PBRAppearance {
-              baseColor 0 1 0
-              roughness 1
-              metalness 0
-            }
-            geometry Cylinder {
-              height 0.025
-              radius 0.03
-            }
-          }
-        ]
-        name "solid(1)"
-        boundingObject USE wheel
-        physics Physics {
-        }
-      }
-    }
-    DEF calsterLeft Solid {
-      translation 0.055 -0.01625 0.09
-      children [
-        DEF caster Shape {
-          appearance PBRAppearance {
-            baseColor 1 0 0
-            roughness 1
-            metalness 0
-          }
-          geometry Sphere {
-            radius 0.01375
-          }
-        }
-      ]
-      name "solid(2)"
-      boundingObject USE caster
-      physics Physics {
-      }
-    }
-    DEF calsterRight Solid {
-      translation -0.055 -0.01625 0.09
-      rotation 0 0 1 1.57
-      children [
-        DEF caster Shape {
-          appearance PBRAppearance {
-            baseColor 1 0 0
-            roughness 1
-            metalness 0
-          }
-          geometry Sphere {
-            radius 0.01375
-          }
-        }
-      ]
-      name "solid(3)"
-      boundingObject USE caster
-      physics Physics {
-      }
-    }
-    DEF armBase Solid {
-      translation 0 0.01 0.085
-      children [
-        DEF armBaseShape Shape {
-          appearance PBRAppearance {
-            baseColor 0.666667 0 1
-            roughness 1
-            metalness 0
-          }
-          geometry Box {
-            size 0.128 0.02 0.02
-          }
-        }
-        DEF jointArm HingeJoint {
-          jointParameters HingeJointParameters {
-            position 2.2
-            anchor 0 0.02 0
-            maxStop 3
-          }
-          endPoint Solid {
-            translation 0 0.02 0
-            rotation 1 0 0 0.7000000000000002
-            children [
-              DEF arm Group {
-                children [
-                  Transform {
-                    translation 0 -0.002 0.038
-                    rotation 1 0 0 -0.7
-                    children [
-                      Shape {
-                        appearance PBRAppearance {
-                          baseColor 1 0 1
-                          roughness 1
-                          metalness 0
-                        }
-                        geometry Box {
-                          size 0.14 0.01 0.005
-                        }
-                      }
-                    ]
-                  }
-                  Transform {
-                    translation -0.067 0 0.02
-                    children [
-                      Shape {
-                        appearance PBRAppearance {
-                          baseColor 1 0 1
-                          roughness 1
-                          metalness 0
-                        }
-                        geometry Box {
-                          size 0.006 0.01 0.04
-                        }
-                      }
-                    ]
-                  }
-                  Transform {
-                    translation 0.067 0 0.02
-                    children [
-                      Shape {
-                        appearance PBRAppearance {
-                          baseColor 1 0 1
-                          roughness 1
-                          metalness 0
-                        }
-                        geometry Box {
-                          size 0.006 0.01 0.04
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-            boundingObject USE arm
-            physics Physics {
-            }
-          }
-        }
-      ]
-      name "solid(4)"
-      boundingObject USE armBaseShape
-      physics Physics {
-      }
-    }
-  ]
-  boundingObject USE basePlate
-  physics Physics {
-  }
-}
-Robot {
+DEF working Robot {
   translation 0.19 0.03 0.1
   children [
     DEF basePlate Group {
@@ -473,18 +246,26 @@ Robot {
             size 0.128 0.02 0.02
           }
         }
-        DEF jointArm HingeJoint {
-          jointParameters HingeJointParameters {
-            anchor 0 0.02 0
-            maxStop 3
-          }
-          endPoint Solid {
-            translation 0 0.02 0
-            rotation -1 0 0 1.5
+      ]
+      name "solid(4)"
+      boundingObject USE armBaseShape
+      physics Physics {
+      }
+    }
+    DEF jointArm HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.02 0
+        maxStop 3
+      }
+      endPoint Solid {
+        translation 0 0.0325 0.09
+        rotation 1 0 0 0
+        children [
+          DEF handle Group {
             children [
-              DEF handle Solid {
-                translation 0 -0.03 -0.03
-                rotation 1 0 0 1.5
+              DEF handleSolid Solid {
+                translation 0 -0.03 0.0225
+                rotation 1 0 0 0
                 children [
                   Shape {
                     appearance PBRAppearance {
@@ -595,8 +376,167 @@ Robot {
                 name "solid(7)"
               }
             ]
-            physics Physics {
+          }
+        ]
+        name "solid(5)"
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "robot(2)"
+  boundingObject USE basePlate
+  physics Physics {
+  }
+}
+DEF testing Robot {
+  translation -0.08 0.03 -0.08
+  children [
+    DEF basePlate Group {
+      children [
+        Transform {
+          translation 0 0 0.005
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.08 0.005 0.07
+              }
             }
+          ]
+        }
+        Transform {
+          translation 0 0 0.075
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.14 0.005 0.07
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF jointLeft HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.057 0 0
+      }
+      device [
+        RotationalMotor {
+          name "motorLeft"
+        }
+      ]
+      endPoint Solid {
+        translation 0.057 -1.1083861204024157e-06 0
+        rotation 0 0 -1 1.57
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.025
+              radius 0.03
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF jointRight HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.057 0 0
+      }
+      device [
+        RotationalMotor {
+          name "motorRight"
+        }
+      ]
+      endPoint Solid {
+        translation -0.057 -1.1083861204024157e-06 0
+        rotation 0 0 1 1.57
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.025
+              radius 0.03
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF calsterLeft Solid {
+      translation 0.055 -0.01625 0.09
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01375
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+    DEF calsterRight Solid {
+      translation -0.055 -0.01625 0.09
+      rotation 0 0 1 1.57
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01375
+          }
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+    DEF armBase Solid {
+      translation 0 0.01 0.085
+      children [
+        DEF armBaseShape Shape {
+          appearance PBRAppearance {
+            baseColor 0.666667 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.128 0.02 0.02
           }
         }
       ]
@@ -605,8 +545,21 @@ Robot {
       physics Physics {
       }
     }
+    DEF jointArm HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0.02 0
+        maxStop 3
+      }
+      endPoint Solid {
+        translation 0 0.0325 0.09
+        rotation 1 0 0 0
+        name "solid(5)"
+        physics Physics {
+        }
+      }
+    }
   ]
-  name "robot(2)"
+  name "robot(3)"
   boundingObject USE basePlate
   physics Physics {
   }
