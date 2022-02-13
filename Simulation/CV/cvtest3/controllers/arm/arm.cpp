@@ -23,10 +23,12 @@ using namespace webots;
 int main(int argc, char **argv) {
   // create the Robot instance.
   Robot *robot = new Robot();
-  Motor *leftSlider = robot->getMotor("leftSlider");
-  //leftArmMotor->setPosition(INFINITY);
-  //leftArmMotor->setVelocity(0.0);
+  Motor *handleMotor = robot->getMotor("handleMotor");
+  Motor *handleEncoder = robot->getMotor("handleEncoder");
+  handleMotor->setPosition(INFINITY);
+  handleMotor->setVelocity(0.0);
   
+  Motor *leftSlider = robot->getMotor("leftSlider");
   Motor *rightSlider = robot->getMotor("rightSlider");
   //rightArmMotor->setPosition(INFINITY);
   //rightArmMotor->setVelocity(0.0);
@@ -46,6 +48,8 @@ int main(int argc, char **argv) {
   while (robot->step(TIME_STEP) != -1) {
   //leftSlider->setVelocity(2.0);
   //rightSlider->setVelocity(2.0);
+  //handleEncoder->setPosition(1.57);
+  handleMotor->setVelocity(1.57);
   leftSlider->setPosition(ps);
   rightSlider->setPosition(ps);
   ps+=0.0002;

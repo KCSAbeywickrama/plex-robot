@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation 0.6675779450206633 0.68720778499797 0.28650505677940835 5.166685667238202
-  position -0.16905539125575383 0.2382222523281471 0.1256167990096592
+  orientation -0.6421713302849261 -0.735639331227709 -0.21552437660491514 0.8560396746346255
+  position -0.19376836853892934 0.1448484281090005 0.7705404700630692
 }
 TexturedBackground {
 }
@@ -15,25 +15,6 @@ RectangleArena {
   floorAppearance Parquetry {
     type "dark strip"
     colorOverride 0 0 0
-  }
-}
-Solid {
-  translation -0.0575 0 -0.455
-  children [
-    DEF leftArmFront Shape {
-      appearance PBRAppearance {
-        baseColor 0 1 0
-        roughness 1
-        metalness 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "solid(6)"
-  boundingObject USE leftArmFront
-  physics Physics {
   }
 }
 DEF Cylinder Solid {
@@ -55,7 +36,7 @@ DEF Cylinder Solid {
   name "solid(5)"
 }
 DEF Box Solid {
-  translation 0.0159764 0.025 0.446716
+  translation -0.894024 0.025 -0.193284
   rotation 0 1 0 1.57079
   children [
     DEF Box Shape {
@@ -174,10 +155,139 @@ DEF Mosaic_wall Solid {
   boundingObject USE Mosaic_wall
 }
 DEF slider_robot Robot {
-  translation 0.02 0.03 -0.17
+  translation 0.02 0.03 0.41
   children [
+    DEF handle HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0 0 0.1125
+      }
+      device [
+        RotationalMotor {
+          name "handleMotor"
+        }
+        PositionSensor {
+          name "handleEncoder"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.1125
+        rotation 1 0 0 0
+        children [
+          DEF leftSlider SliderJoint {
+            jointParameters JointParameters {
+              axis -1 0 0
+            }
+            device [
+              LinearMotor {
+                name "leftSlider"
+              }
+            ]
+            endPoint Solid {
+              translation 0.0675 -0.01 0.0425
+              children [
+                DEF rightSlider Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.005 0.025 0.07
+                  }
+                }
+              ]
+              name "solid(2)"
+              boundingObject USE rightSlider
+              physics Physics {
+              }
+            }
+          }
+          DEF rightSlider SliderJoint {
+            jointParameters JointParameters {
+              axis 1 0 0
+            }
+            device [
+              LinearMotor {
+                name "rightSlider"
+              }
+            ]
+            endPoint Solid {
+              translation -0.0675 -0.01 0.0425
+              children [
+                DEF rightSlider Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.005 0.025 0.07
+                  }
+                }
+              ]
+              name "solid(4)"
+              boundingObject USE rightSlider
+              physics Physics {
+              }
+            }
+          }
+          DEF rightHandle Solid {
+            translation -0.045 -0.01 0.005
+            children [
+              DEF leftHandle Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 1
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.05 0.025 0.005
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE leftHandle
+            physics Physics {
+            }
+          }
+          DEF leftHandle Solid {
+            translation 0.045 -0.01 0.005
+            children [
+              DEF leftHandle Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 1
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.05 0.025 0.005
+                }
+              }
+            ]
+            name "solid(8)"
+            boundingObject USE leftHandle
+            physics Physics {
+            }
+          }
+          DEF handle Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.14 0.01 0.005
+            }
+          }
+        ]
+        name "solid(4)"
+        boundingObject USE handle
+        physics Physics {
+        }
+      }
+    }
     DEF leftTouchSensor TouchSensor {
-      translation 0.0645 -0.01 0.15
+      translation 0.0645 -0.01 0.22
       children [
         DEF lefttTouchSensor Shape {
           appearance PBRAppearance {
@@ -196,7 +306,7 @@ DEF slider_robot Robot {
       }
     }
     DEF rightTouchSensor TouchSensor {
-      translation -0.0645 -0.01 0.15
+      translation -0.0645 -0.01 0.23
       children [
         DEF rightTouchSensor Shape {
           appearance PBRAppearance {
@@ -213,118 +323,6 @@ DEF slider_robot Robot {
       boundingObject USE rightTouchSensor
       physics Physics {
       }
-    }
-    DEF handle Solid {
-      translation 0 0 0.1125
-      children [
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0 1 0
-            roughness 1
-            metalness 0
-          }
-          geometry Box {
-            size 0.14 0.005 0.005
-          }
-        }
-        DEF leftHandle Solid {
-          translation 0.045 -0.01 0
-          children [
-            DEF leftHandle Shape {
-              appearance PBRAppearance {
-                baseColor 0 0 1
-                roughness 1
-                metalness 0
-              }
-              geometry Box {
-                size 0.05 0.025 0.005
-              }
-            }
-          ]
-          name "solid(8)"
-          boundingObject USE leftHandle
-          physics Physics {
-          }
-        }
-        DEF rightHandle Solid {
-          translation -0.045 -0.01 0
-          children [
-            DEF rightHandle Shape {
-              appearance PBRAppearance {
-                baseColor 0 0 1
-                roughness 1
-                metalness 0
-              }
-              geometry Box {
-                size 0.05 0.025 0.005
-              }
-            }
-          ]
-          name "solid(6)"
-          boundingObject USE rightHandle
-          physics Physics {
-          }
-        }
-        DEF leftSlider SliderJoint {
-          jointParameters JointParameters {
-            axis -1 0 0
-          }
-          device [
-            LinearMotor {
-              name "leftSlider"
-            }
-          ]
-          endPoint Solid {
-            translation 0.0675 -0.01 0.035
-            children [
-              DEF leftSlider Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Box {
-                  size 0.005 0.025 0.07
-                }
-              }
-            ]
-            name "solid(5)"
-            boundingObject USE leftSlider
-            physics Physics {
-            }
-          }
-        }
-        DEF rightSlider SliderJoint {
-          jointParameters JointParameters {
-            axis 1 0 0
-          }
-          device [
-            LinearMotor {
-              name "rightSlider"
-            }
-          ]
-          endPoint Solid {
-            translation -0.0675 -0.01 0.035
-            children [
-              DEF rightSlider Shape {
-                appearance PBRAppearance {
-                  baseColor 1 0 0
-                  roughness 1
-                  metalness 0
-                }
-                geometry Box {
-                  size 0.005 0.025 0.07
-                }
-              }
-            ]
-            name "solid(4)"
-            boundingObject USE rightSlider
-            physics Physics {
-            }
-          }
-        }
-      ]
-      name "solid(7)"
     }
     DEF basePlate Group {
       children [
