@@ -1,0 +1,135 @@
+#VRML_OBJ R2021a utf8
+Robot {
+  translation 0 0.03 0
+  children [
+    DEF body Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.14 0.01 0.18
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.075 0 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "motorL"
+        }
+      ]
+      endPoint Solid {
+        translation 0.0750000001102693 3.0001383012303325e-07 -0.030000000281919396
+        rotation -5.680070856843502e-09 5.680799600858694e-09 1 1.5709999980615659
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.03
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.075 0 -0.03
+      }
+      device [
+        RotationalMotor {
+          name "motorR"
+        }
+      ]
+      endPoint Solid {
+        translation -0.07499999997132467 2.516036911275449e-07 -0.030000000052931318
+        rotation -4.895210771792467e-09 4.895889945635306e-09 1 1.570999998302999
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.01
+              radius 0.03
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF casterSolid Solid {
+      translation 0 -0.015 0.07
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.015
+            subdivision 2
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+    Camera {
+      translation 0 0 0.09
+      rotation 0 1 0 3.14
+      children [
+        DEF cameraShape Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      boundingObject USE cameraShape
+      physics Physics {
+      }
+    }
+    Display {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              emissiveColor 1 1 1
+            }
+            texture ImageTexture {
+              filtering 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+  name "PlexCV"
+  boundingObject USE body
+  physics Physics {
+  }
+  controller "cvtest2_controller"
+}
