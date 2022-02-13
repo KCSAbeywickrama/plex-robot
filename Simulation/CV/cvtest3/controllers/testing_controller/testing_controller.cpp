@@ -62,8 +62,8 @@ int main(int argc, char **argv)
   // create the Robot instance.
   float p_coefficient = 0.1;
   Robot *robot = new Robot();
-  Motor *leftMotor = robot->getMotor("left_motor");
-  Motor *rightMotor = robot->getMotor("right_motor");
+  Motor *leftMotor = robot->getMotor("motorLeft");
+  Motor *rightMotor = robot->getMotor("motorRight");
 
   leftMotor->setPosition(INFINITY);
   leftMotor->setVelocity(0.0);
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
   unsigned int timeCounter = 0;
 
   bool goingToObg = true;
-
+  bool iscontours = true;
   while (robot->step(TIME_STEP) != -1)
   {
     // Read the sensors:
@@ -124,12 +124,19 @@ int main(int argc, char **argv)
         inRange(imgHSV, lower, upper, mask);
 
         findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-        // vector<Point> c = contours.at(getMaxAreaContourId(contours));
+      // vector<Point> c = contours.at(getMaxAreaContourId(contours));
+      if (contours.empty()){
+        cout<<"not found"<<endl;
+        leftMotor->setVelocity(-2 );
+        rightMotor->setVelocity(2);
+
+      }
+      else{
         int largestContour, largestContourArea;
 
         getMaxAreaContourId(contours, largestContour, largestContourArea);
 
-        cout << largestContourArea << endl;
+        cout << largestContourArea << ' ';
 
         if (largestContourArea > width*height/5)
         {
@@ -149,14 +156,15 @@ int main(int argc, char **argv)
         display->imagePaste(ir, 0, 0, false);
         display->imageDelete(ir);
         Moments mu = moments(contours[largestContour], false);
-        approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
+        //approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
         int centerx = mu.m10 / mu.m00;
         // cout << centerx << ' ';
         float error = width / 2 - centerx;
-        // cout << error << endl;
-        leftMotor->setVelocity(-error * p_coefficient + 2);
-        rightMotor->setVelocity(error * p_coefficient + 2);
-      }
+        cout << error << endl;
+        leftMotor->setVelocity(-error * p_coefficient+2 );
+        rightMotor->setVelocity(error * p_coefficient+2 );
+       }
+     }
     }
     timeCounter++;
     // Enter here exit cleanup code.

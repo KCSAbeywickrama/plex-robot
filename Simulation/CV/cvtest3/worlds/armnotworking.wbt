@@ -17,25 +17,6 @@ RectangleArena {
     colorOverride 0 0 0
   }
 }
-Solid {
-  translation -0.0575 0 -0.455
-  children [
-    DEF leftArmFront Shape {
-      appearance PBRAppearance {
-        baseColor 0 1 0
-        roughness 1
-        metalness 0
-      }
-      geometry Box {
-        size 0.1 0.1 0.1
-      }
-    }
-  ]
-  name "solid(6)"
-  boundingObject USE leftArmFront
-  physics Physics {
-  }
-}
 Robot {
   translation -0.23 0.03 -0.52
   children [
