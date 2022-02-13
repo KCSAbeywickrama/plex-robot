@@ -1,21 +1,118 @@
-#VRML_SIM R2021a utf8
-WorldInfo {
-  coordinateSystem "NUE"
-}
-Viewpoint {
-  orientation 0.4642142433236263 -0.8453413531163992 -0.26439200632168997 5.097406651397107
-  position 0.2651684188201676 0.3310779841925689 0.3265093370410863
-  follow "robotPlex"
-}
-TexturedBackground {
-}
-TexturedBackgroundLight {
-}
-RectangleArena {
-}
+#VRML_OBJ R2021a utf8
 Robot {
-  translation 0 0.03 0
+  translation 0.26 0.03 0
   children [
+    DEF handle Solid {
+      translation 0 0 0.1125
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 0
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.14 0.005 0.005
+          }
+        }
+        DEF leftHandle Solid {
+          translation 0.045 -0.01 0
+          children [
+            DEF leftHandle Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.05 0.025 0.005
+              }
+            }
+          ]
+          name "solid(8)"
+          boundingObject USE leftHandle
+          physics Physics {
+          }
+        }
+        DEF rightHandle Solid {
+          translation -0.045 -0.01 0
+          children [
+            DEF rightHandle Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.05 0.025 0.005
+              }
+            }
+          ]
+          name "solid(6)"
+          boundingObject USE rightHandle
+          physics Physics {
+          }
+        }
+        DEF leftSlider SliderJoint {
+          jointParameters JointParameters {
+            axis -1 0 0
+          }
+          device [
+            LinearMotor {
+              name "leftSlider"
+            }
+          ]
+          endPoint Solid {
+            translation 0.0675 -0.01 0.035
+            children [
+              DEF leftSlider Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.005 0.025 0.07
+                }
+              }
+            ]
+            name "solid(5)"
+            boundingObject USE leftSlider
+            physics Physics {
+            }
+          }
+        }
+        DEF rightSlider SliderJoint {
+          jointParameters JointParameters {
+          }
+          device [
+            LinearMotor {
+              name "rightSlider"
+            }
+          ]
+          endPoint Solid {
+            translation -0.0675 -0.01 0.035
+            children [
+              DEF rightSlider Shape {
+                appearance PBRAppearance {
+                  baseColor 1 0 0
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.005 0.025 0.07
+                }
+              }
+            ]
+            name "solid(4)"
+            boundingObject USE rightSlider
+            physics Physics {
+            }
+          }
+        }
+      ]
+      name "solid(7)"
+    }
     DEF basePlate Group {
       children [
         Transform {
@@ -47,8 +144,6 @@ Robot {
               }
             }
           ]
-        }
-        Transform {
         }
       ]
     }
@@ -113,7 +208,7 @@ Robot {
         }
       }
     }
-    DEF casterLeft Solid {
+    DEF calsterLeft Solid {
       translation 0.055 -0.01625 0.09
       children [
         DEF caster Shape {
@@ -132,7 +227,7 @@ Robot {
       physics Physics {
       }
     }
-    DEF casterRight Solid {
+    DEF calsterRight Solid {
       translation -0.055 -0.01625 0.09
       rotation 0 0 1 1.57
       children [
@@ -152,92 +247,10 @@ Robot {
       physics Physics {
       }
     }
-    DEF armBase Solid {
-      translation 0 0.0175 0.1
-      children [
-        DEF armBaseShape Shape {
-          appearance PBRAppearance {
-            baseColor 0.666667 0 1
-            roughness 1
-            metalness 0
-          }
-          geometry Box {
-            size 0.12 0.03 0.02
-          }
-        }
-        DEF jointArm HingeJoint {
-          jointParameters HingeJointParameters {
-            anchor 0 0.01 0.005
-          }
-          endPoint Solid {
-            translation 0 0.01 0.005
-            rotation 1 0 0 0
-            children [
-              DEF arm Group {
-                children [
-                  Transform {
-                    translation 0 0 0.0375
-                    children [
-                      Shape {
-                        appearance PBRAppearance {
-                          baseColor 1 0 1
-                          roughness 1
-                          metalness 0
-                        }
-                        geometry Box {
-                          size 0.12 0.01 0.005
-                        }
-                      }
-                    ]
-                  }
-                  Transform {
-                    translation -0.0625 0 0.02
-                    children [
-                      Shape {
-                        appearance PBRAppearance {
-                          baseColor 1 0 1
-                          roughness 1
-                          metalness 0
-                        }
-                        geometry Box {
-                          size 0.005 0.01 0.04
-                        }
-                      }
-                    ]
-                  }
-                  Transform {
-                    translation 0.0625 0 0.02
-                    children [
-                      Shape {
-                        appearance PBRAppearance {
-                          baseColor 1 0 1
-                          roughness 1
-                          metalness 0
-                        }
-                        geometry Box {
-                          size 0.005 0.01 0.04
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-            boundingObject USE arm
-            physics Physics {
-            }
-          }
-        }
-      ]
-      name "solid(4)"
-      boundingObject USE armBaseShape
-      physics Physics {
-      }
-    }
   ]
-  name "robotPlex"
+  name "robot(1)"
   boundingObject USE basePlate
   physics Physics {
   }
-  controller "test_go_forward"
+  controller "arm"
 }
