@@ -1,0 +1,156 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.4830243463158965 -0.8584777383148029 -0.172346899258448 5.4953727475239535
+  position 0.1130487043981569 0.1852363029811244 0.22815976918784356
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Robot {
+  translation 0 0.03 0
+  children [
+    DEF basePlate Group {
+      children [
+        Transform {
+          translation 0 0 0.005
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.08 0.005 0.07
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.06
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 1 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.14 0.005 0.04
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF leftMotoJoint HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.057 0 0
+      }
+      device [
+        RotationalMotor {
+          name "leftMotor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.057 -1.1083861204024157e-06 0
+        rotation 0 0 -1 1.57
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.025
+              radius 0.03
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF rightMotorJoint HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.057 0 0
+      }
+      device [
+        RotationalMotor {
+          name "rightMotor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.057 -1.1083861204024157e-06 0
+        rotation 0 0 1 1.57
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.025
+              radius 0.03
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF leftCasterSolid Solid {
+      translation 0.055 -0.01625 0.065
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01375
+          }
+        }
+      ]
+      name "solid(2)"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+    DEF rightCasterSolid Solid {
+      translation -0.055 -0.01625 0.065
+      rotation 0 0 1 1.57
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01375
+          }
+        }
+      ]
+      name "solid(3)"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+  ]
+  boundingObject USE basePlate
+  physics Physics {
+  }
+}
