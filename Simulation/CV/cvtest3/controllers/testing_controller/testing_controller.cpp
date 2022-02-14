@@ -151,13 +151,15 @@ int main(int argc, char **argv)
 
         cout << largestContourArea << ' ';
 
-        if (largestContourArea > width*height/5)
+        if (largestContourArea > width*height/8)
         {
           goingToObg = false;
-          handleMotor->setPosition(0);
           handleMotor->setVelocity(1.57);
+          handleMotor->setPosition(0);
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(0);
+          approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
+          cout<<poly.size()<<endl;
           break;
         }
 
@@ -171,8 +173,7 @@ int main(int argc, char **argv)
         display->imagePaste(ir, 0, 0, false);
         display->imageDelete(ir);
         Moments mu = moments(contours[largestContour], false);
-        approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
-        cout<<poly.size()<<' ';
+        
         int centerx = mu.m10 / mu.m00;
         // cout << centerx << ' ';
         float error = width / 2 - centerx;
