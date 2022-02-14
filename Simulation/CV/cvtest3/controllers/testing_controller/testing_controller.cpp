@@ -20,7 +20,7 @@
 #include <opencv2/features2d.hpp>
 #include "plexlibs/vision.hpp"
 
-#define TIME_STEP 64
+#define TIME_STEP 16
 // All the webots classes are defined in the "webots" namespace
 using namespace webots;
 using namespace std;
@@ -56,14 +56,20 @@ int gotoObg()
 int main(int argc, char **argv)
 {
 
-  vision::mainFunction();
-  vision::gotoObject();
+  //vision::mainFunction();
+  //vision::gotoObject();
 
   // create the Robot instance.
   float p_coefficient = 0.1;
   Robot *robot = new Robot();
-  Motor *leftMotor = robot->getMotor("motorLeft");
-  Motor *rightMotor = robot->getMotor("motorRight");
+  Motor *leftMotor = robot->getMotor("leftMotor");
+  Motor *rightMotor = robot->getMotor("rightMotor");
+  Motor *handleMotor = robot->getMotor("handleMotor");
+  Motor *handleEncoder = robot->getMotor("handleEncoder");
+  
+  handleMotor->setPosition(INFINITY);
+  handleMotor->setVelocity(0.0);
+  
 
   leftMotor->setPosition(INFINITY);
   leftMotor->setVelocity(0.0);
@@ -84,7 +90,7 @@ int main(int argc, char **argv)
   int hmin = 30, smin = 0, vmin = 0;
   int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
-  vector<vector<Point>> poly;
+  vector<Point> poly;
   vector<Vec4i> hierarchy;
   RNG rng(12345);
 
@@ -94,6 +100,11 @@ int main(int argc, char **argv)
   bool iscontours = true;
   while (robot->step(TIME_STEP) != -1)
   {
+    
+    handleMotor->setVelocity(1.57);
+    handleMotor->setPosition(-1.57);
+    //handleMotor->setPosition(0);
+    //handleMotor->setVelocity(1.57);
     // Read the sensors:
     // Enter here functions to read sensor data, like:
     //  double val = ds->getValue();
@@ -104,9 +115,11 @@ int main(int argc, char **argv)
     //  motor->setPosition(10.0);
     while (robot->step(TIME_STEP) != -1 && goingToObg)
     {
+      
       image = camera->getImage();
       if (image)
       {
+      cout<<"image"<<endl;
 
         // save images
         // if (timeCounter % 50 == 0)
@@ -127,8 +140,8 @@ int main(int argc, char **argv)
       // vector<Point> c = contours.at(getMaxAreaContourId(contours));
       if (contours.empty()){
         cout<<"not found"<<endl;
-        leftMotor->setVelocity(-2 );
-        rightMotor->setVelocity(2);
+        leftMotor->setVelocity(0.1 );
+        rightMotor->setVelocity(-0.1);
 
       }
       else{
@@ -141,6 +154,8 @@ int main(int argc, char **argv)
         if (largestContourArea > width*height/5)
         {
           goingToObg = false;
+          handleMotor->setPosition(0);
+          handleMotor->setVelocity(1.57);
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(0);
           break;
@@ -156,17 +171,18 @@ int main(int argc, char **argv)
         display->imagePaste(ir, 0, 0, false);
         display->imageDelete(ir);
         Moments mu = moments(contours[largestContour], false);
-        //approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
+        approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
+        cout<<poly.size()<<' ';
         int centerx = mu.m10 / mu.m00;
         // cout << centerx << ' ';
         float error = width / 2 - centerx;
         cout << error << endl;
-        leftMotor->setVelocity(-error * p_coefficient+2 );
-        rightMotor->setVelocity(error * p_coefficient+2 );
+        leftMotor->setVelocity((-error * p_coefficient)+1 );
+        rightMotor->setVelocity((error * p_coefficient)+1);
        }
      }
     }
-    timeCounter++;
+    //timeCounter++;
     // Enter here exit cleanup code.
   };
   // destroyAllWindows();

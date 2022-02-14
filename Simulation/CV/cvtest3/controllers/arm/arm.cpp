@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
   //leftSlider->setVelocity(2.0);
   //rightSlider->setVelocity(2.0);
   //handleEncoder->setPosition(1.57);
+   handleMotor->setPosition(-1.57);
   handleMotor->setVelocity(1.57);
   leftSlider->setPosition(ps);
   rightSlider->setPosition(ps);
