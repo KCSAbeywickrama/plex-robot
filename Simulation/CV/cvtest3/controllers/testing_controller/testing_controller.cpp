@@ -178,10 +178,10 @@ int main(int argc, char **argv)
     }
     //timeCounter++;
   } // Enter here exit cleanup code.
-  // int ps = 0.002;
-  // bool objTouch = false;
-  // arm::init;
-  //arm::gripObject(ps,objTouch);
+  int ps = 0.002;
+  bool objTouch = false;
+  arm::init;
+  arm::gripObject(ps,objTouch);
   };
   // destroyAllWindows();
   delete robot;
