@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.999253231012446 0.03476472129450212 0.016863999066137832 5.379302134427988
-  position 0.2660703649578108 3.2654227979470183 2.098686312793025
+  orientation 0.9832475184565501 0.16607698332167697 0.075118260495086 5.420880927453806
+  position 0.7289112963686541 2.3219336650029665 1.7148939086879882
 }
 TexturedBackground {
   luminosity 0.16
@@ -29,8 +29,8 @@ Floor {
   }
 }
 DEF key_cylinder Solid {
-  translation 1.01444 0.0249814 -0.478881
-  rotation 0.35740089345058934 0.3574088934482043 0.8628577427622994 1.71777
+  translation 0.015324 0.0249804 -0.462378
+  rotation 0.707106781394287 0.7071067809765698 -1.77919267514899e-06 3.1415785211699707
   children [
     Shape {
       appearance PBRAppearance {
@@ -55,8 +55,8 @@ DEF key_cylinder Solid {
   }
 }
 DEF key_cylinder Solid {
-  translation -0.1299999081698725 0.02498038 -0.46
-  rotation 0 0 1 1.570796326794897
+  translation 0.84 0.0249804 -0.59
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
   children [
     Shape {
       appearance PBRAppearance {
@@ -81,8 +81,8 @@ DEF key_cylinder Solid {
   }
 }
 DEF key_box Solid {
-  translation 0.424498 0.0249902 -0.092553
-  rotation 1.92038e-17 -1 3.72642e-17 0.785402
+  translation 0.085087 0.0249902 -0.163264
+  rotation 2.3804048428874433e-17 -1 2.8427918894088784e-17 0.785402
   children [
     Shape {
       appearance PBRAppearance {
@@ -105,8 +105,8 @@ DEF key_box Solid {
   }
 }
 DEF key_box Solid {
-  translation -0.29 0.02499019 -0.66
-  rotation 0.1969766264719528 0.6629921334445139 0.7222476303972349 4.058149395933044e-17
+  translation 0.43 0.0249902 -0.66
+  rotation 0.08962309529846825 0.7735535142806973 -0.6273616670893313 2.9730453408535576e-17
   children [
     Shape {
       appearance PBRAppearance {
@@ -317,8 +317,8 @@ DEF Ping_pong2 Solid {
   }
 }
 DEF plexRobot Robot {
-  translation 0.660232 0.0282041 -0.0535385
-  rotation 0.00041498413683180405 0.9999983297272433 -0.0017799805869090724 -3.14
+  translation 0.731116 0.0311016 0.0435983
+  rotation -0.0005616232027299765 -0.99999836097092 0.0017212306213152191 3.1375853071795863
   children [
     Display {
       children [
@@ -352,7 +352,7 @@ DEF plexRobot Robot {
         }
       ]
       name "cam"
-      fieldOfView 1
+      fieldOfView 1.4
       width 128
       height 128
     }
@@ -374,7 +374,7 @@ DEF plexRobot Robot {
     }
     DEF handle HingeJoint {
       jointParameters HingeJointParameters {
-        position -1.57
+        position -3.1864964000760665e-09
         anchor 0 0 0.1125
       }
       device [
@@ -387,11 +387,11 @@ DEF plexRobot Robot {
       ]
       endPoint Solid {
         translation 0 0 0.1125
-        rotation -1 0 0 1.57
+        rotation 1 0 0 0
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
-              position -4.919403642755141e-07
+              position -4.919436679505517e-07
               axis -1 0 0
             }
             device [
@@ -403,11 +403,11 @@ DEF plexRobot Robot {
               }
             ]
             endPoint Solid {
-              translation 0.06750049193827783 -0.01 0.0425
+              translation 0.0675004919415815 -0.01 0.0425
               children [
                 DEF leftTouchSensor TouchSensor {
-                  translation -0.003000017450919157 -2.1842960773454934e-10 0.001999979600454352
-                  rotation 0.8461434562002752 0.3701877620876204 -0.3834087535907497 -1.0496782941377504e-15
+                  translation -0.003000017450736303 -5.319595149794187e-09 0.0019999796188978625
+                  rotation 0.5721969731630641 0.24775053713214737 0.7817993957875384 -1.3521334550386928e-15
                   children [
                     DEF leftSensor Shape {
                       appearance PBRAppearance {
@@ -444,7 +444,7 @@ DEF plexRobot Robot {
           }
           DEF rightSlider SliderJoint {
             jointParameters JointParameters {
-              position -4.920759006774239e-07
+              position -4.920725972078578e-07
               axis 1 0 0
             }
             device [
@@ -456,11 +456,11 @@ DEF plexRobot Robot {
               }
             ]
             endPoint Solid {
-              translation -0.06750049207798713 -0.01 0.0425
+              translation -0.06750049207468366 -0.01 0.0425
               children [
                 DEF rightTouchSensor TouchSensor {
-                  translation 0.0030000174499813514 -4.932482200459276e-11 0.0019999795972604067
-                  rotation 0.9894446543960717 0.1331944727071635 0.05708334544592721 -1.458686876118044e-15
+                  translation 0.003000017450164094 -5.150490405697594e-09 0.001999979615703973
+                  rotation 0.8222979524755927 0.21734408852889645 -0.5259159861955055 -1.2715641234386462e-15
                   children [
                     DEF rightSensor Shape {
                       appearance PBRAppearance {
@@ -592,7 +592,7 @@ DEF plexRobot Robot {
     }
     DEF leftWheel HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.3055999832995007
+        position 4.889600043336328
         anchor 0.057 0 0
       }
       device [
@@ -601,8 +601,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.057 -1.0570308322108005e-06 -3.3347505402438263e-07
-        rotation 0.15059024995774659 0.15047037862869575 -0.9770779097763905 1.5931870150121084
+        translation 0.057 -1.953918560380442e-07 1.0910278706315754e-06
+        rotation 0.5404094721914363 0.5399793009042403 0.6452751017672548 4.288411356205894
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -623,7 +623,7 @@ DEF plexRobot Robot {
     }
     DEF rightWheel HingeJoint {
       jointParameters HingeJointParameters {
-        position -0.3055999828962396
+        position 3.3503995675636506
         anchor -0.057 0 0
       }
       device [
@@ -632,8 +632,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.057 -1.0570308326605708e-06 3.3347505259856996e-07
-        rotation -0.15059024931319956 0.1504703779846632 0.9770779099749113 1.5931870148089848
+        translation -0.057 1.0843107880017577e-06 2.2976054257362286e-07
+        rotation 0.7054560192359282 -0.7048944692641583 -0.07386198023745538 3.289165893806314
         children [
           DEF wheel Shape {
             appearance PBRAppearance {

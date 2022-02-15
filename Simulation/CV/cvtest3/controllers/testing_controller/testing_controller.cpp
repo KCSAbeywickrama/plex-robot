@@ -82,8 +82,9 @@ int main(int argc, char **argv)
 
   const unsigned char *image;
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
-  Mat imgRGB, imgHSV, imgAnd , mask, imgDil, imgErode, final;
-  int hmin = 30, smin = 0, vmin = 0;
+  Mat imgAnd = Mat(Size(width, height), CV_8UC4);
+  Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
+  int hmin = 1, smin = 0, vmin = 0;
   int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
   vector<Point> poly;
@@ -106,7 +107,7 @@ int main(int argc, char **argv)
       if (image)
       {
         
-      cout<<"image"<<endl;
+        cout<<"image"<<endl;
 
         
         imageMat.data = (uchar *)image;
@@ -116,26 +117,24 @@ int main(int argc, char **argv)
         Scalar lower(hmin, smin, vmin);
         Scalar upper(hmax, smax, vmax);
         inRange(imgHSV, lower, upper, mask);
-
-        unsigned char * pData = imgRGB.data;
-
-        Mat outImg(width, height, CV_8UC1);  
-        memcpy(outImg.data, pData, sizeof(unsigned char)*width*height);  
-
-        bitwise_and(imgRGB,outImg,imgAnd, mask);
-        //cvtColor(mask, final, COLOR_GRAY2RGB);
-
-        ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
-        display->imagePaste(ir, 0, 0, false);
-        display->imageDelete(ir);
         
-        Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
+        
+        cvtColor(mask, maskRGB, COLOR_GRAY2RGB);
+        bitwise_and(imgRGB,maskRGB,imgAnd);
+        
+        // ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
+        // display->imagePaste(ir, 0, 0, false);
+        // display->imageDelete(ir);
 
-	      dilate(mask, imgDil, kernel);
-	      erode(imgDil, imgErode, kernel);
+        
+        // Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 
+	      // dilate(imgCanny, imgDil, kernel);
+	      // erode(imgDil, imgErode, kernel);
+
+        cvtColor(imgAnd, imgErode, COLOR_RGB2GRAY);
         //findContours(imgErode, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-      findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+       findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
       // vector<Point> c = contours.at(getMaxAreaContourId(contours));
       
 
@@ -150,32 +149,38 @@ int main(int argc, char **argv)
         int largestContour, largestContourArea;
 
         getMaxAreaContourId(contours, largestContour, largestContourArea);
+        Point extTop   = *max_element(contours[largestContour].begin(), contours[largestContour].end(), 
+                      [](const Point& lhs, const Point& rhs) {
+                          return lhs.y < rhs.y;
+                      });
+        
+        //float distance = extTop.y;
 
-        cout << largestContourArea << ' ';
+        cout << largestContourArea <<' '<< extTop.y << ' ';
 
-        if (largestContourArea > width*height/8)
+        if (extTop.y >= 125)
         {
           goingToObg = false;
           handleMotor->setVelocity(1.57);
           handleMotor->setPosition(0);
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(0);
-          approxPolyDP(Mat(contours[largestContour]), poly, 1, true);
+          approxPolyDP(Mat(contours[largestContour]), poly, 1, true); //box=7,cylinder=9
           cout<<poly.size()<<endl;
           break;
         }
         if (largestContourArea>0)
         {
           Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
-          drawContours(imgErode, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
-
-          cvtColor(imgErode, final, COLOR_GRAY2RGB);
-          // cvtColor(final, dis, COLOR_RGB2BGRA);
-          //ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+          drawContours(imgAnd, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+          //circle(imgAnd, extTop, 10, Scalar(0, 0, 255), FILLED);
+         // cvtColor(imgErode, final, COLOR_GRAY2RGB);
+         // cvtColor(final, dis, COLOR_RGB2BGRA);
+          ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
            
 
-          // display->imagePaste(ir, 0, 0, false);
-          // display->imageDelete(ir);
+          display->imagePaste(ir, 0, 0, false);
+          display->imageDelete(ir);
           Moments mu = moments(contours[largestContour], false);
           
           int centerx = mu.m10 / mu.m00;
