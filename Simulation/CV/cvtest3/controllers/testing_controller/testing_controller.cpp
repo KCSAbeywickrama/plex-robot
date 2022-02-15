@@ -92,6 +92,8 @@ int main(int argc, char **argv)
   RNG rng(12345);
 
   unsigned int timeCounter = 0;
+  int ps = 0.002;
+  bool objTouch = true;
 
   bool goingToObg = true;
   bool iscontours = true;
@@ -107,7 +109,7 @@ int main(int argc, char **argv)
       if (image)
       {
         
-        cout<<"image"<<endl;
+        //cout<<"image"<<endl;
 
         
         imageMat.data = (uchar *)image;
@@ -199,10 +201,13 @@ int main(int argc, char **argv)
     }
     //timeCounter++;
   } // Enter here exit cleanup code.
-  // int ps = 0.002;
-  // bool objTouch = true;
-  // arm::init;
-  // arm::gripObject(ps,objTouch);
+  
+  while (robot->step(TIME_STEP) != -1 && objTouch)
+  {
+    arm::init(robot);
+    arm::gripObject(robot,ps,objTouch);
+  }
+  cout<<"end"<<endl;
   };
   // destroyAllWindows();
   delete robot;
