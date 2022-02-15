@@ -1,12 +1,4 @@
-// File:          testing_controller.cpp
-// Date:
-// Description:
-// Author:
-// Modifications:
 
-// You may need to add webots include files such as
-// <webots/DistanceSensor.hpp>, <webots/Motor.hpp>, etc.
-// and/or to add some other includes
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
 #include <webots/Camera.hpp>
@@ -20,17 +12,11 @@
 #include "plexlibs/vision.hpp"
 
 #define TIME_STEP 16
-// All the webots classes are defined in the "webots" namespace
+
 using namespace webots;
 using namespace std;
 using namespace cv;
-// This is the main program of your controller.
-// It creates an instance of your Robot instance, launches its
-// function(s) and destroys it at the end of the execution.
-// Note that only one instance of Robot should be created in
-// a controller program.
-// The arguments of the main function can be specified by the
-// "controllerArgs" field of the Robot node
+
 void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area)
 {
   double maxArea = 0;
@@ -42,14 +28,22 @@ void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area)
     {
       maxArea = newArea;
       id = j;
-    } // End if
-  }   // End for
+    }
+  }
 
   area = (int)maxArea;
-} // End function
+}
 
-int gotoObg()
+void printPointVectors(vector<vector<Point>> pointsVect)
 {
+  for (int i = 0; i < pointsVect.size(); i++)
+  {
+    for (int j = 0; j < pointsVect[i].size(); j++)
+    {
+      cout << pointsVect[i][j].x << ':' << pointsVect[i][j].y << ", ";
+    }
+    cout << endl;
+  }
 }
 
 int main(int argc, char **argv)
@@ -70,7 +64,7 @@ int main(int argc, char **argv)
   handleMotor->setVelocity(0.0);
 
   leftMotor->setPosition(INFINITY);
-  leftMotor->setVelocity(0.0);
+  leftMotor->setVelocity(-0.0);
 
   rightMotor->setPosition(INFINITY);
   rightMotor->setVelocity(0.0);
@@ -85,8 +79,9 @@ int main(int argc, char **argv)
   const unsigned char *image;
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
   Mat imgRGB, imgHSV, final, mask, dis;
-  int hmin = 30, smin = 0, vmin = 0;
-  int hmax = 88, smax = 255, vmax = 255;
+  int hmin = 1, smin = 0, vmin = 0;
+  int hmax = 89, smax = 255, vmax = 255;
+  hmax = 29; // to not detect yellow floor
   vector<vector<Point>> contours;
   vector<Point> poly;
   vector<Vec4i> hierarchy;
@@ -96,83 +91,44 @@ int main(int argc, char **argv)
 
   bool goingToObg = true;
   bool iscontours = true;
+
   while (robot->step(TIME_STEP) != -1)
   {
-
-    while (robot->step(TIME_STEP) != -1 && goingToObg)
+    image = camera->getImage();
+    if (image)
     {
+      cout << "image" << endl;
+      // save images
+      // if (timeCounter % 50 == 0)
+      // {
+      //   string filename = "imgs\\" + to_string(timeCounter / 50) + ".png";
+      //   cout << "Saving" << filename << ':' << endl;
+      //   cout << camera->saveImage(filename, 0) << endl;
+      // }
 
-      image = camera->getImage();
-      if (image)
-      {
-        cout << "image" << endl;
-        leftMotor->setVelocity(5);
-        rightMotor->setVelocity(5);
-        // save images
-        // if (timeCounter % 50 == 0)
-        // {
-        //   string filename = "imgs\\" + to_string(timeCounter / 50) + ".png";
-        //   cout << "Saving" << filename << ':' << endl;
-        //   cout << camera->saveImage(filename, 0) << endl;
-        // }
-        // imageMat.data = (uchar *)image;
-        // cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
-        // cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+      imageMat.data = (uchar *)image;
+      cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+      cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-        // Scalar lower(hmin, smin, vmin);
-        // Scalar upper(hmax, smax, vmax);
-        // inRange(imgHSV, lower, upper, mask);
+      Scalar lower(hmin, smin, vmin);
+      Scalar upper(hmax, smax, vmax);
+      inRange(imgHSV, lower, upper, mask);
 
-        // findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-        // // vector<Point> c = contours.at(getMaxAreaContourId(contours));
-        // if (contours.empty())
-        // {
-        //   cout << "not found" << endl;
-        //   leftMotor->setVelocity(0.1);
-        //   rightMotor->setVelocity(-0.1);
-        // }
-        // else
-        // {
-        //   int largestContour, largestContourArea;
+      findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-        //   getMaxAreaContourId(contours, largestContour, largestContourArea);
+      drawContours(mask, contours, -1, Scalar(255, 255, 255));
 
-        //   cout << largestContourArea << ' ';
+      printPointVectors(contours);
+      cvtColor(mask, final, COLOR_GRAY2RGB);
+      // cvtColor(final, dis, COLOR_RGB2BGRA);
+      ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
 
-        //   if (largestContourArea > width * height / 8)
-        //   {
-        //     goingToObg = false;
-        //     handleMotor->setVelocity(1.57);
-        //     handleMotor->setPosition(0);
-        //     leftMotor->setVelocity(0);
-        //     rightMotor->setVelocity(0);
-        //     approxPolyDP(Mat(contours[largestContour]), poly, 8, true);
-        //     cout << poly.size() << endl;
-        //     break;
-        //   }
-
-        //   Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
-        //   drawContours(mask, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
-
-        //   cvtColor(mask, final, COLOR_GRAY2RGB);
-        //   // cvtColor(final, dis, COLOR_RGB2BGRA);
-        //   ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
-
-        //   display->imagePaste(ir, 0, 0, false);
-        //   display->imageDelete(ir);
-        //   Moments mu = moments(contours[largestContour], false);
-
-        //   int centerx = mu.m10 / mu.m00;
-        //   // cout << centerx << ' ';
-        //   float error = width / 2 - centerx;
-        //   cout << error << endl;
-        //   leftMotor->setVelocity((-error * p_coefficient) + 1);
-        //   rightMotor->setVelocity((error * p_coefficient) + 1);
-        // }
-      }
+      display->imagePaste(ir, 0, 0, false);
+      display->imageDelete(ir);
+      // leftMotor->setVelocity(5);
+      // rightMotor->setVelocity(5);
     }
-    // timeCounter++;
-    //  Enter here exit cleanup code.
+    timeCounter++;
   };
 
   delete robot;

@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.4388188697446583 0.7795218822644285 0.44697162619896014 4.448039788056818
-  position -1.3881817596054766 3.4150811961834475 0.11265680860006078
+  orientation 1 0 0 4.71238898038469
+  position 0.7952548839397637 2.864796364517469 -0.1325876918791875
 }
 TexturedBackground {
   luminosity 0.16
@@ -29,36 +29,8 @@ Floor {
   }
 }
 DEF key_cylinder Solid {
-  translation 0.7800001414213484 0.024980380000000007 -0.2099999999998527
-  rotation 0.7071067811869238 0.7071067811859253 -5.897764858942527e-07 3.1415900000075045
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 1 1 0
-        roughness 0.9
-        metalness 0
-      }
-      geometry Cylinder {
-        height 0.05
-        radius 0.025
-      }
-    }
-  ]
-  name "solid(key2)(1)"
-  boundingObject Cylinder {
-    height 0.05
-    radius 0.025
-  }
-  physics Physics {
-    density -1
-    mass 0.05
-  }
-  linearVelocity 1.2530015855609765e-16 -7.105427357884511e-17 3.0365118720836226e-18
-  angularVelocity 1.2146275185837483e-16 2.0336364559816877e-21 -5.3290705001088355e-15
-}
-DEF key_cylinder Solid {
-  translation -0.1299999081698725 0.02498038 -0.46
-  rotation 0 0 1 1.570796326794897
+  translation 1.0926236174339155 0.024980379999999996 -0.7898174540809021
+  rotation 0.899387630924545 0.30894115729697696 -0.3092850637647069 -1.676508637963426
   children [
     Shape {
       appearance PBRAppearance {
@@ -81,38 +53,10 @@ DEF key_cylinder Solid {
     density -1
     mass 0.05
   }
-  linearVelocity 1.5024112998368973e-16 5.32907051820075e-17 0
-  angularVelocity 0 0 -6.090366306515149e-15
 }
 DEF key_box Solid {
-  translation 0.87 0.024990190000000006 -0.66
-  rotation 0.4142750526313785 0.8816544383140502 0.22596821052618243 -7.074982590415525e-17
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 1 1 0
-        roughness 0.9
-        metalness 0
-      }
-      geometry Box {
-        size 0.05 0.05 0.05
-      }
-    }
-  ]
-  name "solid(key1)"
-  boundingObject Box {
-    size 0.05 0.05 0.05
-  }
-  physics Physics {
-    density -1
-    mass 0.05
-  }
-  linearVelocity 1.0251267314326681e-17 -8.881784197001046e-17 -1.1103519150243779e-17
-  angularVelocity -3.3306690738754657e-16 1.0158297356729646e-16 3.944304526105059e-31
-}
-DEF key_box Solid {
-  translation -0.29 0.02499019 -0.66
-  rotation -0.6995730763284934 0.7075377763595506 -0.09993901090400237 2.6661613267896752e-17
+  translation 0.39 0.024990189999999995 -0.7900000000006289
+  rotation 0.03228803601393845 0.9551794385849189 -0.29426131725893195 8.149317955915102e-17
   children [
     Shape {
       appearance PBRAppearance {
@@ -133,8 +77,6 @@ DEF key_box Solid {
     density -1
     mass 0.05
   }
-  linearVelocity -3.7710941506810775e-17 1.7763568394002524e-17 -3.927757543933918e-17
-  angularVelocity -1.6653345369377366e-15 1.6678585806986136e-16 1.6653345369377348e-15
 }
 DEF Light SpotLight {
   attenuation 0 0 1
@@ -275,7 +217,7 @@ DEF Arena_CMYK_floor Solid {
   name "solid(CMYK_floor)"
 }
 DEF Ping_pong1 Solid {
-  translation 0 0.019997881039999995 -0.3
+  translation 0 0.019997881040000005 -0.3
   children [
     Shape {
       appearance PBRAppearance {
@@ -298,10 +240,9 @@ DEF Ping_pong1 Solid {
     density -1
     mass 0.0027
   }
-  linearVelocity 0 6.167905692361966e-17 0
 }
 DEF Ping_pong2 Solid {
-  translation -0.46 0.019997881039999995 -0.62
+  translation -0.46 0.019997881040000005 -0.62
   children [
     Shape {
       appearance PBRAppearance {
@@ -324,11 +265,10 @@ DEF Ping_pong2 Solid {
     density -1
     mass 0.0027
   }
-  linearVelocity 0 6.167905692361966e-17 0
 }
 DEF plexRobot Robot {
-  translation 1.0699990361490306 0.030005508186608503 0.9097320963391654
-  rotation -0.00013294211765740535 -0.9999983202473147 0.0018280669962120496 -2.9963598629164223
+  translation 1.07 0.0295436 0.0673524
+  rotation 8.680699691091358e-09 0.9999978213857857 -0.002087396388383209 3.1415900225129247
   children [
     Display {
       children [
@@ -348,7 +288,7 @@ DEF plexRobot Robot {
     }
     Camera {
       translation -3.18636e-05 0.101049 0.0994359
-      rotation 0.0003063219040106512 -0.9238797104920979 -0.3826828800820967 -3.1401153071795864
+      rotation 0 -0.9636078869220914 -0.2673197341416122 3.14159
       children [
         Shape {
           appearance PBRAppearance {
@@ -384,7 +324,7 @@ DEF plexRobot Robot {
     }
     DEF handle HingeJoint {
       jointParameters HingeJointParameters {
-        position -1.5699999902546562
+        position -1.5699987825316997
         anchor 0 0 0.1125
       }
       device [
@@ -397,11 +337,11 @@ DEF plexRobot Robot {
       ]
       endPoint Solid {
         translation 0 0 0.1125
-        rotation -1 7.385365681606663e-16 1.2762083695096823e-16 1.5699999902546569
+        rotation -1 0 0 1.5699987825316997
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
-              position -2.453228581316831e-07
+              position -2.4532268775482524e-07
               axis -1 0 0
             }
             device [
@@ -410,11 +350,11 @@ DEF plexRobot Robot {
               }
             ]
             endPoint Solid {
-              translation 0.06750024532285813 -0.01 0.0425
+              translation 0.06750024532268777 -0.01 0.0425
               children [
                 DEF leftTouchSensor TouchSensor {
-                  translation -0.003000008723022196 -1.2635459345489153e-10 0.00199998469715508
-                  rotation 0.829925677872955 0.5335236500611854 -0.1630211152964733 -9.364165225365838e-16
+                  translation -0.00300000872302153 -4.3069925403926845e-10 0.001999923484132235
+                  rotation 0.8163645642960798 0.5270280950451126 -0.23619967230034739 -1.6319518115034199e-15
                   children [
                     DEF leftSensor Shape {
                       appearance PBRAppearance {
@@ -431,8 +371,6 @@ DEF plexRobot Robot {
                   boundingObject USE leftSensor
                   physics Physics {
                   }
-                  linearVelocity 0.008810808938867409 8.644323826717793e-08 -0.003109481739330563
-                  angularVelocity 2.6692454237713916e-06 -0.06740458510952697 4.2406817340168145e-07
                 }
                 DEF leftSlider Shape {
                   appearance PBRAppearance {
@@ -449,13 +387,11 @@ DEF plexRobot Robot {
               boundingObject USE leftSlider
               physics Physics {
               }
-              linearVelocity 0.008839372986822934 8.631473802903655e-08 -0.0033096748102359195
-              angularVelocity 2.669245428645128e-06 -0.06740458510951132 4.2406817153820775e-07
             }
           }
           DEF rightSlider SliderJoint {
             jointParameters JointParameters {
-              position -2.4536906281716256e-07
+              position -2.45368905456184e-07
               axis 1 0 0
             }
             device [
@@ -464,11 +400,11 @@ DEF plexRobot Robot {
               }
             ]
             endPoint Solid {
-              translation -0.06750024536906282 -0.01 0.0425
+              translation -0.06750024536890546 -0.01 0.0425
               children [
                 DEF rightTouchSensor TouchSensor {
-                  translation 0.0030000087228254646 -4.1691761154538653e-11 0.0019999846960998824
-                  rotation 0.9319265978513964 0.2976987743136405 0.20709479952253254 -1.0721882221908339e-15
+                  translation 0.0030000087228243544 -3.4603639398333996e-10 0.00199992348307719
+                  rotation 0.8368404329204648 -0.3956089619419499 0.37840671117291486 -1.4593526782945753e-15
                   children [
                     DEF rightSensor Shape {
                       appearance PBRAppearance {
@@ -485,8 +421,6 @@ DEF plexRobot Robot {
                   boundingObject USE rightSensor
                   physics Physics {
                   }
-                  linearVelocity 0.007557049771718083 9.093393093614596e-08 0.005494876215527077
-                  angularVelocity 2.6692454285624814e-06 -0.06740458510953334 4.240681726294083e-07
                 }
                 DEF rightSlider Shape {
                   appearance PBRAppearance {
@@ -503,8 +437,6 @@ DEF plexRobot Robot {
               boundingObject USE rightSlider
               physics Physics {
               }
-              linearVelocity 0.007527299490909654 9.101430011564411e-08 0.005694885535288503
-              angularVelocity 2.6692454288312496e-06 -0.06740458510953991 4.240681715279868e-07
             }
           }
           DEF rightHandle Solid {
@@ -566,8 +498,6 @@ DEF plexRobot Robot {
           density -1
           mass 0.5
         }
-        linearVelocity 0.007595939271883567 6.486425638073465e-08 0.0011069006530886236
-        angularVelocity 2.669245425411461e-06 -0.0674045851095257 4.2406817086469495e-07
       }
     }
     DEF basePlate Group {
@@ -592,7 +522,7 @@ DEF plexRobot Robot {
           children [
             Shape {
               appearance PBRAppearance {
-                baseColor 0 1 1
+                baseColor 0 0 1
                 roughness 1
                 metalness 0
               }
@@ -606,7 +536,7 @@ DEF plexRobot Robot {
     }
     DEF leftWheel HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.22239999433275567
+        position 0.2223999798515055
         anchor 0.057 0 0
       }
       device [
@@ -615,8 +545,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.057 -1.0810875547333519e-06 -2.444779967632736e-07
-        rotation 0.1103807311372853 0.11029286698308724 -0.9877507669884389 1.582324617743207
+        translation 0.057 -1.0810875582737006e-06 -2.444779811077746e-07
+        rotation 0.11038072406686292 0.11029285991829292 -0.987750768567415 1.582324616144756
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -633,13 +563,11 @@ DEF plexRobot Robot {
         boundingObject USE wheel
         physics Physics {
         }
-        linearVelocity 0.000553950253830154 -2.2015085088124795e-07 -0.0038017407556219644
-        angularVelocity -0.09895235606500015 -0.06740502430203865 -0.01441851775838382
       }
     }
     DEF rightWheel HingeJoint {
       jointParameters HingeJointParameters {
-        position -0.22239999411815056
+        position -0.22240000873088078
         anchor -0.057 0 0
       }
       device [
@@ -648,8 +576,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.057 -1.081087555016998e-06 2.4447799550897867e-07
-        rotation -0.11038073057081328 0.11029286641706686 0.9877507671149441 1.582324617615141
+        translation -0.057 -1.0810875514445057e-06 2.4447801130661927e-07
+        rotation -0.11038073770543062 0.1102928735460049 0.9877507655216319 1.5823246192281035
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -667,8 +595,6 @@ DEF plexRobot Robot {
         boundingObject USE wheel
         physics Physics {
         }
-        linearVelocity -0.0005539703062473672 -2.1692450065936775e-07 0.003801897020980994
-        angularVelocity 0.09895769445594509 -0.0674050086367085 0.014419365879355193
       }
     }
     DEF leftCaster Solid {
@@ -716,8 +642,8 @@ DEF plexRobot Robot {
   name "robot(1)"
   boundingObject USE basePlate
   physics Physics {
+    density -1
+    mass 0.5
   }
-  controller "testing_controller"
-  linearVelocity 0.003898716005752083 -8.493608690628283e-08 0.00056815941537194
-  angularVelocity 2.6692453979074256e-06 -0.06740458510952631 4.2406817099906413e-07
+  controller "plex_controller"
 }
