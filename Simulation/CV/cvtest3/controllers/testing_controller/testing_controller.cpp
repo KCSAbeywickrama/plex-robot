@@ -82,7 +82,7 @@ int main(int argc, char **argv)
 
   const unsigned char *image;
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
-  Mat imgRGB, imgHSV, mask, imgDil, imgErode, final;
+  Mat imgRGB, imgHSV, imgAnd , mask, imgDil, imgErode, final;
   int hmin = 30, smin = 0, vmin = 0;
   int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
@@ -116,19 +116,34 @@ int main(int argc, char **argv)
         Scalar lower(hmin, smin, vmin);
         Scalar upper(hmax, smax, vmax);
         inRange(imgHSV, lower, upper, mask);
+
+        unsigned char * pData = imgRGB.data;
+
+        Mat outImg(width, height, CV_8UC1);  
+        memcpy(outImg.data, pData, sizeof(unsigned char)*width*height);  
+
+        bitwise_and(imgRGB,outImg,imgAnd, mask);
+        //cvtColor(mask, final, COLOR_GRAY2RGB);
+
+        ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
+        display->imagePaste(ir, 0, 0, false);
+        display->imageDelete(ir);
+        
         Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
+
 	      dilate(mask, imgDil, kernel);
 	      erode(imgDil, imgErode, kernel);
 
-        findContours(imgErode, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+        //findContours(imgErode, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+      findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
       // vector<Point> c = contours.at(getMaxAreaContourId(contours));
       
 
       if (contours.empty())
       {
         cout<<"not found"<<endl;
-        leftMotor->setVelocity(0.1 );
-        rightMotor->setVelocity(-0.1);
+        leftMotor->setVelocity(0.5 );
+        rightMotor->setVelocity(-0.5);
 
       }
       else{
@@ -156,18 +171,19 @@ int main(int argc, char **argv)
 
           cvtColor(imgErode, final, COLOR_GRAY2RGB);
           // cvtColor(final, dis, COLOR_RGB2BGRA);
-          ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+          //ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+           
 
-          display->imagePaste(ir, 0, 0, false);
-          display->imageDelete(ir);
+          // display->imagePaste(ir, 0, 0, false);
+          // display->imageDelete(ir);
           Moments mu = moments(contours[largestContour], false);
           
           int centerx = mu.m10 / mu.m00;
           // cout << centerx << ' ';
           float error = width / 2 - centerx;
           cout << error << endl;
-          leftMotor->setVelocity((-error * p_coefficient)+1 );
-          rightMotor->setVelocity((error * p_coefficient)+1);
+          leftMotor->setVelocity((-error * p_coefficient)+0.5 );
+          rightMotor->setVelocity((error * p_coefficient)+0.5);
        }
        else
        {
@@ -178,10 +194,10 @@ int main(int argc, char **argv)
     }
     //timeCounter++;
   } // Enter here exit cleanup code.
-  int ps = 0.002;
-  bool objTouch = false;
-  arm::init;
-  arm::gripObject(ps,objTouch);
+  // int ps = 0.002;
+  // bool objTouch = true;
+  // arm::init;
+  // arm::gripObject(ps,objTouch);
   };
   // destroyAllWindows();
   delete robot;
