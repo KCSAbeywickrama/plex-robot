@@ -13,6 +13,7 @@ namespace arm
   PositionSensor *rightSliderEncoder;
   TouchSensor *leftTouch;
   TouchSensor *rightTouch;
+
   void gripObject(Robot *robot, float ps, bool &objTouch)
   {
     cout << "gripping" << endl;
