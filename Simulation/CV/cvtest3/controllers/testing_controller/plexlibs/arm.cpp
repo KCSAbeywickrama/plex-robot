@@ -27,7 +27,7 @@ namespace arm
   {
      while (robot->step(TIME_STEP) != -1 && objTouch)
     {
-      //cout << leftSliderEncoder->getValue() << endl;
+      cout << leftSliderEncoder->getValue() << endl;
       leftTouch->enable(TIME_STEP);
       rightTouch->enable(TIME_STEP);
       
