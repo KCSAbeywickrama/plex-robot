@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.09134076282952634 0.9899614257814865 0.10785750094641856 4.536992216431612
-  position -0.15018992348657523 0.1481156391282584 -0.04257997407739142
+  orientation 0.998646439845791 -0.047200792378927416 -0.021848875992330208 5.415105846144746
+  position 0.537247256518909 1.826708198194899 1.6904071081242347
 }
 TexturedBackground {
   luminosity 0.16
@@ -525,7 +525,7 @@ DEF plexRobot Robot {
                       }
                     }
                   ]
-                  name "leftTouchSensor(1)"
+                  name "leftTouchSensor"
                   boundingObject USE leftSensor
                   physics Physics {
                   }
@@ -741,8 +741,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.056999996201767655 1.666944257466031e-06 1.1143873199341007e-06
-        rotation 0.7072364406802149 -0.7066736056514816 0.020713088845344157 3.1001393266719077
+        translation -0.056999996201767655 1.6669442574660312e-06 1.1143873199341009e-06
+        rotation 0.7072364406802149 -0.7066736056514816 0.020713088845344153 3.1001393266719077
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
