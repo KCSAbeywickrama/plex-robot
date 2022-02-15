@@ -1,0 +1,649 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material1 "casterMat"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 1 0 0 4.71238898038469
+  position 0.7952548839397637 2.864796364517469 -0.1325876918791875
+}
+TexturedBackground {
+  luminosity 0.16
+}
+TexturedBackgroundLight {
+  luminosity 0.16
+}
+Floor {
+  size 2.45 4.9
+  appearance Parquetry {
+    type "dark strip"
+    colorOverride 0 0 0
+  }
+}
+DEF key_cylinder Solid {
+  translation 1.0926236174339155 0.024980379999999996 -0.7898174540809021
+  rotation 0.899387630924545 0.30894115729697696 -0.3092850637647069 -1.676508637963426
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.666667 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.025
+      }
+    }
+  ]
+  name "solid(key2)"
+  boundingObject Cylinder {
+    height 0.05
+    radius 0.025
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF key_box Solid {
+  translation 0.39 0.024990189999999995 -0.7900000000006289
+  rotation 0.03228803601393845 0.9551794385849189 -0.29426131725893195 8.149317955915102e-17
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.666667 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "solid(key1)(1)"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF Light SpotLight {
+  attenuation 0 0 1
+  beamWidth 1.5
+  cutOffAngle 1.57
+  direction 0 -1 0
+  intensity 4
+  location 0 2 0
+  radius 10
+  castShadows TRUE
+}
+DEF Arena_maze Solid {
+  translation 1.225 0 0.59
+  rotation 0 1 0 -1.5707996938995747
+  children [
+    DEF WALLS Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "maze_test_arena.STL"
+        ]
+      }
+    }
+  ]
+  name "WALLS"
+  boundingObject USE WALLS
+}
+DEF Arena_CMYK Solid {
+  translation 1.225 0 -0.93
+  rotation 0 1 0 -1.5707996938995747
+  children [
+    DEF CMYK_walls Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "CMYK_area_fillet.STL"
+        ]
+      }
+    }
+  ]
+  name "WALLS(CMYK)"
+  boundingObject USE CMYK_walls
+}
+DEF Arena_track1 Solid {
+  translation -0.625 0 -0.01
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    DEF TRACK Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "entrance_path_test_arena.STL"
+        ]
+      }
+    }
+  ]
+  name "TRACK(entrance)"
+}
+DEF Arena_CMYK_floor Solid {
+  translation 0.755 0 -0.47
+  children [
+    DEF TF_C Transform {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.92 0.001 0.9
+          }
+        }
+      ]
+    }
+    DEF TF_Y Transform {
+      translation -0.92 0 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 1 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.92 0.001 0.6
+          }
+        }
+      ]
+    }
+    DEF TF_M Transform {
+      translation 0 0 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.92 0.001 0.6
+          }
+        }
+      ]
+    }
+    DEF Key_hole_outline Transform {
+      translation -1.38 0.07 1.05
+      rotation -0.5773509358554485 -0.5773509358554485 0.5773489358556708 -2.094395307179586
+      children [
+        Solid {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "key_hole_outline.STL"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "solid(CMYK_floor)"
+}
+DEF Ping_pong1 Solid {
+  translation 0 0.019997881040000005 -0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.02
+        subdivision 2
+      }
+    }
+  ]
+  name "solid(ppong1)"
+  boundingObject Sphere {
+    radius 0.02
+    subdivision 2
+  }
+  physics Physics {
+    density -1
+    mass 0.0027
+  }
+}
+DEF Ping_pong2 Solid {
+  translation -0.46 0.019997881040000005 -0.62
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.9
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.02
+        subdivision 2
+      }
+    }
+  ]
+  name "solid(ppong2)"
+  boundingObject Sphere {
+    radius 0.02
+    subdivision 2
+  }
+  physics Physics {
+    density -1
+    mass 0.0027
+  }
+}
+DEF plexRobot Robot {
+  translation 1.07 0.0295436 0.0673524
+  rotation 8.680699691091358e-09 0.9999978213857857 -0.002087396388383209 3.1415900225129247
+  children [
+    Display {
+      children [
+        Shape {
+          appearance Appearance {
+            material Material {
+              emissiveColor 1 1 1
+            }
+            texture ImageTexture {
+              filtering 0
+            }
+          }
+        }
+      ]
+      width 128
+      height 128
+    }
+    Camera {
+      translation -3.18636e-05 0.101049 0.0994359
+      rotation 0 -0.9636078869220914 -0.2673197341416122 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Cylinder {
+            height 0.01
+            radius 0.005
+          }
+        }
+      ]
+      name "cam"
+      fieldOfView 1
+      width 128
+      height 128
+    }
+    DEF cameraPoll Solid {
+      translation 0 0.06 0.09
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.02 0.12 0.01
+          }
+        }
+      ]
+      name "solid(5)"
+    }
+    DEF handle HingeJoint {
+      jointParameters HingeJointParameters {
+        position -1.5699987825316997
+        anchor 0 0 0.1125
+      }
+      device [
+        RotationalMotor {
+          name "handleMotor"
+        }
+        PositionSensor {
+          name "handleEncoder"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.1125
+        rotation -1 0 0 1.5699987825316997
+        children [
+          DEF leftSlider SliderJoint {
+            jointParameters JointParameters {
+              position -2.4532268775482524e-07
+              axis -1 0 0
+            }
+            device [
+              LinearMotor {
+                name "leftSlider"
+              }
+            ]
+            endPoint Solid {
+              translation 0.06750024532268777 -0.01 0.0425
+              children [
+                DEF leftTouchSensor TouchSensor {
+                  translation -0.00300000872302153 -4.3069925403926845e-10 0.001999923484132235
+                  rotation 0.8163645642960798 0.5270280950451126 -0.23619967230034739 -1.6319518115034199e-15
+                  children [
+                    DEF leftSensor Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 0 0
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Box {
+                        size 0.001 0.01 0.065
+                      }
+                    }
+                  ]
+                  name "leftTouchSensor(1)"
+                  boundingObject USE leftSensor
+                  physics Physics {
+                  }
+                }
+                DEF leftSlider Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.005 0.025 0.07
+                  }
+                }
+              ]
+              name "solid(2)"
+              boundingObject USE leftSlider
+              physics Physics {
+              }
+            }
+          }
+          DEF rightSlider SliderJoint {
+            jointParameters JointParameters {
+              position -2.45368905456184e-07
+              axis 1 0 0
+            }
+            device [
+              LinearMotor {
+                name "rightSlider"
+              }
+            ]
+            endPoint Solid {
+              translation -0.06750024536890546 -0.01 0.0425
+              children [
+                DEF rightTouchSensor TouchSensor {
+                  translation 0.0030000087228243544 -3.4603639398333996e-10 0.00199992348307719
+                  rotation 0.8368404329204648 -0.3956089619419499 0.37840671117291486 -1.4593526782945753e-15
+                  children [
+                    DEF rightSensor Shape {
+                      appearance PBRAppearance {
+                        baseColor 0 0 0
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Box {
+                        size 0.001 0.01 0.065
+                      }
+                    }
+                  ]
+                  name "rightTouchSensor"
+                  boundingObject USE rightSensor
+                  physics Physics {
+                  }
+                }
+                DEF rightSlider Shape {
+                  appearance PBRAppearance {
+                    baseColor 1 0 0
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Box {
+                    size 0.005 0.025 0.07
+                  }
+                }
+              ]
+              name "solid(4)"
+              boundingObject USE rightSlider
+              physics Physics {
+              }
+            }
+          }
+          DEF rightHandle Solid {
+            translation -0.045 -0.01 0.005
+            children [
+              DEF rightHandle Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 1
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.05 0.025 0.005
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE rightHandle
+            physics Physics {
+              density -1
+              mass 0.04
+            }
+          }
+          DEF leftHandle Solid {
+            translation 0.045 -0.01 0.005
+            children [
+              DEF leftHandle Shape {
+                appearance PBRAppearance {
+                  baseColor 0 0 1
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.05 0.025 0.005
+                }
+              }
+            ]
+            name "solid(8)"
+            boundingObject USE leftHandle
+            physics Physics {
+              density -1
+              mass 0.04
+            }
+          }
+          DEF handle Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size 0.14 0.01 0.005
+            }
+          }
+        ]
+        name "solid(4)"
+        boundingObject USE handle
+        physics Physics {
+          density -1
+          mass 0.5
+        }
+      }
+    }
+    DEF basePlate Group {
+      children [
+        Transform {
+          translation 0 0 0.005
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.08 0.005 0.07
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.075
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.14 0.005 0.07
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF leftWheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.2223999798515055
+        anchor 0.057 0 0
+      }
+      device [
+        RotationalMotor {
+          name "leftMotor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.057 -1.0810875582737006e-06 -2.444779811077746e-07
+        rotation 0.11038072406686292 0.11029285991829292 -0.987750768567415 1.582324616144756
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.025
+              radius 0.03
+            }
+          }
+        ]
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF rightWheel HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.22240000873088078
+        anchor -0.057 0 0
+      }
+      device [
+        RotationalMotor {
+          name "rightMotor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.057 -1.0810875514445057e-06 2.4447801130661927e-07
+        rotation -0.11038073770543062 0.1102928735460049 0.9877507655216319 1.5823246192281035
+        children [
+          DEF wheel Shape {
+            appearance PBRAppearance {
+              baseColor 0 1 0
+              roughness 1
+              metalness 0
+            }
+            geometry Cylinder {
+              height 0.025
+              radius 0.03
+            }
+          }
+        ]
+        name "solid(1)"
+        boundingObject USE wheel
+        physics Physics {
+        }
+      }
+    }
+    DEF leftCaster Solid {
+      translation 0.055 -0.01625 0.09
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01375
+          }
+        }
+      ]
+      name "solid(2)"
+      contactMaterial "casterMat"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+    DEF rightCaster Solid {
+      translation -0.055 -0.01625 0.09
+      rotation 0 0 1 1.57
+      children [
+        DEF caster Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 1
+            metalness 0
+          }
+          geometry Sphere {
+            radius 0.01375
+          }
+        }
+      ]
+      name "solid(3)"
+      contactMaterial "casterMat"
+      boundingObject USE caster
+      physics Physics {
+      }
+    }
+  ]
+  name "robot(1)"
+  boundingObject USE basePlate
+  physics Physics {
+    density -1
+    mass 0.5
+  }
+  controller "plex_controller"
+}
