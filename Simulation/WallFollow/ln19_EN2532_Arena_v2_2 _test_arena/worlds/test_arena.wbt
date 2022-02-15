@@ -98,7 +98,7 @@ DEF Arena_maze Solid {
       }
       geometry Mesh {
         url [
-          "C:/Users/ASUS/Documents/wallmaze.STL"
+          "wallmaze.STL"
         ]
       }
     }
@@ -684,8 +684,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.056999996201767655 1.6669442574660293e-06 1.1143873199341004e-06
-        rotation 0.7072364406802149 -0.7066736056514816 0.020713088845344185 3.1001393266719077
+        translation -0.056999996201767655 1.66694425746603e-06 1.1143873199341004e-06
+        rotation 0.7072364406802149 -0.7066736056514816 0.020713088845344174 3.1001393266719077
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
