@@ -18,7 +18,7 @@ namespace arm
   {
     int value;
     if (obj=="ball"){value=0.03;}
-    else if (obj == "cylinder" || obj == "box"){value=0.035;}
+    else if (obj == "object"){value=0.035;}
     cout << "gripping object" << endl;
     while (robot->step(TIME_STEP) != -1)
     {

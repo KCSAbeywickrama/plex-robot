@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.99489006090807 -0.09002683568080078 -0.04570487461572369 0.9436883541187437
-  position -0.021881157953749675 4.152976654768591 2.8548811516719326
+  orientation -0.9995831894213513 0.02519888469069832 0.014087712255148127 1.0199015082167868
+  position 0.29972569265291865 2.8197153464586555 1.471953576868352
 }
 TexturedBackground {
   luminosity 0.16
@@ -55,8 +55,8 @@ DEF key_cylinder Solid {
   }
 }
 DEF key_cylinder Solid {
-  translation -0.28785 0.0249779 -0.598225
-  rotation 0.704062084817699 0.7040630848178195 0.09269171116648352 2.95674
+  translation -0.2 0.0249769 -0.429999
+  rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
   children [
     Shape {
       appearance PBRAppearance {
@@ -105,7 +105,7 @@ DEF key_box Solid {
   }
 }
 DEF key_box Solid {
-  translation 1.11 0.0249902 -0.8
+  translation 0.53 0.0249902 -0.5
   rotation 0.08962309529846825 0.7735535142806973 -0.6273616670893313 2.9730453408535576e-17
   children [
     Shape {
@@ -443,7 +443,7 @@ DEF plexRobot Robot {
     }
     Camera {
       translation -3.18636e-05 0.101049 0.075
-      rotation 0.026562752140475276 -0.9605376438149111 -0.2768787731358671 -3.1361053071795864
+      rotation 0 -0.9717165193229961 -0.23615038868229948 3.14
       children [
         Shape {
           appearance PBRAppearance {
@@ -457,7 +457,7 @@ DEF plexRobot Robot {
         }
       ]
       name "cam"
-      fieldOfView 1.1
+      fieldOfView 1
       width 128
       height 128
     }
@@ -748,7 +748,7 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 2.2240757752368168e-06 2.450595630230376e-06
+        translation -0.05699999618581658 2.2240757752368316e-06 2.450595630230376e-06
         rotation 0.7072492359233148 -0.7066863908721803 0.0198207780356726 3.1019246339367084
         children [
           DEF wheel Shape {

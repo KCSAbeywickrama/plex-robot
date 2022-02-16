@@ -59,13 +59,14 @@ namespace navigate
         const unsigned char *image;
         const int width = camera->getWidth();
         const int height = camera->getHeight();
+        cout<<width<<endl;
         Mat imageMat = Mat(Size(width, height), CV_8UC4);
         Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDilate, imgErode, imgGray, finalim ;
+        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
         vector<vector<Point>> contours;
         vector<Point> poly;
         vector<Vec4i> hierarchy;
-        
+        RNG rng(12345);
 
         hmin = 1, smin = 50, vmin = 0;
         hmax = 88, smax = 255, vmax = 255;
@@ -89,15 +90,10 @@ namespace navigate
                 
                 cvtColor(mask, maskRGB, COLOR_GRAY2RGB);
                 bitwise_and(imgRGB,maskRGB,imgAnd);
-                
 
-                cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
-                Canny(imgGray,imgCanny,100,255);
-                vector<Vec2f> lines; // will hold the results of the detection
-                HoughLines(imgCanny, lines, 1, CV_PI/180, 150, 0, 100 );
-                cout<<"lines "<<lines.size()<<endl;
-                //findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgCanny, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+                cvtColor(imgAnd, imgErode, COLOR_RGB2GRAY);
+                //findContours(imgErode, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+                findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
             
             
 
@@ -111,26 +107,16 @@ namespace navigate
                 else
                 {
                     int largestContour, largestContourArea;
-                    int pixel;
+
                     getMaxAreaContourId(contours, largestContour, largestContourArea);
-                    if (largestContourArea>50)
-                    {
-                        Point extTop   = *max_element(contours[largestContour].begin(), contours[largestContour].end(), 
-                                    [](const Point& lhs, const Point& rhs) {
-                                        return lhs.y < rhs.y;
-                                    });
-                        pixel = extTop.y;
-                    }
-                    else
-                    {
-                        pixel=10;
-                    }
+                    Point extTop   = *max_element(contours[largestContour].begin(), contours[largestContour].end(), 
+                                [](const Point& lhs, const Point& rhs) {
+                                    return lhs.y < rhs.y;
+                                });
 
-                    cout << largestContourArea <<' '<< pixel<< ' ';
+                    cout << largestContourArea <<' '<< extTop.y << ' ';
 
-                     
-                    if (pixel>= 127)
-                
+                    if (extTop.y >= 127)
                     {
                         //goingToObj = false;
                         // handleMotor->setVelocity(1.57);
@@ -139,18 +125,16 @@ namespace navigate
                         rightMotor->setVelocity(0);
                         approxPolyDP(Mat(contours[largestContour]), poly, 1, true); 
                         //box = 7,cylinder = 9
-                        if (poly.size()>=8){objName="cylinder";}
+                        if (poly.size()>=9){objName="cylinder";}
                         else{objName="Box";}
                         cout<<poly.size()<<objName<<endl;
                         return;
                     }
                     if (largestContourArea>0)
                     {
-                        Scalar color = Scalar(0,255,0);
-                        cvtColor(imgCanny, finalim, COLOR_GRAY2RGB);
-                        //drawContours(finalim, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
-                        
-                        ImageRef *ir = display->imageNew(width, height, finalim.data, Display::RGB);
+                        Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
+                        drawContours(imgAnd, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+                        ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
                         
 
                         display->imagePaste(ir, 0, 0, false);
@@ -159,8 +143,8 @@ namespace navigate
                         
                         int centerx = mu.m10 / mu.m00;
                         float error = width / 2 - centerx;
-                        cout << error << endl;
-                        leftMotor->setVelocity((-error * p_coefficient)+0.5);
+                        cout << (-error * p_coefficient)+0.5 << endl;
+                        leftMotor->setVelocity((-error * p_coefficient)+0.5 );
                         rightMotor->setVelocity((error * p_coefficient)+0.5);
                     }
                     else
@@ -183,11 +167,11 @@ namespace navigate
         const int height = camera->getHeight();
         Mat imageMat = Mat(Size(width, height), CV_8UC4);
         Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgGray ;
+        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
         vector<vector<Point>> contours;
         vector<Point> poly;
         vector<Vec4i> hierarchy;
-        
+        RNG rng(12345);
         
         if (color=="blue")
         {
@@ -221,9 +205,9 @@ namespace navigate
                 cvtColor(mask, maskRGB, COLOR_GRAY2RGB);
                 bitwise_and(imgRGB,maskRGB,imgAnd);
 
-                cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
-                //findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgGray, contours, hierarchy, RETR_CCOMP, CHAIN_APPROX_NONE);
+                cvtColor(imgAnd, imgErode, COLOR_RGB2GRAY);
+                //findContours(imgErode, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
+                findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
             
             
 
@@ -261,7 +245,7 @@ namespace navigate
                     }
                     if (largestContourArea>0)
                     {
-                        Scalar color = Scalar(0,255,0);
+                        Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
                         drawContours(imgAnd, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
                         ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
                         
