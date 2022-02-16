@@ -302,7 +302,7 @@ DEF Bottom_dash-line_track Solid {
       }
       geometry Mesh {
         url [
-          "C:/Users/ASUS/Documents/dash line bottom.STL"
+          "dash line bottom.STL"
         ]
       }
     }
