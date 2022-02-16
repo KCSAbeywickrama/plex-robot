@@ -61,7 +61,7 @@ namespace navigate
         const int height = camera->getHeight();
         Mat imageMat = Mat(Size(width, height), CV_8UC4);
         Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDilate, imgErode, imgGray, finalim ;
+        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode, imgGray, finalim ;
         vector<vector<Point>> contours;
         vector<Point> poly;
         vector<Vec4i> hierarchy;
@@ -160,8 +160,16 @@ namespace navigate
                         int centerx = mu.m10 / mu.m00;
                         float error = width / 2 - centerx;
                         cout << error << endl;
-                        leftMotor->setVelocity((-error * p_coefficient)+0.5);
-                        rightMotor->setVelocity((error * p_coefficient)+0.5);
+                        if (error<50)
+                        {
+                            leftMotor->setVelocity((-error * p_coefficient)+1.5 );
+                            rightMotor->setVelocity((error * p_coefficient)+1.5);
+                        }
+                        else
+                        {
+                            leftMotor->setVelocity((-error * p_coefficient));
+                            rightMotor->setVelocity((error * p_coefficient));   
+                        }
                     }
                     else
                     {
@@ -175,17 +183,17 @@ namespace navigate
     }
 
     void navigateBall(Robot *robot, string color) 
-    {   
-        int p_coefficient = 0.1;
+    {  
+        cout<<"navigate ball"<<endl; 
+        float p_coefficient = 0.1;
         int hmin,hmax,smin,smax,vmin,vmax;
         const unsigned char *image;
         const int width = camera->getWidth();
         const int height = camera->getHeight();
         Mat imageMat = Mat(Size(width, height), CV_8UC4);
         Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgGray ;
+        Mat imgRGB, imgHSV, mask, maskRGB, imgGray ;//imgCanny ,imgDil, 
         vector<vector<Point>> contours;
-        vector<Point> poly;
         vector<Vec4i> hierarchy;
         
         
@@ -236,17 +244,27 @@ namespace navigate
                 }
                 else
                 {
+                    int pixel;
                     int largestContour, largestContourArea;
 
                     getMaxAreaContourId(contours, largestContour, largestContourArea);
-                    Point extTop   = *max_element(contours[largestContour].begin(), contours[largestContour].end(), 
-                                [](const Point& lhs, const Point& rhs) {
-                                    return lhs.y < rhs.y;
-                                });
+                    if (largestContourArea>50)
+                    {
+                        Point extTop   = *max_element(contours[largestContour].begin(), contours[largestContour].end(), 
+                                    [](const Point& lhs, const Point& rhs) {
+                                        return lhs.y < rhs.y;
+                                    });
+                        pixel = extTop.y;
+                    }
+                    else
+                    {
+                        pixel=10;
+                    }
 
-                    cout << largestContourArea <<' '<< extTop.y << ' ';
+                    cout << largestContourArea <<' '<< pixel<< ' ';
 
-                    if (extTop.y >= 127)
+                     
+                    if (pixel>= 127)
                     {
                         
                         leftMotor->setVelocity(0);
@@ -273,8 +291,16 @@ namespace navigate
                         int centerx = mu.m10 / mu.m00;
                         float error = width / 2 - centerx;
                         cout << error << endl;
-                        leftMotor->setVelocity((-error * p_coefficient)+0.5 );
-                        rightMotor->setVelocity((error * p_coefficient)+0.5);
+                        if (error<50)
+                        {
+                            leftMotor->setVelocity((-error * p_coefficient)+1.5 );
+                            rightMotor->setVelocity((error * p_coefficient)+1.5);
+                        }
+                        else
+                        {
+                            leftMotor->setVelocity((-error * p_coefficient));
+                            rightMotor->setVelocity((error * p_coefficient));   
+                        }
                     }
                     else
                     {

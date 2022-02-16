@@ -78,5 +78,5 @@ LIBRARIES = -L"$(OPENCV_DIR)/x64/mingw/lib" -lopencv_core452 -lopencv_imgproc452
 # Comiples suscess
 # INCLUDE = -I"M:/OpenCV/mingcv/include/opencv4"
 # LIBRARIES = -L"M:/OpenCV/mingcv/lib" -lopencv_core -lopencv_imgproc
-CXX_SOURCES = testing_controller.cpp plexlibs/vision.cpp plexlibs/arm.cpp plexlibs/navigate.cpp
+CXX_SOURCES = testing_controller.cpp plexlibs/vision.cpp plexlibs/arm.cpp plexlibs/navigate.cpp plexlibs/keyhole.cpp
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

@@ -28,21 +28,7 @@
 using namespace webots;
 using namespace std;
 using namespace cv;
-//using namespace arm;
-void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area)
-    {
-    double maxArea = 0;
-    id = -1;
-    for (int j = 0; j < contours.size(); j++)
-    {
-        double newArea = contourArea(contours.at(j));
-        if (newArea > maxArea)
-        {
-        maxArea = newArea;
-        id = j;
-        } 
-    } 
-    }
+
 int main(int argc, char **argv)
 {
 
@@ -50,15 +36,16 @@ int main(int argc, char **argv)
    Robot *robot = new Robot();
   
   string objName;
+  string color = "blue";
   
    while (robot->step(TIME_STEP) != -1)
    {
     arm::init(robot);
     //arm::gripObject(robot,0.001,"ball");
     navigate::init(robot);
-    navigate::navigateObject(robot,objName);
-    arm::gripObject(robot,0.001,objName);
-while (robot->step(TIME_STEP) != -1);
+    navigate::navigateBall(robot, color) ;
+    arm::gripObject(robot,0.001,"ball");
+    while (robot->step(TIME_STEP) != -1);
 
     
   

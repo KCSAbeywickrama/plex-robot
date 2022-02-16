@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.99489006090807 -0.09002683568080078 -0.04570487461572369 0.9436883541187437
-  position -0.021881157953749675 4.152976654768591 2.8548811516719326
+  orientation 0.37871224844620166 -0.8231492740149761 -0.42308664073147034 4.411611385046028
+  position 2.7254704109499457 3.8440502849989566 0.07164080506442887
 }
 TexturedBackground {
   luminosity 0.16
@@ -29,33 +29,7 @@ Floor {
   }
 }
 DEF key_cylinder Solid {
-  translation -0.524676 0.0249804 -0.462378
-  rotation 0.707106781394287 0.7071067809765698 -1.77919267514899e-06 3.1415785211699707
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 1 1 0
-        roughness 0.9
-        metalness 0
-      }
-      geometry Cylinder {
-        height 0.05
-        radius 0.025
-      }
-    }
-  ]
-  name "solid(key2)(1)"
-  boundingObject Cylinder {
-    height 0.05
-    radius 0.025
-  }
-  physics Physics {
-    density -1
-    mass 0.05
-  }
-}
-DEF key_cylinder Solid {
-  translation -0.28785 0.0249779 -0.598225
+  translation 0.629777 0.0249782 -0.352353
   rotation 0.704062084817699 0.7040630848178195 0.09269171116648352 2.95674
   children [
     Shape {
@@ -74,30 +48,6 @@ DEF key_cylinder Solid {
   boundingObject Cylinder {
     height 0.05
     radius 0.025
-  }
-  physics Physics {
-    density -1
-    mass 0.05
-  }
-}
-DEF key_box Solid {
-  translation -0.515949 0.0249902 -0.764299
-  rotation 2.3804048428874433e-17 -1 2.8427918894088784e-17 0.785402
-  children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 1 1 0
-        roughness 0.9
-        metalness 0
-      }
-      geometry Box {
-        size 0.05 0.05 0.05
-      }
-    }
-  ]
-  name "solid(key1)"
-  boundingObject Box {
-    size 0.05 0.05 0.05
   }
   physics Physics {
     density -1
@@ -267,7 +217,7 @@ DEF Arena_CMYK_floor Solid {
   name "solid(CMYK_floor)"
 }
 DEF Ping_pong1 Solid {
-  translation 0 0.019997881039999995 -0.3
+  translation 0.2 0.0199979 -0.3
   children [
     Shape {
       appearance PBRAppearance {
@@ -292,7 +242,7 @@ DEF Ping_pong1 Solid {
   }
 }
 DEF Ping_pong2 Solid {
-  translation -0.46 0.019997881039999995 -0.62
+  translation 0.13 0.0199979 -0.85
   children [
     Shape {
       appearance PBRAppearance {
@@ -317,8 +267,8 @@ DEF Ping_pong2 Solid {
   }
 }
 DEF plexRobot Robot {
-  translation 0.41 0.0247212 0.16
-  rotation 0.0009664432028514226 0.9999992098946546 -0.0008038641687269255 3.14159
+  translation 0.0599999 0.0257031 0.35
+  rotation 0.0017703107431473052 0.9999984197828736 0.0001625780682475965 -1.5708053071795867
   children [
     Group {
       children [
@@ -606,7 +556,7 @@ DEF plexRobot Robot {
             children [
               DEF rightHandle Shape {
                 appearance PBRAppearance {
-                  baseColor 0 0 1
+                  baseColor 0 1 0
                   roughness 1
                   metalness 0
                 }
@@ -627,7 +577,7 @@ DEF plexRobot Robot {
             children [
               DEF leftHandle Shape {
                 appearance PBRAppearance {
-                  baseColor 0 0 1
+                  baseColor 0 1 0
                   roughness 1
                   metalness 0
                 }
@@ -748,7 +698,7 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 2.2240757752368168e-06 2.450595630230376e-06
+        translation -0.05699999618581658 2.224075775236809e-06 2.450595630230376e-06
         rotation 0.7072492359233148 -0.7066863908721803 0.0198207780356726 3.1019246339367084
         children [
           DEF wheel Shape {
