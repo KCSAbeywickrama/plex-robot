@@ -2,9 +2,10 @@
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
 
+using namespace webots;
 namespace motors
 {
-    void init();
-    void setLeftSpeed();
-    void setRightSpeed();
+    void init(Robot *robot);
+    void setLeftSpeed(float speed);
+    void setRightSpeed(float speed);
 }

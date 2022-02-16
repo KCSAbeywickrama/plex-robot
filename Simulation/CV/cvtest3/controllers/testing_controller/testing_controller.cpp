@@ -20,6 +20,7 @@
 #include <opencv2/features2d.hpp>
 #include "plexlibs/vision.hpp"
 #include "plexlibs/arm.hpp"
+#include "plexlibs/motors.hpp"
 
 #define TIME_STEP 16
 
@@ -57,6 +58,8 @@ int main(int argc, char **argv)
 
   int ps = 0.002;
   bool objTouch = true;
+
+  motors::init(robot);
   arm::init(robot);
   arm::gripObject(robot, ps, objTouch);
 
