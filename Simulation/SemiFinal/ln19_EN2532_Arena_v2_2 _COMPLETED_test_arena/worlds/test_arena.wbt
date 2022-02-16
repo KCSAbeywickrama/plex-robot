@@ -1,0 +1,449 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material1 "casterMat"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.3711492372924188 -0.7601971626675115 -0.5332433942671215 1.8742291546463365
+  position -4.232535026141182 11.09361226207258 1.073652854900983
+}
+TexturedBackground {
+  luminosity 0.16
+}
+TexturedBackgroundLight {
+  luminosity 0.16
+}
+Floor {
+  size 2.45 4.9
+  appearance Parquetry {
+    type "dark strip"
+    colorOverride 0 0 0
+  }
+}
+DEF key_cylinder Solid {
+  translation 0.45 0.03 -0.46
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.666667 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Cylinder {
+        height 0.05
+        radius 0.025
+      }
+    }
+  ]
+  name "solid(key2)"
+  boundingObject Cylinder {
+    height 0.05
+    radius 0.025
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF key_box Solid {
+  translation 0.79 0.04 -0.66
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0.666667 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Box {
+        size 0.05 0.05 0.05
+      }
+    }
+  ]
+  name "solid(key1)"
+  boundingObject Box {
+    size 0.05 0.05 0.05
+  }
+  physics Physics {
+    density -1
+    mass 0.05
+  }
+}
+DEF Light SpotLight {
+  attenuation 0 0 1
+  beamWidth 1.5
+  cutOffAngle 1.57
+  direction 0 -1 0
+  intensity 4
+  location 0 2 0
+  radius 10
+  castShadows TRUE
+}
+DEF Arena_maze Solid {
+  translation 1.225 0 0.59
+  rotation 0 1 0 -1.5707996938995747
+  children [
+    DEF WALLS Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "wallmaze.STL"
+        ]
+      }
+    }
+  ]
+  name "WALLS"
+  boundingObject USE WALLS
+}
+DEF Arena_CMYK Solid {
+  translation 1.225 0 -0.93
+  rotation 0 1 0 -1.5707996938995747
+  children [
+    DEF CMYK_walls Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "CMYK_area_fillet.STL"
+        ]
+      }
+    }
+  ]
+  name "WALLS(CMYK)"
+  boundingObject USE CMYK_walls
+}
+DEF Arena_track1 Solid {
+  translation -0.625 0 -0.01
+  rotation 0 1 0 -1.5707953071795862
+  children [
+    DEF TRACK Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "entrance_path_test_arena.STL"
+        ]
+      }
+    }
+  ]
+  name "TRACK(entrance)"
+}
+DEF Arena_CMYK_floor Solid {
+  translation 0.755 0 -0.47
+  children [
+    DEF TF_C Transform {
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 1 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.92 0.001 0.9
+          }
+        }
+      ]
+    }
+    DEF TF_Y Transform {
+      translation -0.92 0 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 1 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.92 0.001 0.6
+          }
+        }
+      ]
+    }
+    DEF TF_M Transform {
+      translation 0 0 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 0.92 0.001 0.6
+          }
+        }
+      ]
+    }
+    DEF Key_hole_outline Transform {
+      translation -1.38 0.07 1.05
+      rotation -0.5773509358554485 -0.5773509358554485 0.5773489358556708 -2.094395307179586
+      children [
+        Solid {
+          children [
+            Shape {
+              appearance PBRAppearance {
+                roughness 0.9
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "key_hole_outline.STL"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "solid(CMYK_floor)"
+}
+DEF Ping_pong1 Solid {
+  translation 0 0.06 -0.3
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1 0 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.02
+        subdivision 2
+      }
+    }
+  ]
+  name "solid(ppong1)"
+  boundingObject Sphere {
+    radius 0.02
+    subdivision 2
+  }
+  physics Physics {
+    density -1
+    mass 0.0027
+  }
+}
+DEF Ping_pong2 Solid {
+  translation -0.46 0.06 -0.62
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 1
+        roughness 0.9
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.02
+        subdivision 2
+      }
+    }
+  ]
+  name "solid(ppong2)"
+  boundingObject Sphere {
+    radius 0.02
+    subdivision 2
+  }
+  physics Physics {
+    density -1
+    mass 0.0027
+  }
+}
+DEF Bridge Solid {
+  translation -0.6 0 -0.94
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "bridge.STL"
+        ]
+      }
+    }
+  ]
+  name "Bridge"
+  boundingObject Shape {
+    geometry Mesh {
+      url [
+        "bridge.STL"
+      ]
+    }
+  }
+}
+DEF Bottom_dash-line_track Solid {
+  translation -0.63 -0.011 -1.135
+  rotation 0 1 0 -1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "C:/Users/ASUS/Documents/dash line bottom.STL"
+        ]
+      }
+    }
+  ]
+}
+DEF Bridge_Track Solid {
+  translation -0.675 0 -1.1
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "bridge line.STL"
+        ]
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF Top_dash-line_track Solid {
+  translation 0.64 -0.011 -1.0955
+  rotation 0 1 0 1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "dash line top.STL"
+        ]
+      }
+    }
+  ]
+  name "solid(2)"
+}
+DEF Shooting_Area Solid {
+  children [
+    DEF line76cm Solid {
+      translation -0.1225 -0.005 -1.5
+      rotation 0 1 0 1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "white straight 76cm.STL"
+            ]
+          }
+        }
+      ]
+      name "solid(3)"
+    }
+    DEF blue_line Solid {
+      translation 0.6 -0.005 -2.1863
+      rotation 0 1 0 -1.5708
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0 0 1
+            roughness 0.9
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "blueORredline.STL"
+            ]
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+    DEF red_line Solid {
+      translation 0.6008 0.005 -1.57
+      rotation 0.7071067811865476 0 -0.7071067811865476 3.14159
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0 0
+            roughness 0.9
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "blueORredline.STL"
+            ]
+          }
+        }
+      ]
+      name "solid(1)"
+    }
+    DEF white_30cm_line Solid {
+      translation 0.6 -0.007 -1.9
+      rotation 0 1 0 -0.7854
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 0.9
+            metalness 0
+          }
+          geometry Mesh {
+            url [
+              "white straight 30cm.STL"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  name "solid(3)"
+}
+DEF Goal_Post Solid {
+  translation -1.022 0 -2.08
+  rotation 0 1 0 -1.5708
+  children [
+    Shape {
+      appearance PBRAppearance {
+        roughness 0.9
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "goal_post.STL"
+        ]
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject Shape {
+    geometry Mesh {
+      url [
+        "goal_post.STL"
+      ]
+    }
+  }
+}
