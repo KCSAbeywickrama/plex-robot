@@ -43,8 +43,9 @@ int main(int argc, char **argv)
     arm::init(robot);
     //arm::gripObject(robot,0.001,"ball");
     navigate::init(robot);
-    navigate::navigateBall(robot, color) ;
-    arm::gripObject(robot,0.001,"ball");
+    //navigate::navigateBall(robot, color) ;
+    navigate::navigateObject(robot,objName);
+    arm::gripObject(robot,0.001,objName);
     while (robot->step(TIME_STEP) != -1);
 
     

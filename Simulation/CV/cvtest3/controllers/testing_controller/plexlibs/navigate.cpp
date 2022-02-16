@@ -93,11 +93,15 @@ namespace navigate
 
                 cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
                 Canny(imgGray,imgCanny,100,255);
-                vector<Vec2f> lines; // will hold the results of the detection
-                HoughLines(imgCanny, lines, 1, CV_PI/180, 150, 0, 100 );
+                Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
+	            dilate(imgCanny, imgDil, kernel);
+	            //erode(imgDil, imgErode, kernel);
+    
+                vector<Vec4f> lines; // will hold the results of the detection
+                HoughLinesP(imgDil, lines, 1, CV_PI/180, 10, 10, 100 );
                 cout<<"lines "<<lines.size()<<endl;
                 //findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgCanny, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+                findContours(imgDil, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
             
             
 
@@ -129,7 +133,7 @@ namespace navigate
                     cout << largestContourArea <<' '<< pixel<< ' ';
 
                      
-                    if (pixel>= 127)
+                    if (pixel>= 120)
                 
                     {
                         //goingToObj = false;
@@ -139,16 +143,17 @@ namespace navigate
                         rightMotor->setVelocity(0);
                         approxPolyDP(Mat(contours[largestContour]), poly, 1, true); 
                         //box = 7,cylinder = 9
-                        if (poly.size()>=8){objName="cylinder";}
-                        else{objName="Box";}
-                        cout<<poly.size()<<objName<<endl;
+                        if (poly.size()>=18){objName="box";}
+                        else{objName="cylinder";}
+                        cout<<"poly size "<<poly.size()<<objName<<endl;
                         return;
                     }
                     if (largestContourArea>0)
                     {
                         Scalar color = Scalar(0,255,0);
+                        
                         cvtColor(imgCanny, finalim, COLOR_GRAY2RGB);
-                        //drawContours(finalim, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+                        drawContours(finalim, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
                         
                         ImageRef *ir = display->imageNew(width, height, finalim.data, Display::RGB);
                         
@@ -160,10 +165,10 @@ namespace navigate
                         int centerx = mu.m10 / mu.m00;
                         float error = width / 2 - centerx;
                         cout << error << endl;
-                        if (error<50)
+                        if (error<30)
                         {
-                            leftMotor->setVelocity((-error * p_coefficient)+1.5 );
-                            rightMotor->setVelocity((error * p_coefficient)+1.5);
+                            leftMotor->setVelocity((-error * p_coefficient)+1 );
+                            rightMotor->setVelocity((error * p_coefficient)+1);
                         }
                         else
                         {
@@ -264,17 +269,17 @@ namespace navigate
                     cout << largestContourArea <<' '<< pixel<< ' ';
 
                      
-                    if (pixel>= 127)
+                    if (pixel>= 120)
                     {
                         
                         leftMotor->setVelocity(0);
                         rightMotor->setVelocity(0);
-                        handleMotor->setVelocity(1.57);
-                        handleMotor->setPosition(0);
-                        for (int i = 0; i < 10; i++)
-                        {
-                            robot->step(TIME_STEP);
-                        }
+                        // handleMotor->setVelocity(1.57);
+                        // handleMotor->setPosition(0);
+                        // for (int i = 0; i < 10; i++)
+                        // {
+                        //     robot->step(TIME_STEP);
+                        // }
                         return;
                     }
                     if (largestContourArea>0)
@@ -291,10 +296,10 @@ namespace navigate
                         int centerx = mu.m10 / mu.m00;
                         float error = width / 2 - centerx;
                         cout << error << endl;
-                        if (error<50)
+                        if (error<30)
                         {
-                            leftMotor->setVelocity((-error * p_coefficient)+1.5 );
-                            rightMotor->setVelocity((error * p_coefficient)+1.5);
+                            leftMotor->setVelocity((-error * p_coefficient)+1 );
+                            rightMotor->setVelocity((error * p_coefficient)+1);
                         }
                         else
                         {

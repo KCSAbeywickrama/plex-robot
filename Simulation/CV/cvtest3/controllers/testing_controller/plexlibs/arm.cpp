@@ -45,7 +45,7 @@ namespace arm
       rightSlider->setPosition(ps);
       if (leftTouch->getValue() && rightTouch->getValue())
       {
-        if (leftSliderEncoder->getValue() >= value)
+        if (leftSliderEncoder->getValue() >= 0.035)
         {
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
@@ -57,10 +57,15 @@ namespace arm
         else
         {
           cout << "turn" << endl;
-          // leftSlider->setPosition(ps - 0.01);
-          // rightSlider->setPosition(ps - 0.01);
-          leftMotor->setVelocity(0.1);
+          leftSlider->setPosition(ps - 0.01);
+          rightSlider->setPosition(ps - 0.01);
+          leftMotor->setVelocity(2);
           rightMotor->setVelocity(0.025);
+           for (int i = 0; i < 10; i++)
+           {
+             robot->step(TIME_STEP);
+           }
+
         }
       }
       ps += 0.001;
