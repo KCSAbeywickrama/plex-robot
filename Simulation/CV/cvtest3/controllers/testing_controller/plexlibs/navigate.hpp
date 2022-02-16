@@ -21,4 +21,5 @@ namespace navigate
     void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area);
     void navigateObject(Robot *robot, string &objName);
     void navigateBall(Robot *robot, string color) ;
+    void init(Robot *robot);
 }

@@ -9,15 +9,30 @@ namespace navigate
     Camera *camera;
     Display *display;
 
-    const unsigned char *image;
-    Mat imageMat = Mat(Size(width, height), CV_8UC4);
-    Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-    Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
-    vector<vector<Point>> contours;
-    vector<Point> poly;
-    vector<Vec4i> hierarchy;
-    RNG rng(12345);
-    float p_coefficient = 0.1;
+
+    
+    void init(Robot *robot)
+    {
+    cout<<"navigate init"<<endl;
+    Motor *leftMotor = robot->getMotor("leftMotor");
+    Motor *rightMotor = robot->getMotor("rightMotor");
+    Motor *handleMotor = robot->getMotor("handleMotor");
+    Motor *handleEncoder = robot->getMotor("handleEncoder");
+    
+    handleMotor->setPosition(INFINITY);
+    handleMotor->setVelocity(0.0);
+    
+
+    leftMotor->setPosition(INFINITY);
+    leftMotor->setVelocity(0.0);
+
+    rightMotor->setPosition(INFINITY);
+    rightMotor->setVelocity(0.0);
+
+    Camera *camera = robot->getCamera("cam");
+    camera->enable(TIME_STEP);
+    Display *display = robot->getDisplay("display");
+    }
 
     void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area)
     {
@@ -38,8 +53,24 @@ namespace navigate
     
     void navigateObject(Robot *robot, string &objName) 
     {
-        int hmin = 1, smin = 50, vmin = 0;
-        int hmax = 88, smax = 255, vmax = 255;
+        cout<<"navigateobj"<<endl;
+        int p_coefficient = 0.1;
+        int hmin,hmax,smin,smax,vmin,vmax;
+        const unsigned char *image;
+        const int width = camera->getWidth();
+        const int height = camera->getHeight();
+        cout<<width<<endl;
+        Mat imageMat = Mat(Size(width, height), CV_8UC4);
+        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
+        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
+        vector<vector<Point>> contours;
+        vector<Point> poly;
+        vector<Vec4i> hierarchy;
+        RNG rng(12345);
+
+        hmin = 1, smin = 50, vmin = 0;
+        hmax = 88, smax = 255, vmax = 255;
+        
         while (robot->step(TIME_STEP) != -1 )
         {
             handleMotor->setVelocity(1.57);
@@ -129,16 +160,29 @@ namespace navigate
 
     void navigateBall(Robot *robot, string color) 
     {   
+        int p_coefficient = 0.1;
         int hmin,hmax,smin,smax,vmin,vmax;
+        const unsigned char *image;
+        const int width = camera->getWidth();
+        const int height = camera->getHeight();
+        Mat imageMat = Mat(Size(width, height), CV_8UC4);
+        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
+        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
+        vector<vector<Point>> contours;
+        vector<Point> poly;
+        vector<Vec4i> hierarchy;
+        RNG rng(12345);
+        
         if (color=="blue")
         {
-        int hmin = 109, smin = 112, vmin = 0;
-        int hmax = 120, smax = 255, vmax = 255;
+        hmin = 109, smin = 112, vmin = 0;
+        hmax = 120, smax = 255, vmax = 255;
         }
         else if (color=="red")
         {
-        int hmin = 0, smin = 50, vmin = 0;
-        int hmax = 11, smax = 255, vmax = 255;
+        hmin = 0, smin = 50, vmin = 0;
+        hmax = 11, smax = 255, vmax = 255;
+        
         }
 
         while (robot->step(TIME_STEP) != -1 )

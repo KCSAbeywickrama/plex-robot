@@ -45,7 +45,7 @@ namespace arm
       rightSlider->setPosition(ps);
       if (leftTouch->getValue() && rightTouch->getValue())
       {
-        if (leftSliderEncoder->getValue() >= 0.035)
+        if (leftSliderEncoder->getValue() >= value)
         {
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
@@ -92,10 +92,10 @@ namespace arm
     rightMotor = robot->getMotor("rightMotor");
 
     leftMotor->setPosition(INFINITY);
-    leftMotor->setVelocity(2);
+    leftMotor->setVelocity(0.0);
 
     rightMotor->setPosition(INFINITY);
-    rightMotor->setVelocity(2);
+    rightMotor->setVelocity(0.0);
 
     handleMotor->setVelocity(1.57);
     handleMotor->setPosition(-1.57);
