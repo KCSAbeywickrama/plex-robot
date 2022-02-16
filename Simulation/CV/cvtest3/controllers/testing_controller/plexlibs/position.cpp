@@ -30,6 +30,9 @@ namespace position
         leftPosSensor = robot->getPositionSensor("leftEncoder");
         rightPosSensor = robot->getPositionSensor("rightEncoder");
 
+        leftPosSensor->enable(TIME_STEP);
+        rightPosSensor->enable(TIME_STEP);
+
         robot->step(TIME_STEP);
     }
 
