@@ -94,9 +94,11 @@ int main(int argc, char **argv)
   unsigned int timeCounter = 0;
   int ps = 0.002;
   bool objTouch = true;
-
+  string objName;
   bool goingToObg = true;
   bool iscontours = true;
+  bool cylinder=true;
+  bool box=true;
   while (robot->step(TIME_STEP) != -1)
   {
     
@@ -160,15 +162,18 @@ int main(int argc, char **argv)
 
         cout << largestContourArea <<' '<< extTop.y << ' ';
 
-        if (extTop.y >= 125)
+        if (extTop.y >= 127)
         {
           goingToObg = false;
-          handleMotor->setVelocity(1.57);
-          handleMotor->setPosition(0);
+          // handleMotor->setVelocity(1.57);
+          // handleMotor->setPosition(0);
           leftMotor->setVelocity(0);
           rightMotor->setVelocity(0);
-          approxPolyDP(Mat(contours[largestContour]), poly, 1, true); //box=7,cylinder=9
-          cout<<poly.size()<<endl;
+          approxPolyDP(Mat(contours[largestContour]), poly, 1, true); 
+          //box=7,cylinder=9
+          if (poly.size()>=9){objName="cylinder";}
+          else{objName="Box";}
+          cout<<poly.size()<<objName<<endl;
           break;
         }
         if (largestContourArea>0)
@@ -208,6 +213,8 @@ int main(int argc, char **argv)
     arm::gripObject(robot,ps,objTouch);
   }
   cout<<"end"<<endl;
+  // leftMotor->setVelocity(0.1 );
+  // rightMotor->setVelocity(-0.1);
   };
   // destroyAllWindows();
   delete robot;

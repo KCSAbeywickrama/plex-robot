@@ -25,11 +25,18 @@ namespace arm
       leftSliderEncoder->enable(TIME_STEP);
       rightSliderEncoder->enable(TIME_STEP);
 
+      leftMotor->setVelocity(0.0);
+      rightMotor->setVelocity(0.0);
+
       handleMotor->setVelocity(1.57);
       handleMotor->setPosition(0);
 
       cout << leftSliderEncoder->getValue() << endl;
-
+      for (int i = 0; i < 10; i++)
+         {
+            robot->step(TIME_STEP);
+         }
+      
       leftSlider->setPosition(ps);
       rightSlider->setPosition(ps);
       if (leftTouch->getValue() && rightTouch->getValue())
@@ -39,14 +46,14 @@ namespace arm
           objTouch = false;
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
-          handleMotor->setVelocity(1.57);
-          handleMotor->setPosition(-1.57);
-          cout << " done" << endl;
+          // handleMotor->setVelocity(0.5);
+          // handleMotor->setPosition(-0.5);
+          cout << " done gripping" << endl;
           break;
         }
         else
         {
-          // cout << "turn" << endl;
+          cout << "turn" << endl;
           // leftSlider->setPosition(ps - 0.01);
           // rightSlider->setPosition(ps - 0.01);
           leftMotor->setVelocity(0.1);
