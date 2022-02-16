@@ -15,7 +15,7 @@ namespace arm
 
   void gripObject(Robot *robot, float ps, bool &objTouch)
   {
-    cout << "gripping" << endl;
+    cout << "gripping object" << endl;
     while (robot->step(TIME_STEP) != -1 && objTouch)
     {
       
