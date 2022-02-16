@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.999630329425013 -0.0220523289672967 -0.015902807323182735 1.2498971708869566
-  position 0.26374204864286227 3.279985726523526 0.9236662705034989
+  orientation -0.9998308661303982 -0.014808772205029384 -0.010905934105672482 1.2697078616612234
+  position 0.2800067093110734 3.273388682935304 0.8527237357768982
 }
 TexturedBackground {
   luminosity 0.16
@@ -105,7 +105,7 @@ DEF key_box Solid {
   }
 }
 DEF key_box Solid {
-  translation 0.83 0.0249902 -0.5
+  translation 0.9 0.0249902 -0.5
   rotation 0.08962309529846825 0.7735535142806973 -0.6273616670893313 2.9730453408535576e-17
   children [
     Shape {
@@ -702,6 +702,9 @@ DEF plexRobot Robot {
         anchor 0.057 0 0
       }
       device [
+        PositionSensor {
+          name "leftEncoder"
+        }
         RotationalMotor {
           name "leftMotor"
           maxTorque 0.6
@@ -740,9 +743,12 @@ DEF plexRobot Robot {
           name "rightMotor"
           maxTorque 0.6
         }
+        PositionSensor {
+          name "rightEncoder"
+        }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 2.2240757752368375e-06 2.450595630230376e-06
+        translation -0.05699999618581658 2.224075775236836e-06 2.4505956302303764e-06
         rotation 0.7072492359233148 -0.7066863908721803 0.0198207780356726 3.1019246339367084
         children [
           DEF wheel Shape {

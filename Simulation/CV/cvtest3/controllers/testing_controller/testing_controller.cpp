@@ -84,7 +84,7 @@ int main(int argc, char **argv)
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
   Mat imgAnd = Mat(Size(width, height), CV_8UC4);
   Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode ;
-  int hmin = 1, smin = 0, vmin = 0;
+  int hmin = 1, smin = 50, vmin = 0;
   int hmax = 88, smax = 255, vmax = 255;
   vector<vector<Point>> contours;
   vector<Point> poly;
