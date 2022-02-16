@@ -105,7 +105,7 @@ DEF key_box Solid {
   }
 }
 DEF key_box Solid {
-  translation 0.9 0.0249902 -0.5
+  translation 0.53 0.0249902 -0.5
   rotation 0.08962309529846825 0.7735535142806973 -0.6273616670893313 2.9730453408535576e-17
   children [
     Shape {
@@ -748,7 +748,7 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 2.224075775236836e-06 2.4505956302303764e-06
+        translation -0.05699999618581658 2.2240757752368354e-06 2.4505956302303764e-06
         rotation 0.7072492359233148 -0.7066863908721803 0.0198207780356726 3.1019246339367084
         children [
           DEF wheel Shape {

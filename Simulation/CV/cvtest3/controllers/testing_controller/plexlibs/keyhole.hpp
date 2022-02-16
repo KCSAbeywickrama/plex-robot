@@ -18,3 +18,10 @@
 #define TIME_STEP 16
 using namespace webots;
 using namespace std;
+using namespace cv;
+
+namespace keyhole
+{
+    void goToCylinder(Robot *robot);
+    void goToBox(Robot *robot);
+}

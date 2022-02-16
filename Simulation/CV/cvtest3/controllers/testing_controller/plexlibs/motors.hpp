@@ -8,4 +8,6 @@ namespace motors
     void init(Robot *robot);
     void setLeftSpeed(float speed);
     void setRightSpeed(float speed);
+    void setLeftPosition(float position);
+    void setRightPosition(float position);
 }

@@ -1,3 +1,4 @@
+#include "motors.hpp"
 #include "arm.hpp"
 
 namespace arm
@@ -13,10 +14,13 @@ namespace arm
   TouchSensor *leftTouch;
   TouchSensor *rightTouch;
 
-  void gripObject(Robot *robot, float ps, bool &objTouch)
+  void gripObject(Robot *robot, float ps, string obj)
   {
+    int value;
+    if (obj=="ball"){value=0.03;}
+    else if (obj == "object"){value=0.035;}
     cout << "gripping object" << endl;
-    while (robot->step(TIME_STEP) != -1 && objTouch)
+    while (robot->step(TIME_STEP) != -1)
     {
       
       leftTouch->enable(TIME_STEP);
@@ -43,13 +47,12 @@ namespace arm
       {
         if (leftSliderEncoder->getValue() >= 0.035)
         {
-          objTouch = false;
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
           // handleMotor->setVelocity(0.5);
           // handleMotor->setPosition(-0.5);
           cout << " done gripping" << endl;
-          break;
+          return;
         }
         else
         {
@@ -94,8 +97,12 @@ namespace arm
     rightMotor->setPosition(INFINITY);
     rightMotor->setVelocity(2);
 
+    handleMotor->setVelocity(1.57);
+    handleMotor->setPosition(-1.57);
+
     cout << "arm init" << endl;
   }
+  
 }   
     
 

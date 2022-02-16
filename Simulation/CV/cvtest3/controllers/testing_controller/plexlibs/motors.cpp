@@ -22,8 +22,17 @@ namespace motors
         leftMotor->setVelocity(speed);
     }
 
+    void setLeftPosition(float position)
+    {
+        leftMotor->setPosition(position);
+    }
+
     void setRightSpeed(float speed)
     {
         rightMotor->setVelocity(speed);
+    }
+     void setRightPosition(float position)
+    {
+        rightMotor->setPosition(position);
     }
 }

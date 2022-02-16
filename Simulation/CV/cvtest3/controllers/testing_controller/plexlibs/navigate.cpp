@@ -1,5 +1,4 @@
 #include "navigate.hpp"
-//#include<webots/Motor.hpp>
 
 namespace navigate
 {
@@ -128,21 +127,21 @@ namespace navigate
         } 
     }
 
-    void navigateBall(Robot *robot, bool &goingToBall, string color) 
+    void navigateBall(Robot *robot, string color) 
     {   
         int hmin,hmax,smin,smax,vmin,vmax;
         if (color=="blue")
         {
-        int hmin = 1, smin = 50, vmin = 0;
-        int hmax = 88, smax = 255, vmax = 255;
+        int hmin = 109, smin = 112, vmin = 0;
+        int hmax = 120, smax = 255, vmax = 255;
         }
         else if (color=="red")
         {
-        int hmin = 1, smin = 50, vmin = 0;
-        int hmax = 88, smax = 255, vmax = 255;
+        int hmin = 0, smin = 50, vmin = 0;
+        int hmax = 11, smax = 255, vmax = 255;
         }
 
-        while (robot->step(TIME_STEP) != -1 && goingToBall)
+        while (robot->step(TIME_STEP) != -1 )
         {
             handleMotor->setVelocity(1.57);
             handleMotor->setPosition(-1.57);
@@ -189,7 +188,7 @@ namespace navigate
 
                     if (extTop.y >= 127)
                     {
-                        goingToBall = false;
+                        
                         leftMotor->setVelocity(0);
                         rightMotor->setVelocity(0);
                         handleMotor->setVelocity(1.57);
@@ -198,7 +197,7 @@ namespace navigate
                         {
                             robot->step(TIME_STEP);
                         }
-                        break;
+                        return;
                     }
                     if (largestContourArea>0)
                     {

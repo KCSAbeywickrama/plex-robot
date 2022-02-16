@@ -95,17 +95,18 @@ int main(int argc, char **argv)
   int ps = 0.002;
   bool objTouch = true;
   string objName;
-  bool goingToObg = true;
-  bool iscontours = true;
-  bool cylinder=true;
-  bool box=true;
+   bool goingToObj = true;
+  // bool goingToBall = true;
+  // bool iscontours = true;
+  // bool cylinder=true;
+  // bool box=true;
   while (robot->step(TIME_STEP) != -1)
   {
     
-    while (robot->step(TIME_STEP) != -1 && goingToObg)
+    while (robot->step(TIME_STEP) != -1 && goingToObj)
     {
-      handleMotor->setVelocity(1.57);
-      handleMotor->setPosition(-1.57);
+      // handleMotor->setVelocity(1.57);
+      // handleMotor->setPosition(-1.57);
       
       image = camera->getImage();
       if (image)
@@ -164,7 +165,7 @@ int main(int argc, char **argv)
 
         if (extTop.y >= 127)
         {
-          goingToObg = false;
+          goingToObj = false;
           // handleMotor->setVelocity(1.57);
           // handleMotor->setPosition(0);
           leftMotor->setVelocity(0);
@@ -210,7 +211,7 @@ int main(int argc, char **argv)
   while (robot->step(TIME_STEP) != -1 && objTouch)
   {
     arm::init(robot);
-    arm::gripObject(robot,ps,objTouch);
+    arm::gripObject(robot,ps,"object");
   }
   cout<<"end"<<endl;
   // leftMotor->setVelocity(0.1 );
