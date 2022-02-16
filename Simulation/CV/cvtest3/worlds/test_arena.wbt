@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.37871224844620166 -0.8231492740149761 -0.42308664073147034 4.411611385046028
-  position 2.7254704109499457 3.8440502849989566 0.07164080506442887
+  orientation -0.9964600006980148 0.06544715734306851 0.052764918313437936 1.3605131984873213
+  position 0.30918442448097033 3.397834490983058 0.5126913360049371
 }
 TexturedBackground {
   luminosity 0.16
@@ -29,8 +29,8 @@ Floor {
   }
 }
 DEF key_cylinder Solid {
-  translation 0.629777 0.0249782 -0.352353
-  rotation 0.704062084817699 0.7040630848178195 0.09269171116648352 2.95674
+  translation 0.453176 0.0249829 -0.0481618
+  rotation 6.08386e-07 -9.3141e-07 1 1.5708
   children [
     Shape {
       appearance PBRAppearance {
@@ -55,8 +55,8 @@ DEF key_cylinder Solid {
   }
 }
 DEF key_box Solid {
-  translation 1.11 0.0249902 -0.8
-  rotation 0.08962309529846825 0.7735535142806973 -0.6273616670893313 2.9730453408535576e-17
+  translation 0.108791 0.0249902 -0.62793
+  rotation 1.00951e-17 1 -4.05202e-18 2.09439
   children [
     Shape {
       appearance PBRAppearance {
@@ -267,8 +267,8 @@ DEF Ping_pong2 Solid {
   }
 }
 DEF plexRobot Robot {
-  translation 0.0599999 0.0257031 0.35
-  rotation 0.0017703107431473052 0.9999984197828736 0.0001625780682475965 -1.5708053071795867
+  translation 0.43 0.0246656 0.15
+  rotation 0.0009664492028424167 0.999999209884033 -0.0008038701687196464 3.14159
   children [
     Group {
       children [
@@ -442,7 +442,7 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 7.469852514319086e-11 -1.4485519845954789e-05 0.11250006158002764
+        translation 7.469852514319089e-11 -1.4485519845954789e-05 0.11250006158002764
         rotation -1 0 0 1.5699999805165077
         children [
           DEF leftSlider SliderJoint {
@@ -556,7 +556,7 @@ DEF plexRobot Robot {
             children [
               DEF rightHandle Shape {
                 appearance PBRAppearance {
-                  baseColor 0 1 0
+                  baseColor 0 0 0
                   roughness 1
                   metalness 0
                 }
@@ -577,7 +577,7 @@ DEF plexRobot Robot {
             children [
               DEF leftHandle Shape {
                 appearance PBRAppearance {
-                  baseColor 0 1 0
+                  baseColor 0 0 0
                   roughness 1
                   metalness 0
                 }
@@ -595,7 +595,7 @@ DEF plexRobot Robot {
           }
           DEF handle Shape {
             appearance PBRAppearance {
-              baseColor 0 1 0
+              baseColor 0 0 0
               roughness 1
               metalness 0
             }
@@ -661,8 +661,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05699999619767793 9.58219273413932e-07 2.168267077971135e-06
-        rotation -0.645299582064969 -0.6447859195907047 -0.40968227601928986 2.3633834016590383
+        translation 0.05699999619767793 9.582192734139322e-07 2.1682670779711355e-06
+        rotation -0.6452995820649688 -0.6447859195907047 -0.4096822760192898 2.363383401659038
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -698,8 +698,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 2.224075775236809e-06 2.450595630230376e-06
-        rotation 0.7072492359233148 -0.7066863908721803 0.0198207780356726 3.1019246339367084
+        translation -0.05699999618581658 2.2240757752368053e-06 2.450595630230376e-06
+        rotation 0.7072492359233148 -0.7066863908721803 0.019820778035672657 3.1019246339367084
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
