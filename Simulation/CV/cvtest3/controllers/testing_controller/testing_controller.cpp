@@ -59,7 +59,6 @@ int main(int argc, char **argv)
   int ps = 0.002;
   bool objTouch = true;
 
-  motors::init(robot);
   arm::init(robot);
   arm::gripObject(robot, ps, objTouch);
 

@@ -1,5 +1,3 @@
-
-#include "motors.hpp"
 #include "arm.hpp"
 
 namespace arm
@@ -8,6 +6,10 @@ namespace arm
   Motor *handleEncoder;
   Motor *leftSlider;
   Motor *rightSlider;
+
+  Motor *leftMotor;
+  Motor *rightMotor;
+
   PositionSensor *leftSliderEncoder;
   PositionSensor *rightSliderEncoder;
   TouchSensor *leftTouch;
@@ -43,8 +45,6 @@ namespace arm
           // cout << "turn" << endl;
           leftSlider->setPosition(ps - 0.01);
           rightSlider->setPosition(ps - 0.01);
-          motors::setLeftSpeed(0.1);
-          motors::setRightSpeed(0.025);
         }
       }
       ps += 0.001;
@@ -71,6 +71,15 @@ namespace arm
 
     handleMotor->setPosition(INFINITY);
     handleMotor->setVelocity(0.0);
+
+    leftMotor = robot->getMotor("leftMotor");
+    rightMotor = robot->getMotor("rightMotor");
+
+    leftMotor->setPosition(INFINITY);
+    leftMotor->setVelocity(1);
+
+    rightMotor->setPosition(INFINITY);
+    rightMotor->setVelocity(1);
 
     cout << "arm init" << endl;
   }
