@@ -69,4 +69,5 @@
 null :=
 space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+CXX_SOURCES = plexlibs/dashline.cpp
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

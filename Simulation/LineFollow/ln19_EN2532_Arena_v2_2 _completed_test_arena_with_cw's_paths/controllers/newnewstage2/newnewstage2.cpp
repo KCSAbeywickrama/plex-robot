@@ -1,9 +1,4 @@
-#include <webots/Robot.hpp>
-#include <webots/Motor.hpp>
-#include <webots/DistanceSensor.hpp>
-#define TIME_STEP 16
-#define PATH_MAX_SPEED 6.28
-#define PATH_BASE_SPEED 3
+#include "dashline.hpp"
 
 bool whiteline = false;
 double kp = 4;
@@ -32,22 +27,15 @@ int value[8];
 int red = 0;
 bool end = 0;
 
-using namespace webots;
-
-Robot *robot = new Robot();
-DistanceSensor *s1 = robot->getDistanceSensor("s0");
-DistanceSensor *s2 = robot->getDistanceSensor("s1");
-DistanceSensor *s3 = robot->getDistanceSensor("s2");
-DistanceSensor *s4 = robot->getDistanceSensor("s3");
-DistanceSensor *s5 = robot->getDistanceSensor("s4");
-DistanceSensor *s6 = robot->getDistanceSensor("s5");
-DistanceSensor *s7 = robot->getDistanceSensor("s6");
-DistanceSensor *s8 = robot->getDistanceSensor("s7");
-
-Motor *lm = robot->getMotor("leftMotor");
-Motor *rm = robot->getMotor("rightMotor");
-
-
+DistanceSensor *s1;
+DistanceSensor *s3;
+DistanceSensor *s4;
+DistanceSensor *s5;
+DistanceSensor *s6;
+DistanceSensor *s7;
+DistanceSensor *s8;
+Motor *lm;
+Motor *rm;
 
 void sensor_check()
 {
@@ -89,7 +77,7 @@ void endcheck()
     if ((robot->getTime() - etime) < 0.1)
     {
       et += 1;
-      //std::cout << et << std::endl;
+      // std::cout << et << std::endl;
       if (et > 4)
       {
         eetime = robot->getTime();
@@ -197,6 +185,25 @@ void pid()
     rs = 0;
   }
   speedset();
+}
+
+void init(Robot *robot)
+{
+  DistanceSensor *s1 = robot->getDistanceSensor("s0");
+  DistanceSensor *s2 = robot->getDistanceSensor("s1");
+  DistanceSensor *s3 = robot->getDistanceSensor("s2");
+  DistanceSensor *s4 = robot->getDistanceSensor("s3");
+  DistanceSensor *s5 = robot->getDistanceSensor("s4");
+  DistanceSensor *s6 = robot->getDistanceSensor("s5");
+  DistanceSensor *s7 = robot->getDistanceSensor("s6");
+  DistanceSensor *s8 = robot->getDistanceSensor("s7");
+
+  Motor *lm = robot->getMotor("leftMotor");
+  Motor *rm = robot->getMotor("rightMotor");
+}
+
+void follow(Robot *robot)
+{
 }
 
 int main(int argc, char **argv)
