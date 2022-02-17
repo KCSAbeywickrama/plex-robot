@@ -76,6 +76,7 @@ namespace mosaic
 
     void goFront(Robot *robot, float distance)
     {
+        cout<<"front"<<endl;
         float rad = distance / 30.0;
         float leftStart = leftPosSensor->getValue();
         float rightStart = rightPosSensor->getValue();

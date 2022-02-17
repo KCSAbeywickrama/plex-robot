@@ -66,6 +66,87 @@ namespace navigate
             }
         }
     }
+
+    void detectObject(Robot *robot, int &object)
+    {
+       cout<<"navigateobj"<<endl;
+        float p_coefficient = 0.1;
+        int hmin,hmax,smin,smax,vmin,vmax;
+        const unsigned char *image;
+        const int width = camera->getWidth();
+        const int height = camera->getHeight();
+        Mat imageMat = Mat(Size(width, height), CV_8UC4);
+        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
+        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny ,imgDil, imgErode, imgGray, finalim ;
+        vector<vector<Point>> contours;
+        vector<Point> poly;
+        vector<Vec4i> hierarchy;
+        
+
+        hmin = 1, smin = 50, vmin = 0;
+        hmax = 88, smax = 255, vmax = 255;
+        
+        while (robot->step(TIME_STEP) != -1 )
+        {
+            // handleMotor->setVelocity(1.57);
+            // handleMotor->setPosition(-1.57);
+            
+            image = camera->getImage();
+            if (image)
+            {
+                imageMat.data = (uchar *)image;
+                cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                Scalar lower(hmin, smin, vmin);
+                Scalar upper(hmax, smax, vmax);
+                inRange(imgHSV, lower, upper, mask);
+                
+                
+                cvtColor(mask, maskRGB, COLOR_GRAY2RGB);
+                bitwise_and(imgRGB,maskRGB,imgAnd);
+                
+
+                cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
+                Canny(imgGray,imgCanny,100,255);
+                int gi,gj;
+                imageGradient(imgCanny, width,height, gi, gj);
+                cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
+                Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
+	            dilate(imgCanny, imgDil, kernel);
+	            erode(imgDil, imgErode, kernel);
+                findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+                vector<Vec4i> lines;  
+                vector<Vec4i> lines2;
+                Mat horizontal = imgErode.clone();
+                Mat vertical = imgErode.clone();
+                int horizontal_size = horizontal.cols / 30;
+                int vertical_size = vertical.rows / 30;
+                Mat horizontalStructure = getStructuringElement(MORPH_RECT, Size(horizontal_size, 1));
+                Mat verticalStructure = getStructuringElement(MORPH_RECT, Size(1, vertical_size));
+                erode(vertical, vertical, verticalStructure, Point(-1, -1));
+                dilate(vertical, vertical, verticalStructure, Point(-1, -1));
+                erode(horizontal, horizontal, horizontalStructure, Point(-1, -1));
+                dilate(horizontal, horizontal, horizontalStructure, Point(-1, -1));
+                HoughLinesP(horizontal, lines, 1, CV_PI/180, 20, 5, 5); 
+                HoughLinesP(vertical, lines2, 1, CV_PI/180, 20, 5, 25); 
+                cout<<"number of hori lines=" <<lines.size() <<endl;
+                cout<<"number of ver lines=" <<lines2.size() <<endl;  
+
+                if(lines.size()==3)
+                {
+                    object=1;
+                    return;
+                }
+                if(lines.size()<3)
+                {
+                    object=2;
+                    return;
+                }
+            }
+        }
+    }
     
     void navigateObject(Robot *robot, string &objName) 
     {
@@ -114,15 +195,14 @@ namespace navigate
                 cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
                 Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 	            dilate(imgCanny, imgDil, kernel);
-	            //erode(imgDil, imgErode, kernel);
+	            erode(imgDil, imgErode, kernel);
     
-                vector<Vec4f> lines; // will hold the results of the detection
-                HoughLinesP(imgDil, lines, 1, CV_PI/180, 10, 10, 100 );
-                cout<<"lines "<<lines.size()<<endl;
+                // vector<Vec4f> lines; // will hold the results of the detection
+                // HoughLinesP(imgDil, lines, 1, CV_PI/180, 10, 10, 100 );
+                // cout<<"lines "<<lines.size()<<endl;
                 //findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgDil, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-            
-            
+                findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
 
                 if (contours.empty())
                 {
@@ -161,7 +241,7 @@ namespace navigate
                         leftMotor->setVelocity(0);
                         rightMotor->setVelocity(0);
                         float epsilon = 0.1*arcLength(contours[largestContour],true);
-                        approxPolyDP(Mat(contours[largestContour]), poly, epsilon, false); 
+                        approxPolyDP(Mat(contours[largestContour]), poly, epsilon, true); 
                         //box = 7,cylinder = 9
                         if (poly.size()>=18){objName="box";}
                         else{objName="cylinder";}
@@ -224,12 +304,12 @@ namespace navigate
         
         if (color=="blue")
         {
-        hmin = 109, smin = 112, vmin = 0;
+        hmin = 109, smin = 112, vmin = 50;
         hmax = 120, smax = 255, vmax = 255;
         }
         else if (color=="red")
         {
-        hmin = 0, smin = 50, vmin = 0;
+        hmin = 0, smin = 50, vmin = 50;
         hmax = 11, smax = 255, vmax = 255;
         
         }
