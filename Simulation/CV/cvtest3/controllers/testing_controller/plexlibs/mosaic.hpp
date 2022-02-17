@@ -11,7 +11,7 @@
 using namespace webots;
 using namespace std;
 
-namespace position
+namespace mosaic
 {
     void init(Robot *robot);
     void turnLeft(Robot *robot);

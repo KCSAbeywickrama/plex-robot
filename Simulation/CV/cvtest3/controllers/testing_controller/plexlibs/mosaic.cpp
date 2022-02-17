@@ -1,14 +1,14 @@
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
 #include <webots/PositionSensor.hpp>
-#include "position.hpp"
+#include "mosaic.hpp"
 
 #define TIME_STEP 16
 
 using namespace webots;
 using namespace std;
 
-namespace position
+namespace mosaic
 {
     Robot *robot;
     PositionSensor *leftPosSensor;
