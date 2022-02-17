@@ -40,12 +40,14 @@ int main(int argc, char **argv)
   
    while (robot->step(TIME_STEP) != -1)
    {
-    arm::init(robot);
-    //arm::gripObject(robot,0.001,"ball");
-    navigate::init(robot);
-    //navigate::navigateBall(robot, color) ;
-    navigate::navigateObject(robot,objName);
-    arm::gripObject(robot,0.001,objName);
+    // arm::init(robot);
+    // //arm::gripObject(robot,0.001,"ball");
+    // navigate::init(robot);
+    // //navigate::navigateBall(robot, color) ;
+    // navigate::navigateObject(robot,objName);
+    // arm::gripObject(robot,0.001,1);
+    // cout<<"end"<<endl;
+    position::gofront(robot,300);
     while (robot->step(TIME_STEP) != -1);
 
     

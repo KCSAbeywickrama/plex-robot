@@ -160,7 +160,8 @@ namespace navigate
                         // handleMotor->setPosition(0);
                         leftMotor->setVelocity(0);
                         rightMotor->setVelocity(0);
-                        approxPolyDP(Mat(contours[largestContour]), poly, 1, true); 
+                        float epsilon = 0.1*arcLength(contours[largestContour],true);
+                        approxPolyDP(Mat(contours[largestContour]), poly, epsilon, false); 
                         //box = 7,cylinder = 9
                         if (poly.size()>=18){objName="box";}
                         else{objName="cylinder";}

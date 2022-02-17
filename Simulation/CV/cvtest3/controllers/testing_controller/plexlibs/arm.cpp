@@ -14,12 +14,12 @@ namespace arm
   TouchSensor *leftTouch;
   TouchSensor *rightTouch;
 
-  void gripObject(Robot *robot, float ps, string obj)
+  void gripObject(Robot *robot, float ps, int obj)
   {
-    int value;
-    if (obj=="ball"){value=0.04;}
-    else if (obj == "cylinder" || obj == "box"){value=0.035;}
-    cout << "gripping object" << endl;
+    float value;
+    if (obj==3){value=0.045;}
+    else if (obj == 1 ){value=0.04;}
+    cout << "gripping object "<<value << endl;
     while (robot->step(TIME_STEP) != -1)
     {
       
@@ -45,12 +45,16 @@ namespace arm
       rightSlider->setPosition(ps);
       if (leftTouch->getValue() && rightTouch->getValue())
       {
-        if (leftSliderEncoder->getValue() >= 0.035)
+        if (leftSliderEncoder->getValue() >= value)
         {
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
-          // handleMotor->setVelocity(0.5);
-          // handleMotor->setPosition(-0.5);
+          handleMotor->setVelocity(0.5);
+          handleMotor->setPosition(1.0);
+          for (int i = 0; i < 10; i++)
+         {
+            robot->step(TIME_STEP);
+         }
           cout << " done gripping" << endl;
           return;
         }
