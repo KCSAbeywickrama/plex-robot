@@ -50,6 +50,22 @@ namespace navigate
 
     area = (int)maxArea;
     }
+    void imageGradient(Mat &img, int width, int height, int &gi, int &gj)
+    {
+        gi = 0;
+        gj = 0;
+
+        for (int i = 0; i < height - 1; i++)
+        {
+            uchar *line0 = img.ptr<uchar>(i);
+            uchar *line1 = img.ptr<uchar>(i + 1);
+            for (int j = 0; j < width - 1; j++)
+            {
+                gi += abs(line1[j] - line0[j]);
+                gj += abs(line0[j + 1] - line0[j]);
+            }
+        }
+    }
     
     void navigateObject(Robot *robot, string &objName) 
     {
@@ -72,8 +88,8 @@ namespace navigate
         
         while (robot->step(TIME_STEP) != -1 )
         {
-            handleMotor->setVelocity(1.57);
-            handleMotor->setPosition(-1.57);
+            // handleMotor->setVelocity(1.57);
+            // handleMotor->setPosition(-1.57);
             
             image = camera->getImage();
             if (image)
@@ -93,6 +109,9 @@ namespace navigate
 
                 cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
                 Canny(imgGray,imgCanny,100,255);
+                int gi,gj;
+                imageGradient(imgCanny, width,height, gi, gj);
+                cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
                 Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 	            dilate(imgCanny, imgDil, kernel);
 	            //erode(imgDil, imgErode, kernel);
@@ -216,8 +235,8 @@ namespace navigate
 
         while (robot->step(TIME_STEP) != -1 )
         {
-            handleMotor->setVelocity(1.57);
-            handleMotor->setPosition(-1.57);
+            // handleMotor->setVelocity(1.57);
+            // handleMotor->setPosition(-1.57);
             
             image = camera->getImage();
             if (image)
