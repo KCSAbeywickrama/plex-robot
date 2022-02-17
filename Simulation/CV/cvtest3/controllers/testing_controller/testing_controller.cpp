@@ -21,7 +21,7 @@
 #include "plexlibs/vision.hpp"
 #include "plexlibs/arm.hpp"
 #include "plexlibs/navigate.hpp"
-
+#include "plexlibs/mosaic.hpp"
 
 #define TIME_STEP 16
 
@@ -32,9 +32,18 @@ using namespace cv;
 int main(int argc, char **argv)
 {
 
-  
-   Robot *robot = new Robot();
-  
+  Robot *robot = new Robot();
+
+  mosaic::init(robot);
+  // mosaic::turnLeft(robot);
+  // mosaic::turnRight(robot);
+  // mosaic::goFront(robot, 500);
+  // mosaic::goBack(robot, 200);
+  mosaic::gotoMegenta(robot);
+
+  while (robot->step(TIME_STEP) != -1)
+    ;
+
   string objName;
   string color = "blue";
   
@@ -47,7 +56,7 @@ int main(int argc, char **argv)
     // navigate::navigateObject(robot,objName);
     // arm::gripObject(robot,0.001,1);
     // cout<<"end"<<endl;
-    position::gofront(robot,300);
+    mosaic::goFront(robot,300);
     while (robot->step(TIME_STEP) != -1);
 
     
