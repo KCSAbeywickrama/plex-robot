@@ -10,6 +10,7 @@ namespace wall
 
     int turnright;
     double oerror;
+    int bgin;
 
     void init(Robot *robot)
     {
@@ -67,6 +68,40 @@ namespace wall
             if (error < -2 * BASE_SPEED)
             {
                 r = -2 * BASE_SPEED;
+            }
+
+            if (bgin == 0)
+            {
+                int i;
+                if (leftDS > 35 || (perror < 3 && perror > -3))
+                {
+                    bgin = 1;
+                }
+                else
+                {
+                    if (perror > 2.5)
+                    {
+                        i = 1;
+                    }
+
+                    if (perror < -2.5)
+                    {
+                        i = -1;
+                    }
+                    left_motor->setVelocity(BASE_SPEED - 3 * i);
+                    right_motor->setVelocity(BASE_SPEED + 3 * i);
+                    robot->step(400);
+                    left_motor->setVelocity(BASE_SPEED);
+                    right_motor->setVelocity(BASE_SPEED);
+                    robot->step(1000);
+                    left_motor->setVelocity(BASE_SPEED + 3 * i);
+                    right_motor->setVelocity(BASE_SPEED - 3 * i);
+                    robot->step(370);
+                    left_motor->setVelocity(BASE_SPEED);
+                    right_motor->setVelocity(BASE_SPEED);
+                    robot->step(1000);
+                    bgin = 1;
+                }
             }
 
             if (frontLeftDS < 13 || frontRightDS < 13)
