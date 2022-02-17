@@ -144,6 +144,11 @@ int main(int argc, char **argv)
     }
   };
 
+  for (int i = 0; i < 10; i++)
+  {
+    robot->step(TIME_STEP);
+  }
+
   while (robot->step(TIME_STEP) != -1)
   {
     image = camera->getImage();
@@ -173,22 +178,29 @@ int main(int argc, char **argv)
       }
 
       int error = i1 - i2;
-      float p_coefficient = 1;
+      float p_coefficient = 0.1;
       float d_coefficient = 0.8;
-      cout << "i1:" << i1;
-      cout << "i2:" << i2;
-      cout << "lineerror: ";
+      cout << " i1:" << i1;
+      cout << " i2:" << i2;
+      cout << " lineerror: ";
       cout << error << endl;
 
-      leftMotor->setVelocity((-error * p_coefficient) + 3);
-      rightMotor->setVelocity((error * p_coefficient) + 3);
-
-      if (error >= 0)
+      if (error < 10)
       {
-        leftMotor->setVelocity(3);
-        rightMotor->setVelocity(3);
-        break;
+        leftMotor->setVelocity((-error * p_coefficient) + 2);
+        rightMotor->setVelocity((error * p_coefficient) + 2);
       }
+      else
+      {
+        leftMotor->setVelocity(1);
+        rightMotor->setVelocity(-1);
+      }
+      // if (error >= 0)
+      // {
+      //   // leftMotor->setVelocity(1);
+      //   // rightMotor->setVelocity(1);
+      //   break;
+      // }
 
       cvtColor(mask, imgDis, COLOR_GRAY2RGB);
 

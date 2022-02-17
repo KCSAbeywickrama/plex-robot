@@ -267,8 +267,8 @@ DEF Ping_pong2 Solid {
   }
 }
 DEF plexRobot Robot {
-  translation 0.98 0.0220436 -0.82
-  rotation 0.00016265406803843673 0.9999984183008144 -0.001771140740870786 1.5708
+  translation 0.923432 0.0224057 -0.662428
+  rotation 0.000633770046554222 0.9999990734559469 -0.0012047500884961406 2.3562
   children [
     DEF wallSensors Group {
       children [
@@ -442,8 +442,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 7.469852514319076e-11 -7.311549672115313e-08 0.11248551453378619
-        rotation -0.9999999999999999 0 0 1.5709999999999955
+        translation 7.469852514319079e-11 -7.311549672115323e-08 0.11248551453378619
+        rotation -0.9999999999999999 0 0 1.5709999999999924
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
@@ -661,8 +661,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05699999619767793 9.58219273413931e-07 2.168267077971135e-06
-        rotation -0.6452995820649683 -0.6447859195907059 -0.4096822760192893 2.3633834016590365
+        translation 0.05699999619767793 9.582192734139312e-07 2.168267077971137e-06
+        rotation -0.6452995820649683 -0.6447859195907057 -0.40968227601928936 2.3633834016590365
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -698,8 +698,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 2.224075775236804e-06 2.450595630230376e-06
-        rotation 0.7072492359233145 -0.7066863908721807 0.019820778035672688 3.101924633936709
+        translation -0.05699999618581658 2.2240757752368032e-06 2.450595630230376e-06
+        rotation 0.7072492359233145 -0.7066863908721807 0.01982077803567269 3.101924633936709
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
