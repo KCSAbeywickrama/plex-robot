@@ -35,9 +35,11 @@ int main(int argc, char **argv)
   Robot *robot = new Robot();
 
   mosaic::init(robot);
-  mosaic::turnLeft(robot);
-  mosaic::turnRight(robot);
-  mosaic::goFront(robot, 500);
+  // mosaic::turnLeft(robot);
+  // mosaic::turnRight(robot);
+  // mosaic::goFront(robot, 500);
+  // mosaic::goBack(robot, 200);
+  mosaic::gotoMegenta(robot);
 
   while (robot->step(TIME_STEP) != -1)
     ;
