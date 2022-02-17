@@ -1,6 +1,7 @@
 #include "motors.hpp"
 #include "arm.hpp"
 
+
 namespace arm
 {
   Motor *handleMotor;
@@ -9,17 +10,18 @@ namespace arm
   Motor *rightMotor;
   Motor *leftSlider;
   Motor *rightSlider;
+  Motor *shooter;
   PositionSensor *leftSliderEncoder;
   PositionSensor *rightSliderEncoder;
   TouchSensor *leftTouch;
   TouchSensor *rightTouch;
 
-  void gripObject(Robot *robot, float ps, string obj)
+  void gripObject(Robot *robot, float ps, int obj)
   {
-    int value;
-    if (obj=="ball"){value=0.04;}
-    else if (obj == "cylinder" || obj == "box"){value=0.035;}
-    cout << "gripping object" << endl;
+    float value;
+    if (obj==3){value=0.045;}
+    else if (obj == 0 ){value=0.037;}
+    cout << "gripping object "<<value << endl;
     while (robot->step(TIME_STEP) != -1)
     {
       
@@ -35,7 +37,7 @@ namespace arm
       handleMotor->setVelocity(1.57);
       handleMotor->setPosition(1.57);
 
-      cout << leftSliderEncoder->getValue() << endl;
+      
       for (int i = 0; i < 10; i++)
          {
             robot->step(TIME_STEP);
@@ -43,23 +45,28 @@ namespace arm
       
       leftSlider->setPosition(ps);
       rightSlider->setPosition(ps);
+      cout << leftSliderEncoder->getValue() << endl;
       if (leftTouch->getValue() && rightTouch->getValue())
       {
-        if (leftSliderEncoder->getValue() >= 0.035)
+        if (leftSliderEncoder->getValue() >= value)
         {
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
-          // handleMotor->setVelocity(0.5);
-          // handleMotor->setPosition(-0.5);
+          handleMotor->setVelocity(0.5);
+          handleMotor->setPosition(1.57);
+          for (int i = 0; i < 10; i++)
+          {
+            robot->step(TIME_STEP);
+          }
           cout << " done gripping" << endl;
           return;
         }
         else
         {
           cout << "turn" << endl;
-          leftSlider->setPosition(ps - 0.01);
-          rightSlider->setPosition(ps - 0.01);
-          leftMotor->setVelocity(2);
+          leftSlider->setPosition(ps - 0.005);
+          rightSlider->setPosition(ps - 0.005);
+          leftMotor->setVelocity(1.5);
           rightMotor->setVelocity(0.025);
            for (int i = 0; i < 10; i++)
            {
@@ -69,7 +76,7 @@ namespace arm
         }
       }
       ps += 0.001;
-      if (leftSliderEncoder->getValue() >= 0.05)
+      if (leftSliderEncoder->getValue() >= 0.05 || leftSliderEncoder->getValue() <= 0.0)
       {
         ps = 0;
       }
@@ -83,6 +90,7 @@ namespace arm
 
     leftSlider = robot->getMotor("leftSlider");
     rightSlider = robot->getMotor("rightSlider");
+    shooter = robot->getMotor("shooterLinearMotor");
 
     leftSliderEncoder = robot->getPositionSensor("leftSliderEncoder");
     rightSliderEncoder = robot->getPositionSensor("rightSliderEncoder");
@@ -102,12 +110,47 @@ namespace arm
     rightMotor->setPosition(INFINITY);
     rightMotor->setVelocity(0.0);
 
-    
-
     cout << "arm init" << endl;
   }
+  void raise(Robot *robot,int object)
+  {
+    if(object==0)
+    {
+      handleMotor->setVelocity(0.5);
+      handleMotor->setPosition(1.2);
+    }
+    if(object==3)
+    {
+      handleMotor->setVelocity(1);
+      handleMotor->setPosition(0);
+    }
+     for (int i = 0; i < 200; i++)
+           {
+             robot->step(TIME_STEP);
+           }
+  }
+  void shoot(Robot *robot)
+  {
+   
+    handleMotor->setVelocity(1);
+    handleMotor->setPosition(1.57);
+     for (int i = 0; i < 200; i++)
+           {
+             robot->step(TIME_STEP);
+           }
+    leftSlider->setPosition(0.035);
+    rightSlider->setPosition(0.035);
+    shooter->setPosition(-0.1);
+     for (int i = 0; i < 150; i++)
+           {
+             robot->step(TIME_STEP);
+           }
+    shooter->setPosition(0);
+
+  }
   
-}   
+} 
+  
     
 
     

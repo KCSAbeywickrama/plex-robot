@@ -11,5 +11,7 @@ using namespace std;
 namespace arm
 {
   void init(Robot *robot);
-  void gripObject(Robot *robot, float ps, string obj);
+  void gripObject(Robot *robot, float ps, int obj);
+  void raise(Robot *robot,int object);
+  void shoot(Robot *robot);
 }

@@ -28,6 +28,10 @@
 using namespace webots;
 using namespace std;
 using namespace cv;
+//obj 0-cylinder/box
+//obj 1 - box
+//obj 2 - cylinder
+//obj 3 - ball
 
 int main(int argc, char **argv)
 {
@@ -37,26 +41,50 @@ int main(int argc, char **argv)
   mosaic::init(robot);
   // mosaic::turnLeft(robot);
   // mosaic::turnRight(robot);
-  // mosaic::goFront(robot, 500);
+  //mosaic::goFront(robot, 500);
   // mosaic::goBack(robot, 200);
-  mosaic::gotoMegenta(robot);
+  //mosaic::gotoMegenta(robot);
 
-  while (robot->step(TIME_STEP) != -1)
-    ;
+ 
 
   string objName;
   string color = "blue";
-
-  while (robot->step(TIME_STEP) != -1)
-  {
+  int object;
+  
+   while (robot->step(TIME_STEP) != -1)
+   {
+    //mosaic::goFront(robot,600);
+    
     arm::init(robot);
-    // arm::gripObject(robot,0.001,"ball");
     navigate::init(robot);
-    // navigate::navigateBall(robot, color) ;
-    navigate::navigateObject(robot, objName);
-    arm::gripObject(robot, 0.001, objName);
-    while (robot->step(TIME_STEP) != -1)
-      ;
+    navigate::navigateBall(robot,color);
+    arm::gripObject(robot,0.001,3);
+    //navigate::detectObject(robot,object);
+    arm::raise(robot,3);
+    arm::shoot(robot);
+
+    // from wall to magenta
+    // mosaic::goFront(robot, 500);
+    // mosaic::turnLeft(robot);
+    // mosaic::goFront(robot, 650);
+    // mosaic::turnRight(robot);
+    // mosaic::goFront(robot,120);
+
+
+
+
+    // //arm::gripObject(robot,0.001,"ball");
+    // navigate::init(robot);
+    // //navigate::navigateBall(robot, color) ;
+    // navigate::navigateObject(robot,objName);
+    // arm::gripObject(robot,0.001,1);
+    // cout<<"end"<<endl;
+    //mosaic::init(robot);
+    
+    while (robot->step(TIME_STEP) != -1);
+
+    
+  
   };
   // destroyAllWindows();
   delete robot;
