@@ -29,7 +29,7 @@ namespace mosaic
     void showImgGray(Mat &img);
 
     bool notIn(Robot *robot);
-    void gotoMegenta1(Robot *robot);
+    void gotoMagenta1(Robot *robot);
     void gotoCentre1(Robot *robot);
     void gotoYellow(Robot *robot);
 

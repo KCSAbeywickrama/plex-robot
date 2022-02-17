@@ -76,7 +76,7 @@ namespace mosaic
 
     void goFront(Robot *robot, float distance)
     {
-        cout<<"front"<<endl;
+        cout << "front" << endl;
         float rad = distance / 30.0;
         float leftStart = leftPosSensor->getValue();
         float rightStart = rightPosSensor->getValue();
@@ -335,7 +335,7 @@ namespace mosaic
         }
     }
 
-    void gotoMegenta1(Robot *robot)
+    void gotoMagenta1(Robot *robot)
     {
         cout << "rotate" << endl;
         rotateRightUntil(robot, M);
