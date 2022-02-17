@@ -17,6 +17,18 @@ using namespace webots;
 using namespace std;
 using namespace cv;
 
+void getFcMask(Mat &img, Mat &mask)
+{
+  Scalar lower(FC_HMIN, FC_SMIN, FC_VMIN);
+  Scalar upper(FC_HMAX, FC_SMAX, FC_VMAX);
+  inRange(img, lower, upper, mask);
+  // int hmin = 1, smin = 0, vmin = 0;
+  // int hmax = 89, smax = 255, vmax = 255;
+  // Scalar lower(hmin, smin, vmin);
+  // Scalar upper(hmax, smax, vmax);
+  // inRange(img, lower, upper, mask);
+}
+
 void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area)
 {
   double maxArea = 0;
@@ -78,10 +90,13 @@ int main(int argc, char **argv)
 
   const unsigned char *image;
   Mat imageMat = Mat(Size(width, height), CV_8UC4);
-  Mat imgRGB, imgHSV, final, mask, dis;
+  Mat imgRGB, imgHSV, imgDis, mask, dis;
   int hmin = 1, smin = 0, vmin = 0;
   int hmax = 89, smax = 255, vmax = 255;
-  hmax = 29; // to not detect yellow floor
+  // hmax = 29; // to not detect yellow floor
+  // int hmin = 30, smin = 50, vmin = 60;
+  // int hmax = 89, smax = 255, vmax = 120;
+  // hmax = 29;
   vector<vector<Point>> contours;
   vector<Point> poly;
   vector<Vec4i> hierarchy;
@@ -110,18 +125,44 @@ int main(int argc, char **argv)
       cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
       cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-      Scalar lower(hmin, smin, vmin);
-      Scalar upper(hmax, smax, vmax);
-      inRange(imgHSV, lower, upper, mask);
+      // Scalar lower(hmin, smin, vmin);
+      // Scalar upper(hmax, smax, vmax);
+      // inRange(imgHSV, lower, upper, mask);
 
-      findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+      vision::getFmMask(imgHSV, mask);
+      int i1 = 0;
+      for (i1 = height - 1; i1 >= 0; i1--)
+      {
+        uchar *line = mask.ptr<uchar>(i1);
+        if (line[0])
+          break;
+      }
 
-      drawContours(mask, contours, -1, Scalar(255, 255, 255));
+      int i2 = 0;
+      for (i2 = height - 1; i2 >= 0; i2--)
+      {
+        uchar *line = mask.ptr<uchar>(i2);
+        if (line[width - 1])
+          break;
+      }
 
-      printPointVectors(contours);
-      cvtColor(mask, final, COLOR_GRAY2RGB);
-      // cvtColor(final, dis, COLOR_RGB2BGRA);
-      ImageRef *ir = display->imageNew(width, height, final.data, Display::RGB);
+      int lineerror = i1 - i2;
+
+      cout << "i1:" << i1;
+      cout << "i2:" << i2;
+      cout << "lineerror: ";
+      cout << lineerror << endl;
+
+      // vision::getFcMask(imgHSV, mask);
+
+      // findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
+      // drawContours(mask, contours, -1, Scalar(255, 255, 255));
+
+      // printPointVectors(contours);
+      cvtColor(mask, imgDis, COLOR_GRAY2RGB);
+
+      ImageRef *ir = display->imageNew(width, height, imgDis.data, Display::RGB);
 
       display->imagePaste(ir, 0, 0, false);
       display->imageDelete(ir);
