@@ -4,8 +4,6 @@
 #include <webots/Motor.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <iostream>
-#include <stdio.h>
-#include <cstdlib>
 
 #define TIME_STEP 16
 #define MAX_SPEED 6
@@ -16,8 +14,8 @@
 using namespace webots;
 using namespace std;
 
-namespace wallFollow
+namespace wall
 {
     void init(Robot *robot);
-    void leftWallFollowing();
+    void follow(Robot *robot);
 }
