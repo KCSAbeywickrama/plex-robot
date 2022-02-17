@@ -11,4 +11,4 @@ consoles: Console:All:All
 renderingDevicePerspectives: robot(1):cam;1;1;0.0281065;0.0197023
 renderingDevicePerspectives: robot(1):display;1;1;0.22619;0.00729865
 renderingDevicePerspectives: robot(2):cam;1;1;0;0
-renderingDevicePerspectives: robot(2):display;1;1;0.791332;0.0291439
+renderingDevicePerspectives: robot(2):display;1;1;0.791332;0.0127505

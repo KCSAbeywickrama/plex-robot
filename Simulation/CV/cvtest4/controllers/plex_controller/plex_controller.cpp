@@ -107,29 +107,55 @@ int main(int argc, char **argv)
   bool goingToObg = true;
   bool iscontours = true;
 
+  leftMotor->setVelocity(1);
+  rightMotor->setVelocity(-1);
+  // rotating
   while (robot->step(TIME_STEP) != -1)
   {
     image = camera->getImage();
     if (image)
     {
-      cout << "image" << endl;
-      // save images
-      // if (timeCounter % 50 == 0)
-      // {
-      //   string filename = "imgs\\" + to_string(timeCounter / 50) + ".png";
-      //   cout << "Saving" << filename << ':' << endl;
-      //   cout << camera->saveImage(filename, 0) << endl;
-      // }
 
       imageMat.data = (uchar *)image;
       cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
       cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-      // Scalar lower(hmin, smin, vmin);
-      // Scalar upper(hmax, smax, vmax);
-      // inRange(imgHSV, lower, upper, mask);
+      vision::getFmMask(imgHSV, mask);
+
+      int i1 = 0;
+      for (i1 = height - 1; i1 >= 0; i1--)
+      {
+        uchar *line = mask.ptr<uchar>(i1);
+        if (line[0])
+          break;
+      }
+
+      cout << "i1:" << i1 << endl;
+
+      if (i1 >= 0)
+        break;
+
+      cvtColor(mask, imgDis, COLOR_GRAY2RGB);
+
+      ImageRef *ir = display->imageNew(width, height, imgDis.data, Display::RGB);
+
+      display->imagePaste(ir, 0, 0, false);
+      display->imageDelete(ir);
+    }
+  };
+
+  while (robot->step(TIME_STEP) != -1)
+  {
+    image = camera->getImage();
+    if (image)
+    {
+
+      imageMat.data = (uchar *)image;
+      cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+      cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
       vision::getFmMask(imgHSV, mask);
+
       int i1 = 0;
       for (i1 = height - 1; i1 >= 0; i1--)
       {
@@ -146,28 +172,30 @@ int main(int argc, char **argv)
           break;
       }
 
-      int lineerror = i1 - i2;
-
+      int error = i1 - i2;
+      float p_coefficient = 1;
+      float d_coefficient = 0.8;
       cout << "i1:" << i1;
       cout << "i2:" << i2;
       cout << "lineerror: ";
-      cout << lineerror << endl;
+      cout << error << endl;
 
-      // vision::getFcMask(imgHSV, mask);
+      leftMotor->setVelocity((-error * p_coefficient) + 3);
+      rightMotor->setVelocity((error * p_coefficient) + 3);
 
-      // findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+      if (error >= 0)
+      {
+        leftMotor->setVelocity(3);
+        rightMotor->setVelocity(3);
+        break;
+      }
 
-      // drawContours(mask, contours, -1, Scalar(255, 255, 255));
-
-      // printPointVectors(contours);
       cvtColor(mask, imgDis, COLOR_GRAY2RGB);
 
       ImageRef *ir = display->imageNew(width, height, imgDis.data, Display::RGB);
 
       display->imagePaste(ir, 0, 0, false);
       display->imageDelete(ir);
-      // leftMotor->setVelocity(5);
-      // rightMotor->setVelocity(5);
     }
     timeCounter++;
   };
