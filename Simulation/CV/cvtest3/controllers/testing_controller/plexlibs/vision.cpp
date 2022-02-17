@@ -3,6 +3,16 @@
 namespace vision
 {
 
+    uchar minMargin[3][3] = {
+        {M_HMIN, M_SMIN, M_VMIN},
+        {C_HMIN, C_SMIN, C_VMIN},
+        {Y_HMIN, Y_SMIN, Y_VMIN}};
+
+    uchar maxMargin[3][3] = {
+        {M_HMAX, M_SMAX, M_VMAX},
+        {C_HMAX, C_SMAX, C_VMAX},
+        {Y_HMAX, Y_SMAX, Y_VMAX}};
+
     void gotoObject()
     {
         cout << "vision:gotoObject()" << endl;
@@ -12,17 +22,10 @@ namespace vision
         cout << "vision:mainFunction()" << endl;
     }
 
-    void getFmMask(Mat &img, Mat &mask)
+    void getMask(int color, Mat &img, Mat &mask)
     {
-        Scalar lower(FM_HMIN, FM_SMIN, FM_VMIN);
-        Scalar upper(FM_HMAX, FM_SMAX, FM_VMAX);
-        inRange(img, lower, upper, mask);
-    }
-
-    void getFcMask(Mat &img, Mat &mask)
-    {
-        Scalar lower(FC_HMIN, FC_SMIN, FC_VMIN);
-        Scalar upper(FC_HMAX, FC_SMAX, FC_VMAX);
+        Scalar lower(minMargin[color][0], minMargin[color][1], minMargin[color][2]);
+        Scalar upper(maxMargin[color][0], maxMargin[color][1], maxMargin[color][2]);
         inRange(img, lower, upper, mask);
     }
 

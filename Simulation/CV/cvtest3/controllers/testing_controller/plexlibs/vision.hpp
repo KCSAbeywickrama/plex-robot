@@ -5,54 +5,54 @@
 using namespace cv;
 using namespace std;
 
-#define FM_HMIN 150
-#define FM_HMAX 220
-#define FM_SMIN 65
-#define FM_SMAX 255
-#define FM_VMIN 162
-#define FM_VMAX 255
+#define M_HMIN 150
+#define M_HMAX 220
+#define M_SMIN 65
+#define M_SMAX 255
+#define M_VMIN 162
+#define M_VMAX 255
 
-#define FC_HMIN 90
-#define FC_HMAX 133
-#define FC_SMIN 59
-#define FC_SMAX 255
-#define FC_VMIN 25
-#define FC_VMAX 255
+#define C_HMIN 90
+#define C_HMAX 133
+#define C_SMIN 59
+#define C_SMAX 255
+#define C_VMIN 25
+#define C_VMAX 255
 
-#define FY_HMIN 30
-#define FY_HMAX 89
-#define FY_SMIN 50
-#define FY_SMAX 255
-#define FY_VMIN 60
-#define FY_VMAX 120
+#define Y_HMIN 30
+#define Y_HMAX 89
+#define Y_SMIN 50
+#define Y_SMAX 255
+#define Y_VMIN 60
+#define Y_VMAX 120
 
-#define FK_HMIN
-#define FK_HMAX
-#define FK_SMIN
-#define FK_SMAX
-#define FK_VMIN
-#define FK_VMAX
+#define K_HMIN
+#define K_HMAX
+#define K_SMIN
+#define K_SMAX
+#define K_VMIN
+#define K_VMAX
 
-#define BR_HMIN
-#define BR_HMAX
-#define BR_SMIN
-#define BR_SMAX
-#define BR_VMIN
-#define BR_VMAX
+#define R_HMIN
+#define R_HMAX
+#define R_SMIN
+#define R_SMAX
+#define R_VMIN
+#define R_VMAX
 
-#define BB_HMIN
-#define BB_HMAX
-#define BB_SMIN
-#define BB_SMAX
-#define BB_VMIN
-#define BB_VMAX
+#define B_HMIN
+#define B_HMAX
+#define B_SMIN
+#define B_SMAX
+#define B_VMIN
+#define B_VMAX
 
-#define OY_HMIN
-#define OY_HMAX
-#define OY_SMIN
-#define OY_SMAX
-#define OY_VMIN
-#define OY_VMAX
+#define O_HMIN
+#define O_HMAX
+#define O_SMIN
+#define O_SMAX
+#define O_VMIN
+#define O_VMAX
 
 // #define _HMIN
 // #define _HMAX
@@ -61,12 +61,16 @@ using namespace std;
 // #define _VMIN
 // #define _VMAX
 
+#define M 0
+#define C 1
+#define Y 2
+
 namespace vision
 {
 
     void gotoObject();
     void mainFunction();
-    void getFmMask(Mat &img, Mat &mask);
-    void getFcMask(Mat &img, Mat &mask);
+    void getMask(int color, Mat &img, Mat &mask);
     void imageGradient(Mat &img, int width, int height, int &gi, int &gj);
+
 }

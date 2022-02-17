@@ -148,7 +148,60 @@ namespace mosaic
         }
     }
 
-    void gotoMegenta(Robot *robot)
+    bool notIn(Robot *robot)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+
+        image = camera->getImage();
+        if (image)
+        {
+            imgCam.data = (uchar *)image;
+            cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+            cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+            vision::getMask(M, imgHSV, mask);
+
+            int i = 0;
+            for (i = imgHeight - 1; i >= 0; i--)
+            {
+                uchar *line = mask.ptr<uchar>(i);
+                if (line[imgWidth / 2])
+                    break;
+            }
+            cout << " i:" << i;
+            // deside where to detect mosaic area
+            if (i > 110)
+            {
+                return false;
+            }
+
+            showImgGray(mask);
+        }
+
+        return true;
+    }
+
+    void gotoCentre1(Robot *robot)
+    {
+        goFront(robot, 500);
+        turnLeft(robot);
+        goFront(robot, 620);
+        turnRight(robot);
+        goFront(robot, 120);
+    }
+
+    float clipSpeed(float speed)
+    {
+        if (speed > MOSAIC_SPEED)
+            return MOSAIC_SPEED;
+        if (speed < -MOSAIC_SPEED)
+            return -MOSAIC_SPEED;
+        return speed;
+    }
+
+    void rotateRightUntil(Robot *robot, int color)
     {
         const unsigned char *image;
         Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
@@ -167,7 +220,7 @@ namespace mosaic
                 cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-                vision::getFmMask(imgHSV, mask);
+                vision::getMask(color, imgHSV, mask);
 
                 int i1 = 0;
                 for (i1 = imgHeight - 1; i1 >= 0; i1--)
@@ -185,9 +238,14 @@ namespace mosaic
                 showImgGray(mask);
             }
         }
+    }
 
-        delay(robot, 10);
-
+    void alignTo(Robot *robot, int color)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+        // aligning
         while (robot->step(TIME_STEP) != -1)
         {
             image = camera->getImage();
@@ -198,7 +256,7 @@ namespace mosaic
                 cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-                vision::getFmMask(imgHSV, mask);
+                vision::getMask(color, imgHSV, mask);
 
                 int i1 = 0;
                 for (i1 = imgHeight - 1; i1 >= 0; i1--)
@@ -217,31 +275,73 @@ namespace mosaic
                 }
 
                 int error = i2 - i1;
-                float p_coefficient = 0.1;
-                float d_coefficient = 0.8;
+                error = (error / 2) * 2;
+                float p_coefficient = 0.8;
                 cout << " i1:" << i1;
                 cout << " i2:" << i2;
                 cout << " lineerror: ";
                 cout << error << endl;
 
-                if (error < 10)
+                leftMotor->setVelocity(clipSpeed(error * p_coefficient));
+                rightMotor->setVelocity(clipSpeed(-error * p_coefficient));
+                if (error == 0)
                 {
-                    if (error == 0 && i1 >= 112)
-                    {
-                        goFront(robot, 100);
-                        break;
-                    }
-                    leftMotor->setVelocity((error * p_coefficient) + 2);
-                    rightMotor->setVelocity((-error * p_coefficient) + 2);
-                }
-                else
-                {
-                    leftMotor->setVelocity(MOSAIC_SPEED);
-                    rightMotor->setVelocity(-MOSAIC_SPEED);
+                    return;
                 }
 
                 showImgGray(mask);
             }
         }
+    }
+
+    void goUntil(Robot *robot, int color, int dis)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(color, imgHSV, mask);
+
+                int i = 0;
+                for (i = imgHeight - 1; i >= 0; i--)
+                {
+                    uchar *line = mask.ptr<uchar>(i);
+                    if (line[imgWidth / 2])
+                        break;
+                }
+                cout << " i:" << i;
+
+                if (i > dis)
+                {
+                    leftMotor->setVelocity(0);
+                    rightMotor->setVelocity(0);
+                    return;
+                }
+                leftMotor->setVelocity(MOSAIC_SPEED);
+                rightMotor->setVelocity(MOSAIC_SPEED);
+
+                showImgGray(mask);
+            }
+        }
+    }
+
+    void gotoMegenta1(Robot *robot)
+    {
+        cout << "rotate" << endl;
+        rotateRightUntil(robot, M);
+        cout << "go 50" << endl;
+        goUntil(robot, M, 50);
+        cout << "align" << endl;
+        alignTo(robot, M);
+        goUntil(robot, M, 100);
     }
 }

@@ -24,6 +24,13 @@ namespace mosaic
     void turnRight(Robot *robot);
     void goFront(Robot *robot, float distance);
     void goBack(Robot *robot, float distance);
-    void gotoMegenta(Robot *robot);
-    void showImgRGB(int width, int height, Mat &img);
+
+    void showImgRGB(Mat &img);
+    void showImgGray(Mat &img);
+
+    bool notIn(Robot *robot);
+    void gotoMegenta1(Robot *robot);
+    void gotoCentre1(Robot *robot);
+    void gotoYellow(Robot *robot);
+
 }
