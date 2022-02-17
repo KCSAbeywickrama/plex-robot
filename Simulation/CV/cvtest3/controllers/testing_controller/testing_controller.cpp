@@ -22,30 +22,33 @@
 #include "plexlibs/arm.hpp"
 #include "plexlibs/navigate.hpp"
 #include "plexlibs/mosaic.hpp"
+#include "plexlibs/wall.hpp"
 
 #define TIME_STEP 16
 
 using namespace webots;
 using namespace std;
 using namespace cv;
-//obj 0-cylinder/box
-//obj 1 - box
-//obj 2 - cylinder
-//obj 3 - ball
+// obj 0-cylinder/box
+// obj 1 - box
+// obj 2 - cylinder
+// obj 3 - ball
 
 int main(int argc, char **argv)
 {
 
   Robot *robot = new Robot();
 
+  arm::init(robot);
   mosaic::init(robot);
+  wall::init(robot);
+  wall::follow(robot);
+  mosaic::gotoCentre1(robot);
   // mosaic::turnLeft(robot);
   // mosaic::turnRight(robot);
-  //mosaic::goFront(robot, 500);
+  // mosaic::goFront(robot, 500);
   // mosaic::goBack(robot, 200);
-  //mosaic::gotoMegenta(robot);
-
- 
+  // mosaic::gotoMegenta(robot);
 
   string objName;
   string color = "blue";
@@ -78,21 +81,16 @@ int main(int argc, char **argv)
     // mosaic::turnRight(robot);
     // mosaic::goFront(robot,120);
 
-
-
-
     // //arm::gripObject(robot,0.001,"ball");
     // navigate::init(robot);
     // //navigate::navigateBall(robot, color) ;
     // navigate::navigateObject(robot,objName);
     // arm::gripObject(robot,0.001,1);
     // cout<<"end"<<endl;
-    //mosaic::init(robot);
-    
-    while (robot->step(TIME_STEP) != -1);
+    // mosaic::init(robot);
 
-    
-  
+    while (robot->step(TIME_STEP) != -1)
+      ;
   };
   // destroyAllWindows();
   delete robot;
