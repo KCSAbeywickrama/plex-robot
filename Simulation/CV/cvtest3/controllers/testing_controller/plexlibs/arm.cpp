@@ -17,7 +17,7 @@ namespace arm
   void gripObject(Robot *robot, float ps, string obj)
   {
     int value;
-    if (obj=="ball"){value=0.03;}
+    if (obj=="ball"){value=0.04;}
     else if (obj == "cylinder" || obj == "box"){value=0.035;}
     cout << "gripping object" << endl;
     while (robot->step(TIME_STEP) != -1)
@@ -33,7 +33,7 @@ namespace arm
       rightMotor->setVelocity(0.0);
 
       handleMotor->setVelocity(1.57);
-      handleMotor->setPosition(0);
+      handleMotor->setPosition(1.57);
 
       cout << leftSliderEncoder->getValue() << endl;
       for (int i = 0; i < 10; i++)
@@ -102,8 +102,7 @@ namespace arm
     rightMotor->setPosition(INFINITY);
     rightMotor->setVelocity(0.0);
 
-    handleMotor->setVelocity(1.57);
-    handleMotor->setPosition(-1.57);
+    
 
     cout << "arm init" << endl;
   }
