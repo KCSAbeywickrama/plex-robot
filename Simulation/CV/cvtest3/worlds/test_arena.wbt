@@ -12,8 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.513991585603041 0.6890960843559018 0.5108416941231754 4.303829663086425
-  position -1.2704454843292807 4.789356639216635 0.4191617417087353
+  orientation -0.47716663027908013 0.7645216301223792 0.43338053027694723 1.6803113505710496
+  position 2.0627046746137427 3.066305674925358 0.2588229067297317
 }
 TexturedBackground {
   luminosity 0.16
@@ -524,9 +524,50 @@ DEF New_entrance_path Transform {
   ]
 }
 DEF plexRobot Robot {
-  translation 1.09 0.0243871 0.77
-  rotation 0.0009664492028424167 0.999999209884033 -0.0008038701687196464 3.14159
+  translation 0.35 0.0249156 0.210005
+  rotation 0.001770320743119875 0.9999984197650079 0.0001625790682451117 -1.5708053071795867
   children [
+    DistanceSensor {
+      translation -0.065 0.01 0.06
+      rotation 0 1 0 -3.1415853071795863
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "lUltrasonic"
+      lookupTable [
+        0 0 0
+        3 3000 0
+      ]
+      type "sonar"
+    }
+    DistanceSensor {
+      translation 0.065 0.01 0.06
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "rUltrasonic"
+      lookupTable [
+        0 0 0
+        3 3000 0
+      ]
+      type "sonar"
+    }
     Solid {
       translation 0 0 0.11
       children [

@@ -39,11 +39,11 @@ int main(int argc, char **argv)
 
   Robot *robot = new Robot();
 
-  arm::init(robot);
-  mosaic::init(robot);
-  wall::init(robot);
-  wall::follow(robot);
-  mosaic::gotoCentre1(robot);
+  // arm::init(robot);
+  // mosaic::init(robot);
+  // wall::init(robot);
+  // wall::follow(robot);
+  // mosaic::gotoCentre1(robot);
   // mosaic::turnLeft(robot);
   // mosaic::turnRight(robot);
   // mosaic::goFront(robot, 500);
@@ -60,17 +60,18 @@ int main(int argc, char **argv)
     
     arm::init(robot);
     mosaic::init(robot);
-    mosaic::gotoCentre1(robot);
-    navigate::init(robot);
-    navigate::navigateObject(robot);
-    arm::gripObject(robot,0.001,0);
-    navigate::detectObject(robot,object);
-    arm::raise(robot,0);
-    mosaic::turnRight(robot);
-    mosaic::turnRight(robot);
-    mosaic::goFront(robot,400);
-    mosaic::turnRight(robot);
-    mosaic::goFront(robot,850);
+    // mosaic::gotoCentre1(robot);
+    // navigate::init(robot);
+    // navigate::navigateObject(robot);
+    // arm::gripObject(robot,0.001,0);
+    // navigate::detectObject(robot,object);
+    // arm::raise(robot,0);
+    // mosaic::turnRight(robot);
+    // mosaic::turnRight(robot);
+    // mosaic::goFront(robot,400);
+    // mosaic::turnRight(robot);
+    // mosaic::goFront(robot,850);
+    
     //mosaic::gotoMagenta1(robot);
     //arm::shoot(robot);
 
@@ -80,6 +81,22 @@ int main(int argc, char **argv)
     // mosaic::goFront(robot, 650);
     // mosaic::turnRight(robot);
     // mosaic::goFront(robot,120);
+
+
+    //from cylinder to magenta
+    // mosaic::turnRight(robot);
+    // mosaic::turnRight(robot);
+    // mosaic::goFront(robot,850);
+    // mosaic::turnLeft(robot);
+    // mosaic::goFront(robot,20);
+
+    // from box to magenta
+    // mosaic::turnRight(robot);
+    // mosaic::turnRight(robot);
+    // mosaic::goFront(robot,850);
+    // mosaic::turnLeft(robot);
+    // mosaic::goFront(robot,190);
+
 
     // //arm::gripObject(robot,0.001,"ball");
     // navigate::init(robot);
