@@ -50,22 +50,22 @@ namespace navigate
 
     area = (int)maxArea;
     }
-    void imageGradient(Mat &img, int width, int height, int &gi, int &gj)
-    {
-        gi = 0;
-        gj = 0;
+    // void imageGradient(Mat &img, int width, int height, int &gi, int &gj)
+    // {
+    //     gi = 0;
+    //     gj = 0;
 
-        for (int i = 0; i < height - 1; i++)
-        {
-            uchar *line0 = img.ptr<uchar>(i);
-            uchar *line1 = img.ptr<uchar>(i + 1);
-            for (int j = 0; j < width - 1; j++)
-            {
-                gi += abs(line1[j] - line0[j]);
-                gj += abs(line0[j + 1] - line0[j]);
-            }
-        }
-    }
+    //     for (int i = 0; i < height - 1; i++)
+    //     {
+    //         uchar *line0 = img.ptr<uchar>(i);
+    //         uchar *line1 = img.ptr<uchar>(i + 1);
+    //         for (int j = 0; j < width - 1; j++)
+    //         {
+    //             gi += abs(line1[j] - line0[j]);
+    //             gj += abs(line0[j + 1] - line0[j]);
+    //         }
+    //     }
+    // }
 
     void detectObject(Robot *robot, int &object)
     {
@@ -109,9 +109,9 @@ namespace navigate
 
                 cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
                 Canny(imgGray,imgCanny,100,255);
-                int gi,gj;
-                imageGradient(imgCanny, width,height, gi, gj);
-                cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
+                // int gi,gj;
+                // imageGradient(imgCanny, width,height, gi, gj);
+                // cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
                 Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 	            dilate(imgCanny, imgDil, kernel);
 	            erode(imgDil, imgErode, kernel);
@@ -134,21 +134,23 @@ namespace navigate
                 cout<<"number of hori lines=" <<lines.size() <<endl;
                 cout<<"number of ver lines=" <<lines2.size() <<endl;  
 
-                if(lines.size()==3)
+                if(lines.size()>=3)
                 {
                     object=1;
+                    cout<<"identified box"<<endl;
                     return;
                 }
                 if(lines.size()<3)
                 {
                     object=2;
+                    cout<<"identified cylinder"<<endl;
                     return;
                 }
             }
         }
     }
     
-    void navigateObject(Robot *robot, string &objName) 
+    void navigateObject(Robot *robot) 
     {
         cout<<"navigateobj"<<endl;
         float p_coefficient = 0.1;
@@ -190,9 +192,9 @@ namespace navigate
 
                 cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
                 Canny(imgGray,imgCanny,100,255);
-                int gi,gj;
-                imageGradient(imgCanny, width,height, gi, gj);
-                cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
+                // int gi,gj;
+                // imageGradient(imgCanny, width,height, gi, gj);
+                // cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
                 Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
 	            dilate(imgCanny, imgDil, kernel);
 	            erode(imgDil, imgErode, kernel);
@@ -240,12 +242,12 @@ namespace navigate
                         // handleMotor->setPosition(0);
                         leftMotor->setVelocity(0);
                         rightMotor->setVelocity(0);
-                        float epsilon = 0.1*arcLength(contours[largestContour],true);
-                        approxPolyDP(Mat(contours[largestContour]), poly, epsilon, true); 
-                        //box = 7,cylinder = 9
-                        if (poly.size()>=18){objName="box";}
-                        else{objName="cylinder";}
-                        cout<<"poly size "<<poly.size()<<objName<<endl;
+                        // float epsilon = 0.1*arcLength(contours[largestContour],true);
+                        // approxPolyDP(Mat(contours[largestContour]), poly, epsilon, true); 
+                        // //box = 7,cylinder = 9
+                        // if (poly.size()>=18){objName="box";}
+                        // else{objName="cylinder";}
+                        // cout<<"poly size "<<poly.size()<<objName<<endl;
                         return;
                     }
                     if (largestContourArea>0)

@@ -19,7 +19,7 @@ namespace arm
   void gripObject(Robot *robot, float ps, int obj)
   {
     float value;
-    if (obj==3){value=0.045;}
+    if (obj==3){value=0.043;}
     else if (obj == 0 ){value=0.037;}
     cout << "gripping object "<<value << endl;
     while (robot->step(TIME_STEP) != -1)
@@ -109,6 +109,9 @@ namespace arm
 
     rightMotor->setPosition(INFINITY);
     rightMotor->setVelocity(0.0);
+
+    handleMotor->setVelocity(1.57);
+    handleMotor->setPosition(0.0);
 
     cout << "arm init" << endl;
   }

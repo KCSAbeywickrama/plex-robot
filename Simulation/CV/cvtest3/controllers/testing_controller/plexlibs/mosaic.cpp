@@ -343,6 +343,6 @@ namespace mosaic
         goUntil(robot, M, 50);
         cout << "align" << endl;
         alignTo(robot, M);
-        goUntil(robot, M, 100);
+        goUntil(robot, M, 120);
     }
 }

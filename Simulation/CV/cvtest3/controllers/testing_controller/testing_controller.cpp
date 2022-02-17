@@ -56,12 +56,20 @@ int main(int argc, char **argv)
     //mosaic::goFront(robot,600);
     
     arm::init(robot);
+    mosaic::init(robot);
+    mosaic::gotoCentre1(robot);
     navigate::init(robot);
-    navigate::navigateBall(robot,color);
-    arm::gripObject(robot,0.001,3);
-    //navigate::detectObject(robot,object);
-    arm::raise(robot,3);
-    arm::shoot(robot);
+    navigate::navigateObject(robot);
+    arm::gripObject(robot,0.001,0);
+    navigate::detectObject(robot,object);
+    arm::raise(robot,0);
+    mosaic::turnRight(robot);
+    mosaic::turnRight(robot);
+    mosaic::goFront(robot,400);
+    mosaic::turnRight(robot);
+    mosaic::goFront(robot,850);
+    //mosaic::gotoMagenta1(robot);
+    //arm::shoot(robot);
 
     // from wall to magenta
     // mosaic::goFront(robot, 500);

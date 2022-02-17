@@ -19,7 +19,7 @@ using namespace cv;
 namespace navigate
 {
     void getMaxAreaContourId(vector<vector<Point>> contours, int &id, int &area);
-    void navigateObject(Robot *robot, string &objName);
+    void navigateObject(Robot *robot);
     void navigateBall(Robot *robot, string color) ;
     void detectObject(Robot *robot, int &object);
     void init(Robot *robot);
