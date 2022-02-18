@@ -124,13 +124,12 @@ int main(int argc, char **argv)
     // mosaic::turnRight(robot);
     // mosaic::goFront(robot,120);
 
-
-    //from cylinder to magenta
-    // mosaic::turnRight(robot);
-    // mosaic::turnRight(robot);
-    // mosaic::goFront(robot,850);
-    // mosaic::turnLeft(robot);
-    // mosaic::goFront(robot,20);
+    // from cylinder to magenta
+    //  mosaic::turnRight(robot);
+    //  mosaic::turnRight(robot);
+    //  mosaic::goFront(robot,850);
+    //  mosaic::turnLeft(robot);
+    //  mosaic::goFront(robot,20);
 
     // from box to magenta
     // mosaic::turnRight(robot);
@@ -138,7 +137,6 @@ int main(int argc, char **argv)
     // mosaic::goFront(robot,850);
     // mosaic::turnLeft(robot);
     // mosaic::goFront(robot,190);
-
 
     // //arm::gripObject(robot,0.001,"ball");
     // navigate::init(robot);

@@ -5,7 +5,6 @@
 #include "vision.hpp"
 #include "mosaic.hpp"
 
-
 using namespace webots;
 using namespace std;
 
@@ -148,6 +147,26 @@ namespace mosaic
         for (int i = 0; i < count; i++)
         {
             robot->step(TIME_STEP);
+        }
+    }
+
+    void filterAndShow(Robot *robot, int color)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+                vision::getMask(color, imgHSV, mask);
+                showImgGray(mask);
+            }
         }
     }
 
@@ -297,6 +316,62 @@ namespace mosaic
         }
     }
 
+    void alignWhileGoing(Robot *robot, int color, int dis)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+        // aligning
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(color, imgHSV, mask);
+
+                int i1 = 0;
+                for (i1 = imgHeight - 1; i1 >= 0; i1--)
+                {
+                    uchar *line = mask.ptr<uchar>(i1);
+                    if (line[0])
+                        break;
+                }
+
+                int i2 = 0;
+                for (i2 = imgHeight - 1; i2 >= 0; i2--)
+                {
+                    uchar *line = mask.ptr<uchar>(i2);
+                    if (line[imgWidth - 1])
+                        break;
+                }
+
+                int error = i2 - i1;
+                error = (error / 2) * 2;
+                float p_coefficient = 0.1;
+                cout << " i1:" << i1;
+                cout << " i2:" << i2;
+                cout << " lineerror: ";
+                cout << error << endl;
+
+                leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
+                rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
+                if (error == 0)
+                {
+                    leftMotor->setVelocity(0);
+                    rightMotor->setVelocity(0);
+                    return;
+                }
+
+                showImgGray(mask);
+            }
+        }
+    }
+
     void goUntil(Robot *robot, int color, int dis)
     {
         const unsigned char *image;
@@ -346,5 +421,20 @@ namespace mosaic
         cout << "align" << endl;
         alignTo(robot, M);
         goUntil(robot, M, 120);
+    }
+
+    void gotoYellow1(Robot *robot)
+    {
+        cout << "rotate" << endl;
+        rotateRightUntil(robot, Y);
+        cout << "go whiel align" << endl;
+        alignWhileGoing(robot, Y, 50);
+    }
+
+    void keyPreHoleAlign(Robot *robot)
+    {
+        gotoMagenta1(robot);
+        gotoYellow1(robot);
+        turnLeft(robot);
     }
 }
