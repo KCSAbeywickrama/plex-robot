@@ -40,12 +40,7 @@ int main(int argc, char **argv)
 {
 
   Robot *robot = new Robot();
-  DistanceSensor *rLaser = robot->getDistanceSensor("rLaser");
-  DistanceSensor *lLaser = robot->getDistanceSensor("lLaser");
-  DistanceSensor *fLaser = robot->getDistanceSensor("fLaser");
-  lLaser->enable(TIME_STEP);
-  rLaser->enable(TIME_STEP);
-  fLaser->enable(TIME_STEP);
+  
 
   // arm::init(robot);
   // mosaic::init(robot);
@@ -59,36 +54,68 @@ int main(int argc, char **argv)
   // mosaic::gotoMegenta(robot);
 
   string objName;
-  string color = "blue";
+  string color = "red";
   int object;
-
-  while (robot->step(TIME_STEP) != -1)
-  {
-    cout << "f " << lLaser->getValue() << endl;
-    cout << "r " << rLaser->getValue() << endl;
-    cout << "l " << fLaser->getValue() << endl;
-    // mosaic::goFront(robot,600);
-
-    // arm::init(robot);
-    // keyhole::init(robot);
-    // keyhole::goToBox(robot);
-
+  
+   while (robot->step(TIME_STEP) != -1)
+   {
+    
+    //*************************************************************************************************
+     arm::init(robot);
+     navigate::init(robot);
+     navigate::navigateBall(robot,color) ;
+     arm::gripObject(robot,0.001,3);
+     arm::raise(robot,3);
     // mosaic::init(robot);
-
+    
     // mosaic::gotoCentre1(robot);
     // navigate::init(robot);
     // navigate::navigateObject(robot);
     // arm::gripObject(robot,0.001,0);
     // navigate::detectObject(robot,object);
     // arm::raise(robot,0);
+    // //add function
     // mosaic::turnRight(robot);
     // mosaic::turnRight(robot);
-    // mosaic::goFront(robot,400);
+    // mosaic::goFront(robot,500);
     // mosaic::turnRight(robot);
-    // mosaic::goFront(robot,850);
+    // cout<<"pos right"<<endl;
+    // keyhole::init(robot);
+    // if (object==1)
+    // {
+    //   keyhole::goToBox(robot);
+    //   arm::shoot(robot);
+    //   // box to magenta
+    //   mosaic::turnRight(robot);
+    //   mosaic::turnRight(robot);
+    //   mosaic::goFront(robot,850);
+    //   mosaic::turnLeft(robot);
+    //   mosaic::goFront(robot,190);
+      
 
-    // mosaic::gotoMagenta1(robot);
-    // arm::shoot(robot);
+    // }
+    // if (object==2)
+    // {
+    //   keyhole::goToCylinder(robot);
+
+    //   arm::shoot(robot);
+    //   //cylinder to magenta
+    //   mosaic::turnRight(robot);
+    //   mosaic::turnRight(robot);
+    //   mosaic::goFront(robot,850);
+    //   mosaic::turnLeft(robot);
+    //   mosaic::goFront(robot,20);
+
+    // }
+    // navigate::navigateObject(robot);
+    // arm::gripObject(robot,0.001,0);
+    // navigate::detectObject(robot,object);
+    // arm::raise(robot,0);
+    //******************************************************************************
+    //mosaic::goFront(robot,850);
+    
+    //mosaic::gotoMagenta1(robot);
+    //arm::shoot(robot);
 
     // from wall to magenta
     // mosaic::goFront(robot, 500);
@@ -119,8 +146,7 @@ int main(int argc, char **argv)
     // cout<<"end"<<endl;
     // mosaic::init(robot);
 
-    // while (robot->step(TIME_STEP) != -1)
-    //   ;
+    while (robot->step(TIME_STEP) != -1)  ;
   };
   // destroyAllWindows();
   delete robot;
