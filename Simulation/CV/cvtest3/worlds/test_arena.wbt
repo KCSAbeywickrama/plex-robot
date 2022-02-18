@@ -12,9 +12,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.34394962215414526 -0.8385142157981995 -0.4226021383338599 4.402482366152125
-  position 1.682497116290111 2.2950287920406205 0.18453455940363964
-  follow "robot(2)"
+  orientation 0.5276004431694887 -0.746116396231205 -0.40613802535876714 4.747640518756869
+  position 2.1215209743382286 3.355940588059524 1.0365526050755345
 }
 TexturedBackground {
   luminosity 0.16
@@ -526,8 +525,8 @@ DEF New_entrance_path Transform {
   ]
 }
 DEF plexRobot Robot {
-  translation 0.250632 0.0288227 0.276683
-  rotation 0.0012575604084299355 0.9999983247790314 0.0013300304319667192 -1.6285753071795863
+  translation 0.24717 0.0288228 0.336587
+  rotation -0.0013311801508019189 -0.9999991132842802 -3.728350422363869e-05 -3.083815307179586
   children [
     DistanceSensor {
       translation -2.38898e-05 0.07 0.075
@@ -709,8 +708,9 @@ DEF plexRobot Robot {
           ]
           name "ds_fright"
           lookupTable [
-            0 0 0
-            0.5 50 0
+            0 70 0.01
+            0.1 70 0.01
+            0.8 0 0.01
           ]
           type "infra-red"
         }
@@ -726,8 +726,9 @@ DEF plexRobot Robot {
           ]
           name "ds_fleft"
           lookupTable [
-            0 0 0
-            0.5 50 0
+            0 70 0.01
+            0.1 70 0.01
+            0.8 0 0.01
           ]
           type "infra-red"
         }
@@ -742,8 +743,9 @@ DEF plexRobot Robot {
           ]
           name "ds_left"
           lookupTable [
-            0 0 0
-            0.5 50 0
+            0 70 0.01
+            0.1 70 0.01
+            0.8 0 0.01
           ]
           type "infra-red"
         }
