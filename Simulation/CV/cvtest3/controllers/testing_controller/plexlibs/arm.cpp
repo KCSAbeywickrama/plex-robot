@@ -143,7 +143,7 @@ namespace arm
            }
     leftSlider->setPosition(0.035);
     rightSlider->setPosition(0.035);
-    shooter->setPosition(-0.1);
+    shooter->setPosition(-0.15);
      for (int i = 0; i < 150; i++)
            {
              robot->step(TIME_STEP);

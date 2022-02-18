@@ -10,4 +10,4 @@ textFiles: 0 "controllers/testing_controller/testing_controller.cpp"
 globalOptionalRendering: ContactPoints::CoordinateSystem::CameraFrustums::DistanceSensorRays
 consoles: Console:All:All
 renderingDevicePerspectives: robot(2):cam;1;1;0;0
-renderingDevicePerspectives: robot(2):display;1;1;0;0
+renderingDevicePerspectives: robot(2):display;1;1;0.00108814;0.276342

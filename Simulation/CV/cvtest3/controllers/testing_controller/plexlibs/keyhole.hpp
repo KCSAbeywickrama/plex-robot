@@ -26,4 +26,5 @@ namespace keyhole
     void goToCylinder(Robot *robot);
     void goToBox(Robot *robot);
     void goToLine(Robot *robot);
+    void frontReading(Robot *robot,float &value);
 }

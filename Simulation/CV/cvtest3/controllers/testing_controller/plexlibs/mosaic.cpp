@@ -205,7 +205,7 @@ namespace mosaic
         return true;
     }
 
-    void gotoCentre1(Robot *robot)
+    void goWall2Magenta(Robot *robot)
     {
         goFront(robot, 500);
         turnLeft(robot);
@@ -429,7 +429,7 @@ namespace mosaic
         alignWhileGoing(robot, Y, 50);
     }
 
-    void keyPreHoleAlign(Robot *robot)
+    void preAlignKeyHole(Robot *robot)
     {
         gotoMagenta1(robot);
         goFront(robot, 350);

@@ -175,8 +175,10 @@ namespace navigate
             // handleMotor->setPosition(-1.57);
             
             image = camera->getImage();
+           
             if (image)
             {
+                 cout<<"nav:cam image not null"<<endl;
                 imageMat.data = (uchar *)image;
                 cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
@@ -206,6 +208,7 @@ namespace navigate
                 //findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
                 findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
+                cout<<"nav:end of find cont"<<endl;
 
                 if (contours.empty())
                 {
@@ -232,7 +235,7 @@ namespace navigate
                         pixel=10;
                     }
 
-                    cout << largestContourArea <<' '<< pixel<< ' ';
+                    cout << "area"<<largestContourArea <<'pixel  '<< pixel<< ' ';
 
                      
                     if (pixel>= 120)
@@ -267,7 +270,7 @@ namespace navigate
                         
                         int centerx = mu.m10 / mu.m00;
                         float error = width / 2 - centerx;
-                        cout << error << endl;
+                        cout <<"error :"<< error << endl;
                         if (error<30)
                         {
                             leftMotor->setVelocity((-error * p_coefficient)+1 );
@@ -285,7 +288,7 @@ namespace navigate
                         rightMotor->setVelocity(-0.1);
                     }
                 }
-            }
+            } else cout<<"nav:cam image null"<<endl;
 
         } 
     }

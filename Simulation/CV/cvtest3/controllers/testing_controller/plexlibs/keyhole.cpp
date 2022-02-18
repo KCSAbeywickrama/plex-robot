@@ -167,4 +167,8 @@ namespace keyhole
         }
     
     }
+    void frontReading(Robot *robot,float &value)
+    {
+       value = fLaser->getValue() ;
+    }
 }
