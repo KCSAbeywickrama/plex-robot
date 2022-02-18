@@ -27,6 +27,7 @@ namespace mosaic
 
     void showImgRGB(Mat &img);
     void showImgGray(Mat &img);
+    void filterAndShow(Robot *robot, int color);
 
     bool notIn(Robot *robot);
     void gotoMagenta1(Robot *robot);

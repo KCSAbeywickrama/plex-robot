@@ -19,11 +19,11 @@ using namespace std;
 #define C_VMIN 25
 #define C_VMAX 255
 
-#define Y_HMIN 1
-#define Y_HMAX 89
-#define Y_SMIN 0
+#define Y_HMIN 30
+#define Y_HMAX 85
+#define Y_SMIN 50
 #define Y_SMAX 255
-#define Y_VMIN 0
+#define Y_VMIN 50
 #define Y_VMAX 255
 
 #define K_HMIN

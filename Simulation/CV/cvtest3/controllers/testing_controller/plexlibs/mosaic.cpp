@@ -5,7 +5,6 @@
 #include "vision.hpp"
 #include "mosaic.hpp"
 
-
 using namespace webots;
 using namespace std;
 
@@ -156,6 +155,26 @@ namespace mosaic
         for (int i = 0; i < count; i++)
         {
             robot->step(TIME_STEP);
+        }
+    }
+
+    void filterAndShow(Robot *robot, int color)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+                vision::getMask(color, imgHSV, mask);
+                showImgGray(mask);
+            }
         }
     }
 
