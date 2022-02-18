@@ -31,6 +31,6 @@ namespace mosaic
     bool notIn(Robot *robot);
     void gotoMagenta1(Robot *robot);
     void gotoCentre1(Robot *robot);
-    void gotoYellow(Robot *robot);
+    void gotoYellow1(Robot *robot);
 
 }

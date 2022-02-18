@@ -345,4 +345,16 @@ namespace mosaic
         alignTo(robot, M);
         goUntil(robot, M, 120);
     }
+
+    void gotoYellow1(Robot *robot)
+    {
+        cout << "rotate" << endl;
+        rotateRightUntil(robot, Y);
+        cout << "go 50" << endl;
+        goUntil(robot, Y, 50);
+        cout << "align" << endl;
+        alignTo(robot, Y);
+        goUntil(robot, Y, 120);
+    }
+
 }

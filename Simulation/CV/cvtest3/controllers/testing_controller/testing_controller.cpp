@@ -41,9 +41,12 @@ int main(int argc, char **argv)
 
   arm::init(robot);
   mosaic::init(robot);
-  wall::init(robot);
-  wall::follow(robot);
-  mosaic::gotoCentre1(robot);
+  // wall::init(robot);
+  // wall::follow(robot);
+  // mosaic::gotoCentre1(robot);
+
+  mosaic::gotoMagenta1(robot);
+
   // mosaic::turnLeft(robot);
   // mosaic::turnRight(robot);
   // mosaic::goFront(robot, 500);
@@ -53,26 +56,26 @@ int main(int argc, char **argv)
   string objName;
   string color = "blue";
   int object;
-  
-   while (robot->step(TIME_STEP) != -1)
-   {
-    //mosaic::goFront(robot,600);
-    
+
+  while (robot->step(TIME_STEP) != -1)
+  {
+    // mosaic::goFront(robot,600);
+
     arm::init(robot);
     mosaic::init(robot);
     mosaic::gotoCentre1(robot);
     navigate::init(robot);
     navigate::navigateObject(robot);
-    arm::gripObject(robot,0.001,0);
-    navigate::detectObject(robot,object);
-    arm::raise(robot,0);
+    arm::gripObject(robot, 0.001, 0);
+    navigate::detectObject(robot, object);
+    arm::raise(robot, 0);
     mosaic::turnRight(robot);
     mosaic::turnRight(robot);
-    mosaic::goFront(robot,400);
+    mosaic::goFront(robot, 400);
     mosaic::turnRight(robot);
-    mosaic::goFront(robot,850);
-    //mosaic::gotoMagenta1(robot);
-    //arm::shoot(robot);
+    mosaic::goFront(robot, 850);
+    // mosaic::gotoMagenta1(robot);
+    // arm::shoot(robot);
 
     // from wall to magenta
     // mosaic::goFront(robot, 500);
