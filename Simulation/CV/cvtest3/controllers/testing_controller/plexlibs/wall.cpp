@@ -35,16 +35,16 @@ namespace wall
     {
         while (robot->step(TIME_STEP) != -1 && mosaic::notIn(robot))
         {
-            double leftDS = ds[0]->getValue();
-            double frontLeftDS = ds[1]->getValue();
-            double frontRightDS = ds[2]->getValue();
+            double leftDS = 80-(ds[0]->getValue());
+            double frontLeftDS = 80-(ds[1]->getValue());
+            double frontRightDS = 80-(ds[2]->getValue());
 
             if (leftDS > 50)
             {
                 leftDS = 50;
             }
 
-            double perror = leftDS - 16;
+            double perror = leftDS - 17;
             double derror = perror - oerror;
             oerror = perror;
 
