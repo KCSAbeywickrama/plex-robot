@@ -26,8 +26,8 @@ using namespace std;
 #define Y_VMIN 50
 #define Y_VMAX 255
 
-#define K_HMIN
-#define K_HMAX
+#define K_HMIN 0
+#define K_HMAX 179
 #define K_SMIN
 #define K_SMAX
 #define K_VMIN

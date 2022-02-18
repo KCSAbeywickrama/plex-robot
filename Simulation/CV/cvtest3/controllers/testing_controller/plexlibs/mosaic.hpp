@@ -33,5 +33,5 @@ namespace mosaic
     void gotoMagenta1(Robot *robot);
     void gotoCentre1(Robot *robot);
     void gotoYellow1(Robot *robot);
-
+    void keyPreHoleAlign(Robot *robot);
 }
