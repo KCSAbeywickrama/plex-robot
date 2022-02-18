@@ -78,16 +78,6 @@ int main(int argc, char **argv)
     arm::gripObject(robot,0.001,0);
     navigate::detectObject(robot,object);
     arm::raise(robot,0);
-
-    mosaic::turnLeft(robot);
-    mosaic::turnLeft(robot);
-    arm::shoot(robot);
-    mosaic::turnLeft(robot);
-    mosaic::turnLeft(robot);
-    cout<<"2nd nav"<<endl;
-    navigate::navigateObject(robot);
-    cout<<"2nd nav end"<<endl;
-    while (robot->step(TIME_STEP) != -1)  ;
     
     //add function
     mosaic::preAlignKeyHole(robot);
@@ -96,9 +86,9 @@ int main(int argc, char **argv)
     keyhole::init(robot);
     keyhole::frontReading(robot,value);
     cout<<"front reading: "<<endl;
-    if (value>100)
+    if (value>50)
     {
-      mosaic::goFront(robot,value-100);
+      mosaic::goFront(robot,value-50);
     }
     mosaic::turnRight(robot);
     cout<<"pos correct"<<endl;
@@ -134,6 +124,45 @@ int main(int argc, char **argv)
     arm::gripObject(robot,0.001,0);
     navigate::detectObject(robot,object);
     arm::raise(robot,0);
+
+    mosaic::preAlignKeyHole(robot);
+    cout<<"chamod out"<<endl;
+    keyhole::init(robot);
+    keyhole::frontReading(robot,value);
+    cout<<"front reading: "<<endl;
+    if (value>50)
+    {
+      mosaic::goFront(robot,value-50);
+    }
+    mosaic::turnRight(robot);
+    cout<<"pos correct"<<endl;
+    
+    if (object==1)
+    {
+      keyhole::goToBox(robot);
+      arm::shoot(robot);
+      // box to magenta
+      mosaic::turnRight(robot);
+      mosaic::turnRight(robot);
+      mosaic::goFront(robot,850);
+      mosaic::turnLeft(robot);
+      mosaic::goFront(robot,190);
+      
+
+    }
+    if (object==2)
+    {
+      keyhole::goToCylinder(robot);
+
+      arm::shoot(robot);
+      //cylinder to magenta
+      mosaic::turnRight(robot);
+      mosaic::turnRight(robot);
+      mosaic::goFront(robot,850);
+      mosaic::turnLeft(robot);
+      mosaic::goFront(robot,20);
+
+    }
     //******************************************************************************
     //mosaic::goFront(robot,850);
     

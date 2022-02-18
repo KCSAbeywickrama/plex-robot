@@ -149,6 +149,11 @@ namespace arm
              robot->step(TIME_STEP);
            }
     shooter->setPosition(0);
+    leftSlider->setPosition(0.0);
+    rightSlider->setPosition(0.0);
+    handleMotor->setVelocity(1);
+    handleMotor->setPosition(0);
+
 
   }
   

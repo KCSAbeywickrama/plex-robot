@@ -235,7 +235,7 @@ namespace navigate
                         pixel=10;
                     }
 
-                    cout << "area"<<largestContourArea <<'pixel  '<< pixel<< ' ';
+                    cout << "area"<<largestContourArea <<"pixel  "<< pixel<< ' ';
 
                      
                     if (pixel>= 120)

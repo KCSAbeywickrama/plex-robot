@@ -13,7 +13,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.7216959989367978 0.5536484652131551 0.41548557385995416 4.612247157507953
-  position 0.11287651459588577 3.8765566940411142 0.4675896001812153
+  position 0.14777442740557595 3.7232390380851963 0.45339438841346513
 }
 TexturedBackground {
   luminosity 0.16
@@ -29,7 +29,7 @@ Floor {
   }
 }
 DEF key_cylinder Solid {
-  translation 0.72 0.0249804 -0.42
+  translation 1.07 0.0249804 -0.42
   rotation 0 0 1 1.570796326794897
   children [
     Shape {
@@ -911,7 +911,7 @@ DEF plexRobot Robot {
                 }
                 DEF leftSlider Shape {
                   appearance PBRAppearance {
-                    baseColor 0.290196 0.341176 0.129412
+                    baseColor 1 0 0
                     roughness 1
                     metalness 0
                   }
@@ -963,7 +963,7 @@ DEF plexRobot Robot {
                 }
                 DEF rightSlider Shape {
                   appearance PBRAppearance {
-                    baseColor 0.290196 0.341176 0.129412
+                    baseColor 1 0 0
                     roughness 1
                     metalness 0
                   }
