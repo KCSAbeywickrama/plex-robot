@@ -22,6 +22,7 @@ using namespace cv;
 
 namespace keyhole
 {
+    void init(Robot *robot);
     void goToCylinder(Robot *robot);
     void goToBox(Robot *robot);
 }

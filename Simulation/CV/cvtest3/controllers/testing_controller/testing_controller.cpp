@@ -12,6 +12,7 @@
 #include <webots/Camera.hpp>
 #include <webots/Display.hpp>
 #include <webots/ImageRef.hpp>
+#include <webots/DistanceSensor.hpp>
 
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
@@ -23,6 +24,7 @@
 #include "plexlibs/navigate.hpp"
 #include "plexlibs/mosaic.hpp"
 #include "plexlibs/wall.hpp"
+#include "plexlibs/keyhole.hpp"
 
 #define TIME_STEP 16
 
@@ -38,6 +40,13 @@ int main(int argc, char **argv)
 {
 
   Robot *robot = new Robot();
+  DistanceSensor *rLaser = robot->getDistanceSensor("rLaser");
+  DistanceSensor *lLaser = robot->getDistanceSensor("lLaser");
+  DistanceSensor *fLaser = robot->getDistanceSensor("fLaser");
+  lLaser->enable(TIME_STEP);
+  rLaser->enable(TIME_STEP);
+  fLaser->enable(TIME_STEP);
+  
 
   // arm::init(robot);
   // mosaic::init(robot);
@@ -56,10 +65,17 @@ int main(int argc, char **argv)
   
    while (robot->step(TIME_STEP) != -1)
    {
+    cout<<"f "<<lLaser->getValue()<<endl;
+    cout<<"r "<<rLaser->getValue()<<endl;
+    cout<<"l "<<fLaser->getValue()<<endl;
     //mosaic::goFront(robot,600);
     
-    arm::init(robot);
-    mosaic::init(robot);
+    // arm::init(robot);
+    // keyhole::init(robot);
+    // keyhole::goToBox(robot);
+    
+    //mosaic::init(robot);
+    
     // mosaic::gotoCentre1(robot);
     // navigate::init(robot);
     // navigate::navigateObject(robot);
@@ -106,8 +122,8 @@ int main(int argc, char **argv)
     // cout<<"end"<<endl;
     // mosaic::init(robot);
 
-    while (robot->step(TIME_STEP) != -1)
-      ;
+    // while (robot->step(TIME_STEP) != -1)
+    //   ;
   };
   // destroyAllWindows();
   delete robot;
