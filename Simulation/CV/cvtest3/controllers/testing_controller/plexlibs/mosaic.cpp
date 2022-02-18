@@ -14,8 +14,6 @@ namespace mosaic
     Robot *robot;
     PositionSensor *leftPosSensor;
     PositionSensor *rightPosSensor;
-    DistanceSensor *rUltrasonic;
-    DistanceSensor *lUltrasonic;
     Motor *leftMotor;
     Motor *rightMotor;
     Camera *camera;
@@ -36,12 +34,6 @@ namespace mosaic
 
         leftPosSensor = robot->getPositionSensor("leftEncoder");
         rightPosSensor = robot->getPositionSensor("rightEncoder");
-
-        lUltrasonic = robot->getDistanceSensor("lUltrasonic");
-        rUltrasonic = robot->getDistanceSensor("rUltrasonic");
-
-        lUltrasonic->enable(TIME_STEP);
-        rUltrasonic->enable(TIME_STEP);
 
         leftPosSensor->enable(TIME_STEP);
         rightPosSensor->enable(TIME_STEP);

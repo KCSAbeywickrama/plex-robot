@@ -12,6 +12,14 @@ namespace keyhole
     DistanceSensor *rLaser;
     DistanceSensor *lLaser;
     DistanceSensor *fLaser;
+    DistanceSensor *s0;
+    DistanceSensor *s1;
+    DistanceSensor *s2;
+    DistanceSensor *s3;
+    DistanceSensor *s4;
+    DistanceSensor *s5;
+    DistanceSensor *s6;
+    DistanceSensor *s7;
 
 
     
@@ -26,12 +34,29 @@ namespace keyhole
         rightMotor->setPosition(INFINITY);
         rightMotor->setVelocity(0.0);
 
-        DistanceSensor *rLaser = robot->getDistanceSensor("rLaser");
-        DistanceSensor *lLaser = robot->getDistanceSensor("lLaser");
-        DistanceSensor *fLaser = robot->getDistanceSensor("fLaser");
+        rLaser = robot->getDistanceSensor("rLaser");
+        lLaser = robot->getDistanceSensor("lLaser");
+        fLaser = robot->getDistanceSensor("fLaser");
+        s0=robot->getDistanceSensor("s0");
+        s1=robot->getDistanceSensor("s1");
+        s2=robot->getDistanceSensor("s2");
+        s3=robot->getDistanceSensor("s3");
+        s4=robot->getDistanceSensor("s4");
+        s5=robot->getDistanceSensor("s5");
+        s6=robot->getDistanceSensor("s6");
+        s7=robot->getDistanceSensor("s7");
+        
         lLaser->enable(TIME_STEP);
         rLaser->enable(TIME_STEP);
         fLaser->enable(TIME_STEP);
+        s0->enable(TIME_STEP);
+        s1->enable(TIME_STEP);
+        s2->enable(TIME_STEP);
+        s3->enable(TIME_STEP);
+        s4->enable(TIME_STEP);
+        s5->enable(TIME_STEP);
+        s6->enable(TIME_STEP);
+        s7->enable(TIME_STEP);
     }
     
     void goToCylinder(Robot *robot)
@@ -41,11 +66,11 @@ namespace keyhole
         {
             
             double leftD= lLaser->getValue();
-            double pError = leftD - 355;
-            double dError = pError - oerror;
+            double pError = leftD - 383;
+            //double dError = pError - oerror;
             oerror = pError;
 
-            double error = 1* pError - 0.6 * dError;
+            double error = 0.25* pError ;//- 0.6 * dError;
             double l = error;
             double r = error;
 
@@ -56,10 +81,13 @@ namespace keyhole
 
             leftMotor->setVelocity(3 - l);
             rightMotor->setVelocity(3 + r);
+            cout<<"flaser value: "<<fLaser->getValue()<<endl;
 
-            if (fLaser->getValue()<=20)
+            if (fLaser->getValue()<=250)
             {
                 cout<<"near cylinder"<<endl;
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
                 return;
             }
         }
@@ -67,19 +95,18 @@ namespace keyhole
     void goToBox(Robot *robot)
     {
         double oerror=0.0;
-        double leftDo= lLaser->getValue();
-        cout<<"value: "<<leftDo<<endl;
+        
         while (robot->step(TIME_STEP) != -1)
         {
             cout<<"insidef"<<endl;
             double leftD= lLaser->getValue();
             cout<<"value: "<<leftD<<endl;
-            double pError = leftD - 355;
+            double pError = leftD - 180;
             cout<<pError<<endl;
-            double dError = pError - oerror;
+            //double dError = pError - oerror;
             oerror = pError;
 
-            double error = 1* pError - 0.6 * dError;
+            double error = 0.25* pError; //- 0.001 * dError;
             double l = error;
             double r = error;
 
@@ -91,9 +118,49 @@ namespace keyhole
             leftMotor->setVelocity(3 - l);
             rightMotor->setVelocity(3 + r);
 
-            if (fLaser->getValue()<=20)
+            cout<<"flaser value: "<<fLaser->getValue()<<endl;
+            if (fLaser->getValue()<=150)
             {
                 cout<<"near box"<<endl;
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
+                return;
+            }
+        }
+    
+    }
+    void goToLine(Robot *robot)
+    {
+        double oerror=0.0;
+        
+        while (robot->step(TIME_STEP) != -1)
+        {
+            cout<<"insidef"<<endl;
+            double leftD= lLaser->getValue();
+            cout<<"value: "<<leftD<<endl;
+            double pError = leftD - 760;
+            cout<<pError<<endl;
+            //double dError = pError - oerror;
+            oerror = pError;
+
+            double error = 0.25* pError; //- 0.001 * dError;
+            double l = error;
+            double r = error;
+
+            if (error > 6){l=6;}
+            if (error > 3){r=3;}
+            if (error < -3){l=-3;}
+            if (error < -6){r=-6;}
+
+            leftMotor->setVelocity(3 - l);
+            rightMotor->setVelocity(3 + r);
+
+
+            if (fLaser->getValue()<=150)
+            {
+                cout<<"near box"<<endl;
+                leftMotor->setVelocity(0);
+                rightMotor->setVelocity(0);
                 return;
             }
         }
