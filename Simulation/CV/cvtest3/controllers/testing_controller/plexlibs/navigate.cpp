@@ -180,6 +180,7 @@ namespace navigate
                 imageMat.data = (uchar *)image;
                 cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+                cout<<"matrix size :"<<imageMat.size()<<endl;
 
                 Scalar lower(hmin, smin, vmin);
                 Scalar upper(hmax, smax, vmax);
@@ -338,7 +339,7 @@ namespace navigate
 
                 cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
                 //findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgGray, contours, hierarchy, RETR_CCOMP, CHAIN_APPROX_NONE);
+                findContours(imgGray, contours, hierarchy, RETR_LIST, CHAIN_APPROX_NONE);
             
             
 

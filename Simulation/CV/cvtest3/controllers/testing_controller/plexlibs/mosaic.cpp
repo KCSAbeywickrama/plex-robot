@@ -1,8 +1,10 @@
 #include <webots/Robot.hpp>
 #include <webots/Motor.hpp>
 #include <webots/PositionSensor.hpp>
+#include <webots/DistanceSensor.hpp>
 #include "vision.hpp"
 #include "mosaic.hpp"
+
 
 using namespace webots;
 using namespace std;
@@ -12,6 +14,8 @@ namespace mosaic
     Robot *robot;
     PositionSensor *leftPosSensor;
     PositionSensor *rightPosSensor;
+    DistanceSensor *rUltrasonic;
+    DistanceSensor *lUltrasonic;
     Motor *leftMotor;
     Motor *rightMotor;
     Camera *camera;
@@ -32,6 +36,12 @@ namespace mosaic
 
         leftPosSensor = robot->getPositionSensor("leftEncoder");
         rightPosSensor = robot->getPositionSensor("rightEncoder");
+
+        lUltrasonic = robot->getDistanceSensor("lUltrasonic");
+        rUltrasonic = robot->getDistanceSensor("rUltrasonic");
+
+        lUltrasonic->enable(TIME_STEP);
+        rUltrasonic->enable(TIME_STEP);
 
         leftPosSensor->enable(TIME_STEP);
         rightPosSensor->enable(TIME_STEP);
