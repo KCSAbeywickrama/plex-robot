@@ -368,7 +368,8 @@ namespace mosaic
 
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
-                if (error == 0)
+
+                if ((error < 2 && error > -2) && (i1 >= dis || i2 >= dis))
                 {
                     leftMotor->setVelocity(0);
                     rightMotor->setVelocity(0);
@@ -424,11 +425,8 @@ namespace mosaic
     {
         cout << "rotate" << endl;
         rotateRightUntil(robot, M);
-        cout << "go 50" << endl;
-        goUntil(robot, M, 50);
-        cout << "align" << endl;
-        alignTo(robot, M);
-        goUntil(robot, M, 120);
+        delay(robot, 10);
+        alignWhileGoing(robot, M, 112);
     }
 
     void gotoYellow1(Robot *robot)
@@ -442,7 +440,9 @@ namespace mosaic
     void keyPreHoleAlign(Robot *robot)
     {
         gotoMagenta1(robot);
-        gotoYellow1(robot);
+        goFront(robot, 350);
+        rotateRightUntil(robot, Y);
+        alignWhileGoing(robot, Y, 110);
         turnLeft(robot);
     }
 }
