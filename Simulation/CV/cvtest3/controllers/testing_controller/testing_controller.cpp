@@ -59,13 +59,17 @@ int main(int argc, char **argv)
   
    while (robot->step(TIME_STEP) != -1)
    {
+     arm::init(robot);
+     keyhole::init(robot);
+     keyhole::goToBox(robot);
+     //navigate::init(robot);
+     //navigate::navigateBall(robot,color) ;
+    //  arm::gripObject(robot,0.001,3);
+    //  arm::raise(robot,3);
     
     //*************************************************************************************************
-     arm::init(robot);
-     navigate::init(robot);
-     navigate::navigateBall(robot,color) ;
-     arm::gripObject(robot,0.001,3);
-     arm::raise(robot,3);
+     
+    //arm::init(robot);
     // mosaic::init(robot);
     
     // mosaic::gotoCentre1(robot);
