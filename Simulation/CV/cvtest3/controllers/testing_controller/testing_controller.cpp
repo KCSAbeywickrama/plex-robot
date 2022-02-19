@@ -45,7 +45,7 @@ int main(int argc, char **argv)
   // mosaic::init(robot);
   // wall::init(robot);
   // wall::follow(robot);
-  // mosaic::goWall2Magenta(robot);
+  // mosaic::goWall2MagentaEnc(robot);
   // mosaic::turnLeft(robot);
   // mosaic::turnRight(robot);
   // mosaic::goFront(robot, 500);
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     arm::init(robot);
     mosaic::init(robot);
 
-    mosaic::goWall2Magenta(robot);
+    mosaic::goWall2MagentaEnc(robot);
     navigate::init(robot);
     navigate::navigateObject(robot);
     arm::gripObject(robot, 0.001, 0);

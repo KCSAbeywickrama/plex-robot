@@ -204,7 +204,7 @@ namespace mosaic
         return true;
     }
 
-    void goWall2Magenta(Robot *robot)
+    void goWall2MagentaEnc(Robot *robot)
     {
         goFront(robot, 500);
         turnLeft(robot);
@@ -434,5 +434,23 @@ namespace mosaic
         goFront(robot, 350);
         goMagenta2Yellow(robot);
         turnLeft(robot);
+    }
+
+    void goBox2MagentaEnc(Robot *robot)
+    {
+        turnRight(robot);
+        turnRight(robot);
+        goFront(robot, 850);
+        turnLeft(robot);
+        goFront(robot, 190);
+    }
+
+    void goCylinder2MagentaEnc(Robot *robot)
+    {
+        turnRight(robot);
+        turnRight(robot);
+        goFront(robot, 850);
+        turnLeft(robot);
+        goFront(robot, 20);
     }
 }

@@ -30,6 +30,8 @@ namespace mosaic
     void filterAndShow(Robot *robot, int color);
 
     bool notIn(Robot *robot);
-    void goWall2Magenta(Robot *robot);
+    void goWall2MagentaEnc(Robot *robot);
+    void goBox2MagentaEnc(Robot *robot);
+    void goCylinder2MagentaEnc(Robot *robot);
     void preAlignKeyHole(Robot *robot);
 }
