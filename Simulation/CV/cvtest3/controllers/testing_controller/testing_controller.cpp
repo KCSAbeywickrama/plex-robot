@@ -41,16 +41,7 @@ int main(int argc, char **argv)
 
   Robot *robot = new Robot();
 
-  // arm::init(robot);
-  // mosaic::init(robot);
-  // wall::init(robot);
-  // wall::follow(robot);
-  // mosaic::goWall2MagentaEnc(robot);
-  // mosaic::turnLeft(robot);
-  // mosaic::turnRight(robot);
-  // mosaic::goFront(robot, 500);
-  // mosaic::goBack(robot, 200);
-  // mosaic::gotoMegenta(robot);
+  mosaic::showFilter(robot, CLR_M);
 
   string objName;
   string color = "red";

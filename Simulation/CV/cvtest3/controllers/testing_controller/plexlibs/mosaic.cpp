@@ -149,7 +149,7 @@ namespace mosaic
         }
     }
 
-    void filterAndShow(Robot *robot, int color)
+    void showFilter(Robot *robot, int color)
     {
         const unsigned char *image;
         Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
@@ -202,15 +202,6 @@ namespace mosaic
         }
 
         return true;
-    }
-
-    void goWall2MagentaEnc(Robot *robot)
-    {
-        goFront(robot, 500);
-        turnLeft(robot);
-        goFront(robot, 620);
-        turnRight(robot);
-        goFront(robot, 120);
     }
 
     float clipSpeed(float speed)
@@ -434,6 +425,15 @@ namespace mosaic
         goFront(robot, 350);
         goMagenta2Yellow(robot);
         turnLeft(robot);
+    }
+
+    void goWall2MagentaEnc(Robot *robot)
+    {
+        goFront(robot, 500);
+        turnLeft(robot);
+        goFront(robot, 620);
+        turnRight(robot);
+        goFront(robot, 120);
     }
 
     void goBox2MagentaEnc(Robot *robot)

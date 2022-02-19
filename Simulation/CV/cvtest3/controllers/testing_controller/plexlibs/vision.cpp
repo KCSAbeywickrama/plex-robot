@@ -41,6 +41,35 @@ namespace vision
         inRange(img, lower, upper, mask);
     }
 
+    uchar getMaxVal(uchar val1, uchar val2)
+    {
+        if (val1 > val2)
+            return val1;
+        return val2;
+    }
+
+    uchar getMinVal(uchar val1, uchar val2)
+    {
+        if (val1 < val2)
+            return val1;
+        return val2;
+    }
+
+    void getCombindMask(int color1, int color2, Mat &img, Mat &mask)
+    {
+        Scalar lower(
+            getMinVal(minMargin[color1][0], minMargin[color2][0]),
+            getMinVal(minMargin[color1][1], minMargin[color2][1]),
+            getMinVal(minMargin[color1][2], minMargin[color2][2]));
+
+        Scalar upper(
+            getMaxVal(maxMargin[color1][0], maxMargin[color2][0]),
+            getMaxVal(maxMargin[color1][1], maxMargin[color2][1]),
+            getMaxVal(maxMargin[color1][2], maxMargin[color2][2]));
+
+        inRange(img, lower, upper, mask);
+    }
+
     void imageGradient(Mat &img, int width, int height, int &gi, int &gj)
     {
         gi = 0;
