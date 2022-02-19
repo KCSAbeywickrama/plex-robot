@@ -84,7 +84,7 @@ namespace keyhole
             rightMotor->setVelocity(3 + r);
             cout<<"flaser value: "<<fLaser->getValue()<<endl;
 
-            if (fLaser->getValue()<=300)
+            if (fLaser->getValue()<=180)
             {
                 cout<<"near cylinder"<<endl;
                 leftMotor->setVelocity(0);
