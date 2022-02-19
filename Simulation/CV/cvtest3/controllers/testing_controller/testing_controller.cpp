@@ -25,6 +25,8 @@
 #include "plexlibs/mosaic.hpp"
 #include "plexlibs/wall.hpp"
 #include "plexlibs/keyhole.hpp"
+#include "plexlibs/normline.hpp"
+#include "plexlibs/dashline.hpp"
 
 #define TIME_STEP 16
 
@@ -40,8 +42,6 @@ int main(int argc, char **argv)
 {
 
   Robot *robot = new Robot();
-
-  mosaic::showFilter(robot, CLR_M);
 
   string objName;
   string color = "red";
@@ -60,14 +60,22 @@ int main(int argc, char **argv)
     //*************************************************************************************************
 
     arm::init(robot);
-    mosaic::init(robot);
+    // normline::init(robot);
+    // cout << "line init" << endl;
+    // normline::follow(robot);
+    // cout << "line end" << endl;
+    // mosaic::init(robot);
+    // wall::init(robot);
+    // wall::follow(robot);
+    dashline::init(robot);
+    dashline::follow(robot);
 
-    mosaic::goWall2MagentaEnc(robot);
-    navigate::init(robot);
-    navigate::navigateObject(robot);
-    arm::gripObject(robot, 0.001, 0);
-    navigate::detectObject(robot, object);
-    arm::raise(robot, 0);
+    // mosaic::goWall2MagentaEnc(robot);
+    // navigate::init(robot);
+    // navigate::navigateObject(robot);
+    // arm::gripObject(robot, 0.001, 0);
+    // navigate::detectObject(robot, object);
+    // arm::raise(robot, 0);
 
     // add function
     mosaic::preAlignKeyHole(robot);
