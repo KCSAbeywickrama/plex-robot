@@ -3,15 +3,27 @@
 namespace vision
 {
 
-    uchar minMargin[3][3] = {
+    uchar minMargin[8][3] = {
         {M_HMIN, M_SMIN, M_VMIN},
         {C_HMIN, C_SMIN, C_VMIN},
-        {Y_HMIN, Y_SMIN, Y_VMIN}};
+        {Y_HMIN, Y_SMIN, Y_VMIN},
+        {O_HMIN, O_SMIN, O_VMIN},
+        {R_HMIN, R_SMIN, R_VMIN},
+        {B_HMIN, B_SMIN, B_VMIN},
+        {W_HMIN, W_SMIN, W_VMIN},
+        {K_HMIN, K_SMIN, K_VMIN},
+    };
 
-    uchar maxMargin[3][3] = {
+    uchar maxMargin[8][3] = {
         {M_HMAX, M_SMAX, M_VMAX},
         {C_HMAX, C_SMAX, C_VMAX},
-        {Y_HMAX, Y_SMAX, Y_VMAX}};
+        {Y_HMAX, Y_SMAX, Y_VMAX},
+        {O_HMAX, O_SMAX, O_VMAX},
+        {R_HMAX, R_SMAX, R_VMAX},
+        {B_HMAX, B_SMAX, B_VMAX},
+        {W_HMAX, W_SMAX, W_VMAX},
+        {K_HMAX, K_SMAX, K_VMAX},
+    };
 
     void gotoObject()
     {

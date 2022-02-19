@@ -26,33 +26,40 @@ using namespace std;
 #define Y_VMIN 50
 #define Y_VMAX 255
 
+#define O_HMIN 1
+#define O_HMAX 27
+#define O_SMIN 82
+#define O_SMAX 255
+#define O_VMIN 15
+#define O_VMAX 255
+
+#define R_HMIN 0
+#define R_HMAX 16
+#define R_SMIN 110
+#define R_SMAX 255
+#define R_VMIN 20
+#define R_VMAX 255
+
+#define B_HMIN 110
+#define B_HMAX 120
+#define B_SMIN 121
+#define B_SMAX 255
+#define B_VMIN 10
+#define B_VMAX 255
+
+#define W_HMIN 0
+#define W_HMAX 179
+#define W_SMIN 0
+#define W_SMAX 20
+#define W_VMIN 100
+#define W_VMAX 255
+
 #define K_HMIN 0
 #define K_HMAX 179
-#define K_SMIN
-#define K_SMAX
-#define K_VMIN
-#define K_VMAX
-
-#define R_HMIN
-#define R_HMAX
-#define R_SMIN
-#define R_SMAX
-#define R_VMIN
-#define R_VMAX
-
-#define B_HMIN
-#define B_HMAX
-#define B_SMIN
-#define B_SMAX
-#define B_VMIN
-#define B_VMAX
-
-#define O_HMIN
-#define O_HMAX
-#define O_SMIN
-#define O_SMAX
-#define O_VMIN
-#define O_VMAX
+#define K_SMIN 0
+#define K_SMAX 71
+#define K_VMIN 0
+#define K_VMAX 65
 
 // #define _HMIN
 // #define _HMAX
@@ -61,9 +68,14 @@ using namespace std;
 // #define _VMIN
 // #define _VMAX
 
-#define M 0
-#define C 1
-#define Y 2
+#define CLR_M 0
+#define CLR_C 1
+#define CLR_Y 2
+#define CLR_O 3
+#define CLR_R 4
+#define CLR_B 5
+#define CLR_W 6
+#define CLR_K 7
 
 namespace vision
 {

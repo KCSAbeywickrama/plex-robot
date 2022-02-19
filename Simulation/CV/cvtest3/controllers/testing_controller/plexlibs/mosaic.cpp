@@ -183,7 +183,7 @@ namespace mosaic
             cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
             cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-            vision::getMask(M, imgHSV, mask);
+            vision::getMask(CLR_M, imgHSV, mask);
 
             int i = 0;
             for (i = imgHeight - 1; i >= 0; i--)
@@ -416,25 +416,25 @@ namespace mosaic
     void gotoMagenta1(Robot *robot)
     {
         cout << "rotate" << endl;
-        rotateRightUntil(robot, M);
+        rotateRightUntil(robot, CLR_M);
         delay(robot, 10);
-        alignWhileGoing(robot, M, 112);
+        alignWhileGoing(robot, CLR_M, 112);
     }
 
     void gotoYellow1(Robot *robot)
     {
         cout << "rotate" << endl;
-        rotateRightUntil(robot, Y);
+        rotateRightUntil(robot, CLR_Y);
         cout << "go whiel align" << endl;
-        alignWhileGoing(robot, Y, 50);
+        alignWhileGoing(robot, CLR_Y, 50);
     }
 
     void preAlignKeyHole(Robot *robot)
     {
         gotoMagenta1(robot);
         goFront(robot, 350);
-        rotateRightUntil(robot, Y);
-        alignWhileGoing(robot, Y, 110);
+        rotateRightUntil(robot, CLR_Y);
+        alignWhileGoing(robot, CLR_Y, 110);
         turnLeft(robot);
     }
 }
