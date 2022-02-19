@@ -82,9 +82,8 @@ namespace navigate
         vector<Point> poly;
         vector<Vec4i> hierarchy;
         
-
-        hmin = 1, smin = 50, vmin = 0;
-        hmax = 88, smax = 255, vmax = 255;
+        hmin = 5, smin = 82, vmin = 15;
+        hmax = 27, smax = 255, vmax = 255;
         
         while (robot->step(TIME_STEP) != -1 )
         {
@@ -129,8 +128,8 @@ namespace navigate
                 dilate(vertical, vertical, verticalStructure, Point(-1, -1));
                 erode(horizontal, horizontal, horizontalStructure, Point(-1, -1));
                 dilate(horizontal, horizontal, horizontalStructure, Point(-1, -1));
-                HoughLinesP(horizontal, lines, 1, CV_PI/180, 20, 5, 5); 
-                HoughLinesP(vertical, lines2, 1, CV_PI/180, 20, 5, 25); 
+                HoughLinesP(horizontal, lines, 1, CV_PI/180, 5, 10,5); 
+                HoughLinesP(vertical, lines2, 1, CV_PI/180, 25, 5, 25); 
                 cout<<"number of hori lines=" <<lines.size() <<endl;
                 cout<<"number of ver lines=" <<lines2.size() <<endl;  
 
