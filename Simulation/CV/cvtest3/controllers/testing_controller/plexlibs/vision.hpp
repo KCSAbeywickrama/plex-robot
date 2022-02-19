@@ -26,7 +26,7 @@ using namespace std;
 #define Y_VMIN 50
 #define Y_VMAX 255
 
-#define O_HMIN 1
+#define O_HMIN 5
 #define O_HMAX 27
 #define O_SMIN 82
 #define O_SMAX 255
