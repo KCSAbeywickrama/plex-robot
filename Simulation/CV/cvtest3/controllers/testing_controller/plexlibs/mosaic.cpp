@@ -10,7 +10,6 @@ using namespace std;
 
 namespace mosaic
 {
-    Robot *robot;
     PositionSensor *leftPosSensor;
     PositionSensor *rightPosSensor;
     Motor *leftMotor;
