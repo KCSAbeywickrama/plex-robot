@@ -8,9 +8,9 @@ namespace wall
 
     DistanceSensor *ds[3];
 
-    int turnright;
-    double oerror;
-    int bgin;
+    int turnright = 0;
+    double oerror = 0;
+    int bgin = 0;
 
     void init(Robot *robot)
     {
@@ -35,9 +35,9 @@ namespace wall
     {
         while (robot->step(TIME_STEP) != -1 && mosaic::notIn(robot))
         {
-            double leftDS = 80-(ds[0]->getValue());
-            double frontLeftDS = 80-(ds[1]->getValue());
-            double frontRightDS = 80-(ds[2]->getValue());
+            double leftDS = 80 - (ds[0]->getValue());
+            double frontLeftDS = 80 - (ds[1]->getValue());
+            double frontRightDS = 80 - (ds[2]->getValue());
 
             if (leftDS > 50)
             {
@@ -72,19 +72,19 @@ namespace wall
 
             if (bgin == 0)
             {
-                int i;
+                int i = 0;
                 if (leftDS > 35 || (perror < 3 && perror > -3))
                 {
                     bgin = 1;
                 }
                 else
                 {
-                    if (perror > 2.5)
+                    if (perror > 3)
                     {
                         i = 1;
                     }
 
-                    if (perror < -2.5)
+                    if (perror < -3)
                     {
                         i = -1;
                     }

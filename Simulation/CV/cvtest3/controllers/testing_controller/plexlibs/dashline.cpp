@@ -30,6 +30,7 @@ namespace dashline
   bool end = 0;
 
   DistanceSensor *s1;
+  DistanceSensor *s2;
   DistanceSensor *s3;
   DistanceSensor *s4;
   DistanceSensor *s5;
@@ -216,25 +217,24 @@ namespace dashline
     speedset();
   }
 
-
-  void dashfollow(Robot *robot)
+  void follow(Robot *robot)
   {
-      while (robot->step(TIME_STEP) != -1)
+    while (robot->step(TIME_STEP) != -1)
+    {
+      sensor_check();
+      if (end)
       {
-        sensor_check();
-        if (end)
-        {
-          ls = 0;
-          rs = 0;
-          speedset();
-          break;
-        }
-        else
-        {
-          tcheck(robot);
-          pid();
-          endcheck(robot);
-        }
+        ls = 0;
+        rs = 0;
+        speedset();
+        break;
+      }
+      else
+      {
+        tcheck(robot);
+        pid();
+        endcheck(robot);
       }
     }
+  }
 }

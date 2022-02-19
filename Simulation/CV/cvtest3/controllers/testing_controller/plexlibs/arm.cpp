@@ -1,6 +1,4 @@
-#include "motors.hpp"
 #include "arm.hpp"
-
 
 namespace arm
 {
@@ -19,12 +17,18 @@ namespace arm
   void gripObject(Robot *robot, float ps, int obj)
   {
     float value;
-    if (obj==3){value=0.043;}
-    else if (obj == 0 ){value=0.037;}
-    cout << "gripping object "<<value << endl;
+    if (obj == 3)
+    {
+      value = 0.043;
+    }
+    else if (obj == 0)
+    {
+      value = 0.037;
+    }
+    cout << "gripping object " << value << endl;
     while (robot->step(TIME_STEP) != -1)
     {
-      
+
       leftTouch->enable(TIME_STEP);
       rightTouch->enable(TIME_STEP);
 
@@ -37,12 +41,11 @@ namespace arm
       handleMotor->setVelocity(1.57);
       handleMotor->setPosition(1.57);
 
-      
       for (int i = 0; i < 10; i++)
-         {
-            robot->step(TIME_STEP);
-         }
-      
+      {
+        robot->step(TIME_STEP);
+      }
+
       leftSlider->setPosition(ps);
       rightSlider->setPosition(ps);
       cout << leftSliderEncoder->getValue() << endl;
@@ -68,11 +71,10 @@ namespace arm
           rightSlider->setPosition(ps - 0.005);
           leftMotor->setVelocity(1.5);
           rightMotor->setVelocity(0.025);
-           for (int i = 0; i < 10; i++)
-           {
-             robot->step(TIME_STEP);
-           }
-
+          for (int i = 0; i < 10; i++)
+          {
+            robot->step(TIME_STEP);
+          }
         }
       }
       ps += 0.001;
@@ -115,55 +117,44 @@ namespace arm
 
     cout << "arm init" << endl;
   }
-  void raise(Robot *robot,int object)
+  void raise(Robot *robot, int object)
   {
-    if(object==0)
+    if (object == 0)
     {
       handleMotor->setVelocity(0.5);
       handleMotor->setPosition(1.2);
     }
-    if(object==3)
+    if (object == 3)
     {
       handleMotor->setVelocity(1);
       handleMotor->setPosition(0);
     }
-     for (int i = 0; i < 200; i++)
-           {
-             robot->step(TIME_STEP);
-           }
+    for (int i = 0; i < 200; i++)
+    {
+      robot->step(TIME_STEP);
+    }
   }
   void shoot(Robot *robot)
   {
-   
+
     handleMotor->setVelocity(1);
     handleMotor->setPosition(1.57);
-     for (int i = 0; i < 200; i++)
-           {
-             robot->step(TIME_STEP);
-           }
+    for (int i = 0; i < 200; i++)
+    {
+      robot->step(TIME_STEP);
+    }
     leftSlider->setPosition(0.035);
     rightSlider->setPosition(0.035);
     shooter->setPosition(-0.15);
-     for (int i = 0; i < 150; i++)
-           {
-             robot->step(TIME_STEP);
-           }
+    for (int i = 0; i < 150; i++)
+    {
+      robot->step(TIME_STEP);
+    }
     shooter->setPosition(0);
     leftSlider->setPosition(0.0);
     rightSlider->setPosition(0.0);
     handleMotor->setVelocity(1);
     handleMotor->setPosition(0);
-
-
   }
-  
-} 
-  
-    
 
-    
-    
-    
-
-     
-
+}
