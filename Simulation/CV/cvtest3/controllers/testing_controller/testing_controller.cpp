@@ -159,7 +159,7 @@ int main(int argc, char **argv)
     //******************************************************************************
     // mosaic::goFront(robot,850);
 
-    // mosaic::gotoMagenta1(robot);
+    // mosaic::goCyan2Magenta(robot);
     // arm::shoot(robot);
 
     // from wall to magenta

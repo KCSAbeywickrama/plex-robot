@@ -412,7 +412,7 @@ namespace mosaic
         }
     }
 
-    void gotoMagenta1(Robot *robot)
+    void goCyan2Magenta(Robot *robot)
     {
         cout << "rotate" << endl;
         rotateRightUntil(robot, CLR_M);
@@ -420,20 +420,19 @@ namespace mosaic
         alignWhileGoing(robot, CLR_M, 112);
     }
 
-    void gotoYellow1(Robot *robot)
+    void goMagenta2Yellow(Robot *robot)
     {
         cout << "rotate" << endl;
         rotateRightUntil(robot, CLR_Y);
-        cout << "go whiel align" << endl;
-        alignWhileGoing(robot, CLR_Y, 50);
+        cout << "go while align" << endl;
+        alignWhileGoing(robot, CLR_Y, 110);
     }
 
     void preAlignKeyHole(Robot *robot)
     {
-        gotoMagenta1(robot);
+        goCyan2Magenta(robot);
         goFront(robot, 350);
-        rotateRightUntil(robot, CLR_Y);
-        alignWhileGoing(robot, CLR_Y, 110);
+        goMagenta2Yellow(robot);
         turnLeft(robot);
     }
 }
