@@ -13,7 +13,7 @@ using namespace std;
 #define M_VMAX 255
 
 #define C_HMIN 90
-#define C_HMAX 133
+#define C_HMAX 115
 #define C_SMIN 59
 #define C_SMAX 255
 #define C_VMIN 25
@@ -37,7 +37,7 @@ using namespace std;
 #define R_HMAX 16
 #define R_SMIN 110
 #define R_SMAX 255
-#define R_VMIN 20
+#define R_VMIN 15
 #define R_VMAX 255
 
 #define B_HMIN 110
