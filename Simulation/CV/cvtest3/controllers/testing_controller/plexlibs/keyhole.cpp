@@ -68,10 +68,10 @@ namespace keyhole
             double leftD= lLaser->getValue();
 
             double pError = leftD - 380;
-            //double dError = pError - oerror;
+            double dError = pError - oerror;
             oerror = pError;
 
-            double error = 0.25* pError ;//- 0.6 * dError;
+            double error = 0.0005* pError + 0.0002 * dError;
             double l = error;
             double r = error;
 
@@ -84,7 +84,7 @@ namespace keyhole
             rightMotor->setVelocity(3 + r);
             cout<<"flaser value: "<<fLaser->getValue()<<endl;
 
-            if (fLaser->getValue()<=180)
+            if (fLaser->getValue()<=300)
             {
                 cout<<"near cylinder"<<endl;
                 leftMotor->setVelocity(0);
@@ -104,10 +104,10 @@ namespace keyhole
             cout<<"value: "<<leftD<<endl;
             double pError = leftD - 180;
             cout<<"error: "<<pError<<endl;
-            //double dError = pError - oerror;
-            //oerror = pError;
+            double dError = pError - oerror;
+            oerror = pError;
 
-            double error = 0.25* pError;//- 0.05 * dError;
+            double error = 0.0004* pError+0.00015 * dError;
             double l = error;
             double r = error;
 
@@ -120,7 +120,7 @@ namespace keyhole
             rightMotor->setVelocity(3 + r);
 
             cout<<"flaser value: "<<fLaser->getValue()<<endl;
-            if (fLaser->getValue()<=150)
+            if (fLaser->getValue()<=300)
             {
                 cout<<"near box"<<endl;
                 leftMotor->setVelocity(0);
