@@ -107,7 +107,8 @@ namespace keyhole
             double dError = pError - oerror;
             oerror = pError;
 
-            double error = 0.0004* pError+0.00015 * dError;
+           double error = 0.0004* pError+0.00015 * dError;
+            //double error = 0.8* pError;//+0.00015 * dError;
             double l = error;
             double r = error;
 

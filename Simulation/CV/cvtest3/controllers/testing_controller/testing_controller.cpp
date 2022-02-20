@@ -59,12 +59,18 @@ int main(int argc, char **argv)
 
     //*************************************************************************************************
 
+    //arm::init(robot);
     arm::init(robot);
+    normline::init(robot);
+    normline::follow(robot);
+    mosaic::init(robot);
+    wall::init(robot);
+    wall::follow(robot);
     // normline::init(robot);
     // cout << "line init" << endl;
     // normline::follow(robot);
     // cout << "line end" << endl;
-    mosaic::init(robot);
+    //mosaic::init(robot);
     // wall::init(robot);
     // wall::follow(robot);
     // dashline::init(robot);
@@ -76,7 +82,7 @@ int main(int argc, char **argv)
     navigate::navigateObject(robot);
     arm::gripObject(robot, 0.001, 0);
     navigate::detectObject(robot, object);
-    arm::raise(robot, 0);
+    arm::raise(robot, 1.2);
 
     // add function
     mosaic::preAlignKeyHole(robot);
@@ -120,7 +126,7 @@ int main(int argc, char **argv)
     navigate::navigateObject(robot);
     arm::gripObject(robot, 0.001, 0);
     navigate::detectObject(robot, object);
-    arm::raise(robot, 0);
+    arm::raise(robot, 1.2);
 
     mosaic::preAlignKeyHole(robot);
     cout << "chamod out" << endl;
@@ -139,11 +145,11 @@ int main(int argc, char **argv)
       keyhole::goToBox(robot);
       arm::shoot(robot);
       // box to magenta
-      mosaic::turnRight(robot);
-      mosaic::turnRight(robot);
-      mosaic::goFront(robot, 850);
-      mosaic::turnLeft(robot);
-      mosaic::goFront(robot, 190);
+      // mosaic::turnRight(robot);
+      // mosaic::turnRight(robot);
+      // mosaic::goFront(robot, 850);
+      // mosaic::turnLeft(robot);
+      // mosaic::goFront(robot, 190);
     }
     if (object == 2)
     {
@@ -151,12 +157,30 @@ int main(int argc, char **argv)
 
       arm::shoot(robot);
       // cylinder to magenta
-      mosaic::turnRight(robot);
-      mosaic::turnRight(robot);
-      mosaic::goFront(robot, 850);
-      mosaic::turnLeft(robot);
-      mosaic::goFront(robot, 20);
+      // mosaic::turnRight(robot);
+      // mosaic::turnRight(robot);
+      // mosaic::goFront(robot, 850);
+      // mosaic::turnLeft(robot);
+      // mosaic::goFront(robot, 20);
     }
+
+    mosaic::turnRight(robot);
+    navigate::navigateBall(robot,color);
+    arm::gripObject(robot,0.001,3);
+    arm::raise(robot,1.2);
+
+    
+
+    // mosaic area enter
+
+    // mosaic area end
+    
+    mosaic::exit(robot);
+    arm::raise(robot,0.0);
+    mosaic::goFront(robot, 30);
+    dashline::init(robot);
+    dashline::follow(robot);
+
     //******************************************************************************
     // mosaic::goFront(robot,850);
 

@@ -117,18 +117,20 @@ namespace arm
 
     cout << "arm init" << endl;
   }
-  void raise(Robot *robot, int object)
+  void raise(Robot *robot, float angle)
   {
-    if (object == 0)
-    {
-      handleMotor->setVelocity(0.5);
-      handleMotor->setPosition(1.2);
-    }
-    if (object == 3)
-    {
-      handleMotor->setVelocity(1);
-      handleMotor->setPosition(0);
-    }
+    // if (object == 0)
+    // {
+      handleMotor->setVelocity(0.7);
+      handleMotor->setPosition(angle);
+    //}
+    // if (object == 3)
+    // {
+    //   // handleMotor->setVelocity(1);
+    //   // handleMotor->setPosition(0);
+    //   handleMotor->setVelocity(0.5);
+    //   handleMotor->setPosition(1.2);
+    // }
     for (int i = 0; i < 200; i++)
     {
       robot->step(TIME_STEP);
