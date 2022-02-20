@@ -59,24 +59,14 @@ int main(int argc, char **argv)
 
     //*************************************************************************************************
 
-    //arm::init(robot);
+    
     arm::init(robot);
     normline::init(robot);
     normline::follow(robot);
     mosaic::init(robot);
     wall::init(robot);
     wall::follow(robot);
-    // normline::init(robot);
-    // cout << "line init" << endl;
-    // normline::follow(robot);
-    // cout << "line end" << endl;
-    //mosaic::init(robot);
-    // wall::init(robot);
-    // wall::follow(robot);
-    // dashline::init(robot);
-    // dashline::follow(robot);
 
-    // while (robot->step(TIME_STEP) != -1);
     mosaic::goWall2MagentaEnc(robot);
     navigate::init(robot);
     navigate::navigateObject(robot);
@@ -84,7 +74,7 @@ int main(int argc, char **argv)
     navigate::detectObject(robot, object);
     arm::raise(robot, 1.2);
 
-    // add function
+    
     mosaic::preAlignKeyHole(robot);
     cout << "chamod out" << endl;
     float value;
@@ -95,15 +85,15 @@ int main(int argc, char **argv)
     // {
     //   mosaic::goFront(robot, value - 50);
     // }
-    mosaic::turnRight(robot);
-    cout<<"turn right"<<endl;
+    //mosaic::turnRight(robot);
+   // cout<<"turn right"<<endl;
     cout << "pos correct" << endl;
 
     if (object == 1)
     {
       keyhole::goToBox(robot);
       arm::shoot(robot);
-      // box to magenta
+    // box to magenta
       mosaic::turnRight(robot);
       mosaic::turnRight(robot);
       mosaic::goFront(robot, 850);
@@ -113,7 +103,6 @@ int main(int argc, char **argv)
     if (object == 2)
     {
       keyhole::goToCylinder(robot);
-
       arm::shoot(robot);
       // cylinder to magenta
       mosaic::turnRight(robot);
@@ -137,31 +126,20 @@ int main(int argc, char **argv)
     // {
     //   mosaic::goFront(robot, value - 200);
     // }
-    mosaic::turnRight(robot);
+    //mosaic::turnRight(robot);
     cout << "pos correct" << endl;
 
     if (object == 1)
     {
       keyhole::goToBox(robot);
       arm::shoot(robot);
-      // box to magenta
-      // mosaic::turnRight(robot);
-      // mosaic::turnRight(robot);
-      // mosaic::goFront(robot, 850);
-      // mosaic::turnLeft(robot);
-      // mosaic::goFront(robot, 190);
+      
     }
     if (object == 2)
     {
       keyhole::goToCylinder(robot);
-
       arm::shoot(robot);
-      // cylinder to magenta
-      // mosaic::turnRight(robot);
-      // mosaic::turnRight(robot);
-      // mosaic::goFront(robot, 850);
-      // mosaic::turnLeft(robot);
-      // mosaic::goFront(robot, 20);
+      
     }
 
     mosaic::turnRight(robot);
@@ -182,39 +160,7 @@ int main(int argc, char **argv)
     dashline::follow(robot);
 
     //******************************************************************************
-    // mosaic::goFront(robot,850);
-
-    // mosaic::goCyan2Magenta(robot);
-    // arm::shoot(robot);
-
-    // from wall to magenta
-    // mosaic::goFront(robot, 500);
-    // mosaic::turnLeft(robot);
-    // mosaic::goFront(robot, 650);
-    // mosaic::turnRight(robot);
-    // mosaic::goFront(robot,120);
-
-    // from cylinder to magenta
-    //  mosaic::turnRight(robot);
-    //  mosaic::turnRight(robot);
-    //  mosaic::goFront(robot,850);
-    //  mosaic::turnLeft(robot);
-    //  mosaic::goFront(robot,20);
-
-    // from box to magenta
-    // mosaic::turnRight(robot);
-    // mosaic::turnRight(robot);
-    // mosaic::goFront(robot,850);
-    // mosaic::turnLeft(robot);
-    // mosaic::goFront(robot,190);
-
-    // //arm::gripObject(robot,0.001,"ball");
-    // navigate::init(robot);
-    // //navigate::navigateBall(robot, color) ;
-    // navigate::navigateObject(robot,objName);
-    // arm::gripObject(robot,0.001,1);
-    // cout<<"end"<<endl;
-    // mosaic::init(robot);
+    
 
     while (robot->step(TIME_STEP) != -1)
       ;

@@ -483,7 +483,7 @@ namespace mosaic
         goCyan2Magenta(robot);
         goFront(robot, 350);
         goMagenta2Yellow(robot);
-        turnLeft(robot);
+        //turnLeft(robot);
     }
 
     void exit(Robot *robot)
