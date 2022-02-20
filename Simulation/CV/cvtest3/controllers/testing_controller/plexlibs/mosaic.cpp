@@ -211,7 +211,7 @@ namespace mosaic
                 if (line[imgWidth / 2])
                     break;
             }
-            cout << " i:" << i;
+            // cout << " i:" << i;
             // deside where to detect mosaic area
             if (i > 110)
             {
