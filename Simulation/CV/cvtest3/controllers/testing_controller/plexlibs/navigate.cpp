@@ -1,4 +1,5 @@
 #include "vision.hpp"
+#include "mosaic.hpp"
 #include "navigate.hpp"
 
 namespace navigate
@@ -131,6 +132,8 @@ namespace navigate
                 HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 5, 25);
                 cout << "number of hori lines=" << lines.size() << endl;
                 cout << "number of ver lines=" << lines2.size() << endl;
+
+                mosaic::showImgGray(imgErode);
 
                 if (lines.size() >= 3)
                 {
