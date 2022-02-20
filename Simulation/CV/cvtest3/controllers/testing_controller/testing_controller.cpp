@@ -127,10 +127,10 @@ int main(int argc, char **argv)
     keyhole::init(robot);
     keyhole::frontReading(robot, value);
     cout << "front reading: " << endl;
-    if (value > 200)
-    {
-      mosaic::goFront(robot, value - 200);
-    }
+    // if (value > 200)
+    // {
+    //   mosaic::goFront(robot, value - 200);
+    // }
     mosaic::turnRight(robot);
     cout << "pos correct" << endl;
 
