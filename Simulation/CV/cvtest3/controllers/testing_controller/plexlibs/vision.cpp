@@ -25,15 +25,6 @@ namespace vision
         {K_HMAX, K_SMAX, K_VMAX},
     };
 
-    void gotoObject()
-    {
-        cout << "vision:gotoObject()" << endl;
-    }
-    void mainFunction()
-    {
-        cout << "vision:mainFunction()" << endl;
-    }
-
     void getMask(int color, Mat &img, Mat &mask)
     {
         Scalar lower(minMargin[color][0], minMargin[color][1], minMargin[color][2]);

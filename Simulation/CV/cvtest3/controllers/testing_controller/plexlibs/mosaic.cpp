@@ -169,6 +169,26 @@ namespace mosaic
         }
     }
 
+    void showCombinedFilter(Robot *robot, int color1, int color2)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+                vision::getCombindMask(color1, color2, imgHSV, mask);
+                showImgGray(mask);
+            }
+        }
+    }
+
     bool notIn(Robot *robot)
     {
         const unsigned char *image;
