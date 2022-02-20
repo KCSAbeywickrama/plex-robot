@@ -80,6 +80,6 @@ using namespace std;
 namespace vision
 {
     void getMask(int color, Mat &img, Mat &mask);
-    void getCombindMask(int color1, int color2, Mat &img, Mat &mask);
+    // void getCombindMask(int color1, int color2, Mat &img, Mat &mask);
     void imageGradient(Mat &img, int width, int height, int &gi, int &gj);
 }

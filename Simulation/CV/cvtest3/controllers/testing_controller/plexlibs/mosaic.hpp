@@ -28,11 +28,14 @@ namespace mosaic
     void showImgRGB(Mat &img);
     void showImgGray(Mat &img);
     void showFilter(Robot *robot, int color);
-    void showCombinedFilter(Robot *robot, int color1, int color2);
+    // void showCombinedFilter(Robot *robot, int color1, int color2);
 
     bool notIn(Robot *robot);
     void goWall2MagentaEnc(Robot *robot);
     void goBox2MagentaEnc(Robot *robot);
     void goCylinder2MagentaEnc(Robot *robot);
     void preAlignKeyHole(Robot *robot);
+    void exit(Robot *robot);
+    void directExit(Robot *robot);
+    void tmpGoHoles(Robot *robot);
 }

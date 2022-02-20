@@ -111,7 +111,7 @@ namespace dashline
         if (et > 4)
         {
           eetime = robot->getTime();
-          while ((robot->getTime() - eetime) < 1)
+          while (robot->step(TIME_STEP) != -1 && (robot->getTime() - eetime) < 1)
           {
             if (act == 0)
             {
