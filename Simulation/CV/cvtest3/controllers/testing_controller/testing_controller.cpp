@@ -64,18 +64,19 @@ int main(int argc, char **argv)
     // cout << "line init" << endl;
     // normline::follow(robot);
     // cout << "line end" << endl;
-    // mosaic::init(robot);
+    mosaic::init(robot);
     // wall::init(robot);
     // wall::follow(robot);
-    dashline::init(robot);
-    dashline::follow(robot);
+    // dashline::init(robot);
+    // dashline::follow(robot);
 
-    // mosaic::goWall2MagentaEnc(robot);
-    // navigate::init(robot);
-    // navigate::navigateObject(robot);
-    // arm::gripObject(robot, 0.001, 0);
-    // navigate::detectObject(robot, object);
-    // arm::raise(robot, 0);
+    // while (robot->step(TIME_STEP) != -1);
+    mosaic::goWall2MagentaEnc(robot);
+    navigate::init(robot);
+    navigate::navigateObject(robot);
+    arm::gripObject(robot, 0.001, 0);
+    navigate::detectObject(robot, object);
+    arm::raise(robot, 0);
 
     // add function
     mosaic::preAlignKeyHole(robot);
@@ -84,11 +85,12 @@ int main(int argc, char **argv)
     keyhole::init(robot);
     keyhole::frontReading(robot, value);
     cout << "front reading: " << endl;
-    if (value > 50)
-    {
-      mosaic::goFront(robot, value - 50);
-    }
+    // if (value > 50)
+    // {
+    //   mosaic::goFront(robot, value - 50);
+    // }
     mosaic::turnRight(robot);
+    cout<<"turn right"<<endl;
     cout << "pos correct" << endl;
 
     if (object == 1)
@@ -114,7 +116,7 @@ int main(int argc, char **argv)
       mosaic::turnLeft(robot);
       mosaic::goFront(robot, 20);
     }
-    cout << "object 2" << endl;
+    cout << "object 2 start" << endl;
     navigate::navigateObject(robot);
     arm::gripObject(robot, 0.001, 0);
     navigate::detectObject(robot, object);
@@ -125,10 +127,10 @@ int main(int argc, char **argv)
     keyhole::init(robot);
     keyhole::frontReading(robot, value);
     cout << "front reading: " << endl;
-    if (value > 50)
-    {
-      mosaic::goFront(robot, value - 50);
-    }
+    // if (value > 200)
+    // {
+    //   mosaic::goFront(robot, value - 200);
+    // }
     mosaic::turnRight(robot);
     cout << "pos correct" << endl;
 

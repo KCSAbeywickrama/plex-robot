@@ -23,7 +23,7 @@ namespace arm
     }
     else if (obj == 0)
     {
-      value = 0.037;
+      value = 0.038;
     }
     cout << "gripping object " << value << endl;
     while (robot->step(TIME_STEP) != -1)
