@@ -63,8 +63,8 @@ int main(int argc, char **argv)
     arm::init(robot);
 
     mosaic::init(robot);
-    // arm::gripObject(robot, 0.001, 0);
-    // arm::raise(robot, 1.4);
+    arm::gripObject(robot, 0.001, 0);
+    arm::raise(robot, 1.4);
     // mosaic::alignWhileGoing(robot, CLR_D, 110);
     // mosaic::tmpGoHoles(robot);
     mosaic::tmpGoHoles(robot);

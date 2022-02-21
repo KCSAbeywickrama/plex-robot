@@ -548,8 +548,6 @@ namespace mosaic
                 int j = imgWidth - 1;
                 bool find = true;
 
-                cvtColor(maskFloor, imgRGB, COLOR_GRAY2RGB);
-
                 for (i = 0; i < imgHeight && find; i++)
                 {
                     uchar *line = maskFloor.ptr<uchar>(i);
@@ -563,65 +561,57 @@ namespace mosaic
                 circle(imgRGB, Point(j, i), 0, Scalar(0, 255, 0), 5);
 
                 vision::getMask(CLR_W, imgHSV, maskHole);
+                cvtColor(maskHole, imgRGB, COLOR_GRAY2RGB);
 
                 int i1 = 0;
                 int j1 = 0;
                 find = true;
-                for (i1 = 0; i1 < i && find; i1++)
+                // for (j1 = 0; (j1 < (j - 2)) && find; j1++)
+                for (j1 = 0; (j1 < imgWidth) && find; j1++)
                 {
-                    uchar *line = maskHole.ptr<uchar>(i1);
-                    for (j1 = 0; j1 < j && find; j1++)
+                    for (i1 = 0; i1 < i && find; i1++)
                     {
+                        uchar *line = maskHole.ptr<uchar>(i1);
                         if (line[j1])
                             find = false;
                         // circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 5);
                     }
                 }
 
+                // j1 += 7; // correction
+
+                circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 3);
+
                 int i2 = 0;
                 int j2 = 0;
                 find = true;
-                for (i2 = 0; i2 < i && find; i2++)
+                for (j2 = (j - 2); j2 > 0 && find; j2--)
                 {
-                    uchar *line = maskHole.ptr<uchar>(i2);
-                    for (j2 = j; j2 > 0 && find; j2--)
+                    for (i2 = 0; i2 < i && find; i2++)
                     {
+                        uchar *line = maskHole.ptr<uchar>(i2);
                         if (line[j2])
                             find = false;
                         // circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 5);
                     }
                 }
 
+                // j2 -= 7; // correction
+
                 circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 3);
 
                 showImgRGB(imgRGB);
 
-                // int i1 = 0;
-                // for (i1 = imgHeight - 1; i1 >= 0; i1--)
-                // {
-                //     uchar *line = mask.ptr<uchar>(i1);
-                //     if (line[0])
-                //         break;
-                // }
+                int error = j1 - (imgWidth / 2);
+                error = (error / 2) * 2;
+                float p_coefficient = 0.1;
+                cout << " i1:" << i1;
+                cout << " i2:" << i2;
+                cout << " lineerror: ";
+                cout << error << endl;
 
-                // int i2 = 0;
-                // for (i2 = imgHeight - 1; i2 >= 0; i2--)
-                // {
-                //     uchar *line = mask.ptr<uchar>(i2);
-                //     if (line[imgWidth - 1])
-                //         break;
-                // }
-
-                // int error = i2 - i1;
-                // error = (error / 2) * 2;
-                // float p_coefficient = 0.1;
-                // cout << " i1:" << i1;
-                // cout << " i2:" << i2;
-                // cout << " lineerror: ";
-                // cout << error << endl;
-
-                // leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
-                // rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
+                leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
+                rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
 
                 // if ((error < 2 && error > -2) && (i1 >= dis || i2 >= dis))
                 // {
