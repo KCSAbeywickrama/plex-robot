@@ -66,10 +66,11 @@ int main(int argc, char **argv)
     // arm::gripObject(robot, 0.001, 0);
     // arm::raise(robot, 1.4);
     // mosaic::alignWhileGoing(robot, CLR_D, 110);
-    mosaic::showFilter(robot, CLR_D);
+    // mosaic::tmpGoHoles(robot);
+    mosaic::tmpGoHoles(robot);
+
     while (robot->step(TIME_STEP) != -1)
       ;
-    // mosaic::showFilter(robot, CLR_W);
 
     mosaic::preAlignKeyHole(robot);
     cout << "chamod out" << endl;

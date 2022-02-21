@@ -1,7 +1,3 @@
-#include <webots/Robot.hpp>
-#include <webots/Motor.hpp>
-#include <webots/PositionSensor.hpp>
-#include <webots/DistanceSensor.hpp>
 #include "vision.hpp"
 #include "mosaic.hpp"
 
@@ -483,7 +479,7 @@ namespace mosaic
         goCyan2Magenta(robot);
         goFront(robot, 350);
         goMagenta2Yellow(robot);
-        //turnLeft(robot);
+        // turnLeft(robot);
     }
 
     void exit(Robot *robot)
@@ -533,6 +529,107 @@ namespace mosaic
 
     void tmpGoHoles(Robot *robot)
     {
-        alignWhileGoing(robot, CLR_K, 120);
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, maskFloor, maskHole;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_Y, imgHSV, maskFloor);
+                int i = 0;
+                int j = imgWidth - 1;
+                bool find = true;
+
+                cvtColor(maskFloor, imgRGB, COLOR_GRAY2RGB);
+
+                for (i = 0; i < imgHeight && find; i++)
+                {
+                    uchar *line = maskFloor.ptr<uchar>(i);
+                    for (j = imgWidth - 1; j > 0 && find; j--)
+                    {
+                        if (line[j])
+                            find = false;
+                    }
+                }
+
+                circle(imgRGB, Point(j, i), 0, Scalar(0, 255, 0), 5);
+
+                vision::getMask(CLR_W, imgHSV, maskHole);
+
+                int i1 = 0;
+                int j1 = 0;
+                find = true;
+                for (i1 = 0; i1 < i && find; i1++)
+                {
+                    uchar *line = maskHole.ptr<uchar>(i1);
+                    for (j1 = 0; j1 < j && find; j1++)
+                    {
+                        if (line[j1])
+                            find = false;
+                        // circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 5);
+                    }
+                }
+
+                int i2 = 0;
+                int j2 = 0;
+                find = true;
+                for (i2 = 0; i2 < i && find; i2++)
+                {
+                    uchar *line = maskHole.ptr<uchar>(i2);
+                    for (j2 = j; j2 > 0 && find; j2--)
+                    {
+                        if (line[j2])
+                            find = false;
+                        // circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 5);
+                    }
+                }
+
+                circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 3);
+
+                showImgRGB(imgRGB);
+
+                // int i1 = 0;
+                // for (i1 = imgHeight - 1; i1 >= 0; i1--)
+                // {
+                //     uchar *line = mask.ptr<uchar>(i1);
+                //     if (line[0])
+                //         break;
+                // }
+
+                // int i2 = 0;
+                // for (i2 = imgHeight - 1; i2 >= 0; i2--)
+                // {
+                //     uchar *line = mask.ptr<uchar>(i2);
+                //     if (line[imgWidth - 1])
+                //         break;
+                // }
+
+                // int error = i2 - i1;
+                // error = (error / 2) * 2;
+                // float p_coefficient = 0.1;
+                // cout << " i1:" << i1;
+                // cout << " i2:" << i2;
+                // cout << " lineerror: ";
+                // cout << error << endl;
+
+                // leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
+                // rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
+
+                // if ((error < 2 && error > -2) && (i1 >= dis || i2 >= dis))
+                // {
+                //     leftMotor->setVelocity(0);
+                //     rightMotor->setVelocity(0);
+                //     return;
+                // }
+            }
+        }
     }
 }

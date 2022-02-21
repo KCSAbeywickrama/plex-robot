@@ -18,8 +18,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.5263051365754792 0.7468460073077281 0.4064774834880415 1.5379225612913583
-  position 1.1920364238278007 1.99677424474814 0.5879498984653366
+  orientation -0.7128213657530594 0.5333406085594808 0.45544867525040145 1.6916680659654917
+  position 0.15575341800996084 1.503179291614615 0.28395632854858005
 }
 TexturedBackground {
   luminosity 0.16
@@ -35,7 +35,7 @@ Floor {
   }
 }
 DEF key_cylinder Solid {
-  translation 0.218963 0.0249803 0.171037
+  translation 0.248963 0.0249803 0.171037
   rotation 2.98547e-07 -3.30342e-07 -1 -1.5707953071795862
   children [
     Shape {
@@ -531,7 +531,7 @@ DEF New_entrance_path Transform {
   ]
 }
 DEF plexRobot Robot {
-  translation 0.429934 0.0283452 0.191735
+  translation 0.109934 0.0291964 0.191223
   rotation -0.00129276029692618 -0.9999982296834572 -0.0013672603140376318 1.5724
   children [
     DistanceSensor {
@@ -877,8 +877,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 7.469852514317776e-11 -7.311549672513019e-08 0.11248551453378619
-        rotation -1 0 0 1.5709999999999114
+        translation 7.469852514317776e-11 -7.311549672914171e-08 0.11248551453378619
+        rotation -1 0 0 1.570999999999913
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
@@ -1094,8 +1094,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05699999619767793 -2.228380778825712e-06 8.086318086221905e-07
-        rotation 0.18138886232965803 0.18124446868864724 0.966565322775715 4.6791850040845056
+        translation 0.05699999619767793 -2.228380778825714e-06 8.086318086221916e-07
+        rotation 0.1813888623296582 0.18124446868864713 0.966565322775715 4.6791850040845056
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -1132,8 +1132,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 -2.6868281241972094e-06 -1.9320679666932708e-06
-        rotation -0.13178975321872433 0.13168480696100693 0.9824920216277535 1.5876624502202317
+        translation -0.05699999618581658 -2.686828124197209e-06 -1.9320679666932716e-06
+        rotation -0.13178975321872446 0.13168480696100696 0.9824920216277535 1.5876624502202317
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
