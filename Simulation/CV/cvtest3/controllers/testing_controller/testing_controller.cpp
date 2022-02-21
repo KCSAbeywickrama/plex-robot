@@ -71,11 +71,12 @@ int main(int argc, char **argv)
     navigate::init(robot);
     navigate::navigateObject(robot);
     arm::gripObject(robot, 0.001, 0);
-    navigate::detectObject(robot, object);
+    // navigate::detectObject(robot, object);
     arm::raise(robot, 1.2);
 
     
     mosaic::preAlignKeyHole(robot);
+    navigate::detectObject(robot, object);
     cout << "chamod out" << endl;
     float value;
     keyhole::init(robot);
@@ -114,10 +115,11 @@ int main(int argc, char **argv)
     cout << "object 2 start" << endl;
     navigate::navigateObject(robot);
     arm::gripObject(robot, 0.001, 0);
-    navigate::detectObject(robot, object);
+    // navigate::detectObject(robot, object);
     arm::raise(robot, 1.2);
 
     mosaic::preAlignKeyHole(robot);
+    navigate::detectObject(robot, object);
     cout << "chamod out" << endl;
     keyhole::init(robot);
     keyhole::frontReading(robot, value);

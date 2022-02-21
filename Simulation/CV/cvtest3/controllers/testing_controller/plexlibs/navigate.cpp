@@ -128,20 +128,20 @@ namespace navigate
                 dilate(vertical, vertical, verticalStructure, Point(-1, -1));
                 erode(horizontal, horizontal, horizontalStructure, Point(-1, -1));
                 dilate(horizontal, horizontal, horizontalStructure, Point(-1, -1));
-                HoughLinesP(horizontal, lines, 1, CV_PI / 180, 5, 10, 5);
-                HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 5, 25);
+                HoughLinesP(horizontal, lines, 1, CV_PI / 180, 35, 10, 25);
+                HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 38, 25);
                 cout << "number of hori lines=" << lines.size() << endl;
                 cout << "number of ver lines=" << lines2.size() << endl;
 
                 mosaic::showImgGray(imgErode);
 
-                if (lines.size() >= 3)
+                   if (lines.size() == 2||(lines.size() == 3 && lines2.size()==2))
                 {
                     object = 1;
                     cout << "identified box" << endl;
                     return;
                 }
-                if (lines.size() < 3)
+                if (lines.size() ==0||lines.size()>3 || (lines.size() == 3 && lines2.size()!=2))
                 {
                     object = 2;
                     cout << "identified cylinder" << endl;
