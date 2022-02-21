@@ -59,8 +59,13 @@ int main(int argc, char **argv)
 
     //*************************************************************************************************
 
-    
     arm::init(robot);
+
+    // dashline::init(robot);
+    // dashline::follow(robot);
+    // while (robot->step(TIME_STEP) != -1)
+    //   ;
+
     normline::init(robot);
     normline::follow(robot);
     mosaic::init(robot);
@@ -74,7 +79,6 @@ int main(int argc, char **argv)
     // navigate::detectObject(robot, object);
     arm::raise(robot, 1.2);
 
-    
     mosaic::preAlignKeyHole(robot);
     navigate::detectObject(robot, object);
     cout << "chamod out" << endl;
@@ -86,15 +90,15 @@ int main(int argc, char **argv)
     // {
     //   mosaic::goFront(robot, value - 50);
     // }
-    //mosaic::turnRight(robot);
-   // cout<<"turn right"<<endl;
+    // mosaic::turnRight(robot);
+    // cout<<"turn right"<<endl;
     cout << "pos correct" << endl;
 
     if (object == 1)
     {
       keyhole::goToBox(robot);
       arm::shoot(robot);
-    // box to magenta
+      // box to magenta
       mosaic::turnRight(robot);
       mosaic::turnRight(robot);
       mosaic::goFront(robot, 850);
@@ -128,41 +132,36 @@ int main(int argc, char **argv)
     // {
     //   mosaic::goFront(robot, value - 200);
     // }
-    //mosaic::turnRight(robot);
+    // mosaic::turnRight(robot);
     cout << "pos correct" << endl;
 
     if (object == 1)
     {
       keyhole::goToBox(robot);
       arm::shoot(robot);
-      
     }
     if (object == 2)
     {
       keyhole::goToCylinder(robot);
       arm::shoot(robot);
-      
     }
 
     mosaic::turnRight(robot);
-    navigate::navigateBall(robot,color);
-    arm::gripObject(robot,0.001,3);
-    arm::raise(robot,1.2);
-
-    
+    navigate::navigateBall(robot, color);
+    arm::gripObject(robot, 0.001, 3);
+    arm::raise(robot, 1.2);
 
     // mosaic area enter
 
     // mosaic area end
-    
+
     mosaic::exit(robot);
-    arm::raise(robot,0.0);
+    arm::raise(robot, 0.0);
     mosaic::goFront(robot, 30);
     dashline::init(robot);
     dashline::follow(robot);
 
     //******************************************************************************
-    
 
     while (robot->step(TIME_STEP) != -1)
       ;
