@@ -129,7 +129,13 @@ namespace navigate
                 erode(horizontal, horizontal, horizontalStructure, Point(-1, -1));
                 dilate(horizontal, horizontal, horizontalStructure, Point(-1, -1));
                 HoughLinesP(horizontal, lines, 1, CV_PI / 180, 35, 10, 25);
-                HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 38, 25);
+                // HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 38, 25);
+                if (lines.size()==3){
+                    HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 20, 25);
+                }
+                else{
+                    HoughLinesP(vertical, lines2, 1, CV_PI / 180, 25, 38, 25);
+                }
                 cout << "number of hori lines=" << lines.size() << endl;
                 cout << "number of ver lines=" << lines2.size() << endl;
 
