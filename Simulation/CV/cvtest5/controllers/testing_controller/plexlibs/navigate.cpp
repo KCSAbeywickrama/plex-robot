@@ -155,59 +155,31 @@ namespace navigate
     {
         cout << "navigateobj" << endl;
         float p_coefficient = 0.1;
-        int hmin, hmax, smin, smax, vmin, vmax;
         const unsigned char *image;
         const int width = camera->getWidth();
         const int height = camera->getHeight();
         Mat imageMat = Mat(Size(width, height), CV_8UC4);
         Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB, imgCanny, imgDil, imgErode, imgGray, finalim;
+        Mat imgRGB, imgHSV, mask, maskRGB;
         vector<vector<Point>> contours;
         vector<Point> poly;
         vector<Vec4i> hierarchy;
 
-        // hmin = 1, smin = 50, vmin = 0;
-        // hmax = 88, smax = 255, vmax = 255;
-
         while (robot->step(TIME_STEP) != -1)
         {
-            // handleMotor->setVelocity(1.57);
-            // handleMotor->setPosition(-1.57);
 
             image = camera->getImage();
 
             if (image)
             {
-                cout << "nav:cam image not null" << endl;
                 imageMat.data = (uchar *)image;
                 cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
                 cout << "matrix size :" << imageMat.size() << endl;
 
-                // Commented by CSA
-                // Scalar lower(hmin, smin, vmin);
-                // Scalar upper(hmax, smax, vmax);
-                // inRange(imgHSV, lower, upper, mask);
-
                 vision::getMask(CLR_O, imgHSV, mask);
 
-                cvtColor(mask, maskRGB, COLOR_GRAY2RGB);
-                bitwise_and(imgRGB, maskRGB, imgAnd);
-
-                cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
-                Canny(imgGray, imgCanny, 100, 255);
-                // int gi,gj;
-                // imageGradient(imgCanny, width,height, gi, gj);
-                // cout<<"gi:"<<gi<<" gj: "<<gj<<" sum:"<<gi+gj<<endl;
-                Mat kernel = getStructuringElement(MORPH_RECT, Size(3, 3));
-                dilate(imgCanny, imgDil, kernel);
-                erode(imgDil, imgErode, kernel);
-
-                // vector<Vec4f> lines; // will hold the results of the detection
-                // HoughLinesP(imgDil, lines, 1, CV_PI/180, 10, 10, 100 );
-                // cout<<"lines "<<lines.size()<<endl;
-                // findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgErode, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+                findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
                 cout << "nav:end of find cont" << endl;
 
@@ -241,30 +213,20 @@ namespace navigate
                     if (pixel >= 120)
 
                     {
-                        // goingToObj = false;
-                        //  handleMotor->setVelocity(1.57);
-                        //  handleMotor->setPosition(0);
+
                         leftMotor->setVelocity(0);
                         rightMotor->setVelocity(0);
-                        // float epsilon = 0.1*arcLength(contours[largestContour],true);
-                        // approxPolyDP(Mat(contours[largestContour]), poly, epsilon, true);
-                        // //box = 7,cylinder = 9
-                        // if (poly.size()>=18){objName="box";}
-                        // else{objName="cylinder";}
-                        // cout<<"poly size "<<poly.size()<<objName<<endl;
                         return;
                     }
                     if (largestContourArea > 0)
                     {
                         Scalar color = Scalar(0, 255, 0);
 
-                        cvtColor(imgCanny, finalim, COLOR_GRAY2RGB);
-                        drawContours(finalim, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+                        cvtColor(mask, imgRGB, COLOR_GRAY2RGB);
+                        drawContours(imgRGB, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
 
-                        ImageRef *ir = display->imageNew(width, height, finalim.data, Display::RGB);
+                        mosaic::showImgRGB(imgRGB);
 
-                        display->imagePaste(ir, 0, 0, false);
-                        display->imageDelete(ir);
                         Moments mu = moments(contours[largestContour], false);
 
                         int centerx = mu.m10 / mu.m00;
@@ -288,8 +250,6 @@ namespace navigate
                     }
                 }
             }
-            else
-                cout << "nav:cam image null" << endl;
         }
     }
 

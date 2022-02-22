@@ -63,8 +63,9 @@ int main(int argc, char **argv)
     arm::init(robot);
 
     mosaic::init(robot);
-    mosaic::goYellow2Cylinder(robot);
-    // navigate::init(robot);
+    // mosaic::goYellow2Box(robot);
+    navigate::init(robot);
+    navigate::navigateObject(robot);
     // wall::init(robot);
     // wall::follow(robot);
     // cout << "wall end" << endl;
