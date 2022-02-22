@@ -2,8 +2,7 @@
 
 namespace dashline
 {
-  bool whiteline = false;
-  double kp = 4;
+  double kp =4;
   double ki = 0.001;
   double kd = 0.2;
   double p = 0;
@@ -14,18 +13,15 @@ namespace dashline
   double rs;
   double ls;
   double lasterror = 0;
-
   double etime = 0;
-  double eetime = 0;
   double ttime = 0;
   int et = 0;
   int tc = 0;
   int pos;
-  int t = 500;
+  int t = 800;
   int s = 8;
   int act = 0;
   int values[8];
-  int value[8];
   int red = 0;
   bool end = 0;
 
@@ -50,7 +46,6 @@ namespace dashline
     s6 = robot->getDistanceSensor("s5");
     s7 = robot->getDistanceSensor("s6");
     s8 = robot->getDistanceSensor("s7");
-
     lm = robot->getMotor("leftMotor");
     rm = robot->getMotor("rightMotor");
 
@@ -79,17 +74,11 @@ namespace dashline
     values[5] = 1 - int((s6->getValue()) / t);
     values[6] = 1 - int((s7->getValue()) / t);
     values[7] = 1 - int((s8->getValue()) / t);
-
+    
     for (int i = 0; i <= s; i++)
     {
       act += values[i];
     }
-
-    for (int i = 0; i <= s; i++)
-    {
-      std::cout << values[i] << std::endl;
-    }
-    std::cout << "**************" << std::endl;
   }
 
   void speedset()
@@ -100,37 +89,60 @@ namespace dashline
 
   void endcheck(Robot *robot)
   {
+  if(act>5){
+  et+=1;
+  etime=robot->getTime();
+  }
+  else if((robot->getTime()-etime)>0.2 && act < 5){
+  et=0;
+  }
+  while(robot->step(TIME_STEP) != -1 && (robot->getTime()-etime)<0.1 && etime!=0 && et>6 && act<8){
+  ls=PATH_BASE_SPEED;
+  rs=PATH_BASE_SPEED;
+  speedset();
+  sensor_check();
+  if (act==0){
+  et=0;
+  end=1;
+  }
+  }
+  }
 
-    if (act > 5)
+
+void tcheck(Robot *robot)
+  {
+    if (values[7] == 1 && values[0] == 0)
     {
-
-      if ((robot->getTime() - etime) < 0.1)
+      if ((robot->getTime() - ttime) < 0.1)
       {
-        et += 1;
-        // std::cout << et << std::endl;
-        if (et > 4)
+        tc += 1;
+        if (tc > 2)
         {
-          eetime = robot->getTime();
-          while (robot->step(TIME_STEP) != -1 && (robot->getTime() - eetime) < 1)
+          tc = 0;
+          if (red)
           {
-            if (act == 0)
+            while (robot->step(TIME_STEP) != -1 && values[7] == 1)
             {
-              end = 1;
+              sensor_check();
+              ls = 0;
+              rs = PATH_BASE_SPEED;
+              speedset();
             }
           }
         }
       }
-
       else
       {
-        et = 0;
+        tc = 0;
       }
-      etime = robot->getTime();
+      ttime = robot->getTime();
     }
   }
 
-  void err()
+void pid()
   {
+  
+  
     error = 0;
     pos = 0;
     if (act != 0)
@@ -149,52 +161,15 @@ namespace dashline
     {
       error = 0;
     }
-  }
-
-  void tcheck(Robot *robot)
-  {
-    if (values[7] == 1 && values[0] == 0)
-    {
-      if ((robot->getTime() - ttime) < 0.1)
-      {
-        tc += 1;
-        if (tc > 2)
-        {
-          tc = 0;
-          if (red)
-          {
-
-            while (values[7] == 1)
-            {
-              sensor_check();
-              robot->step(TIME_STEP);
-              ls = 0;
-              rs = PATH_BASE_SPEED;
-              speedset();
-            }
-          }
-        }
-      }
-      else
-      {
-        tc = 0;
-      }
-      ttime = robot->getTime();
-    }
-  }
-
-  void pid()
-  {
-    err();
+    
+    
     p = error;
     i = i + error;
     d = error - lasterror;
     lasterror = error;
     speed = kp * p + ki * i + kd * d;
     speedset();
-
-    ls = PATH_BASE_SPEED;
-    rs = PATH_BASE_SPEED;
+    
     ls = PATH_BASE_SPEED + speed;
     rs = PATH_BASE_SPEED - speed;
 
@@ -217,24 +192,25 @@ namespace dashline
     speedset();
   }
 
-  void follow(Robot *robot)
+
+  void dashfollow(Robot *robot)
   {
-    while (robot->step(TIME_STEP) != -1)
-    {
-      sensor_check();
-      if (end)
+      while (robot->step(TIME_STEP) != -1)
       {
-        ls = 0;
-        rs = 0;
-        speedset();
-        break;
-      }
-      else
-      {
-        tcheck(robot);
-        pid();
-        endcheck(robot);
+        if (end)
+        {
+          ls = 0;
+          rs = 0;
+          speedset();
+          break;
+        }
+        else
+        {
+          sensor_check();
+          tcheck(robot);
+          pid();
+          endcheck(robot);
+        }
       }
     }
-  }
 }
