@@ -39,4 +39,5 @@ namespace mosaic
     void exit(Robot *robot);
     void directExit(Robot *robot);
     void tmpGoHoles(Robot *robot);
+    void tmpViewFloorPoints(Robot *robot);
 }

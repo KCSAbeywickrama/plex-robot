@@ -187,6 +187,7 @@ namespace mosaic
 
     bool notIn(Robot *robot)
     {
+
         const unsigned char *image;
         Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
         Mat imgRGB, imgHSV, mask;
@@ -565,6 +566,7 @@ namespace mosaic
 
                 int i1 = 0;
                 int j1 = 0;
+                int j1m = 0;
                 find = true;
                 // for (j1 = 0; (j1 < (j - 2)) && find; j1++)
                 for (j1 = 0; (j1 < imgWidth) && find; j1++)
@@ -578,12 +580,16 @@ namespace mosaic
                     }
                 }
 
+                j1m = (2 * j1 + (int)(1 * i1)) / 2;
                 // j1 += 7; // correction
 
                 circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 3);
+                circle(imgRGB, Point(j1 + (int)(1 * i1), i1), 0, Scalar(255, 0, 0), 3);
+                circle(imgRGB, Point(j1m, i1), 0, Scalar(255, 255, 0), 3);
 
                 int i2 = 0;
                 int j2 = 0;
+                int j2m = 0;
                 find = true;
                 for (j2 = (j - 2); j2 > 0 && find; j2--)
                 {
@@ -595,14 +601,16 @@ namespace mosaic
                         // circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 5);
                     }
                 }
-
+                j2m = (2 * j2 - 3 * i2 / 5) / 2;
                 // j2 -= 7; // correction
 
                 circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 3);
+                circle(imgRGB, Point(j2 - 3 * i2 / 5, i2), 0, Scalar(0, 0, 255), 3);
+                circle(imgRGB, Point(j2m, i2), 0, Scalar(0, 255, 255), 3);
 
                 showImgRGB(imgRGB);
 
-                int error = j1 - (imgWidth / 2);
+                int error = j2m - (imgWidth / 2);
                 error = (error / 2) * 2;
                 float p_coefficient = 0.1;
                 cout << " i1:" << i1;
@@ -613,12 +621,82 @@ namespace mosaic
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
 
-                // if ((error < 2 && error > -2) && (i1 >= dis || i2 >= dis))
+                if (i2 > 50)
+                {
+                    leftMotor->setVelocity(0);
+                    rightMotor->setVelocity(0);
+                    return;
+                }
+            }
+        }
+    }
+
+    Point detectWallEndPoint(Mat &maskFloor)
+    {
+        int i = 0;
+        int j = imgWidth - 1;
+        bool find = true;
+
+        for (i = 0; i < imgHeight && find; i++)
+        {
+            uchar *line = maskFloor.ptr<uchar>(i);
+            for (j = imgWidth - 1; j > 0 && find; j--)
+            {
+                if (line[j])
+                    find = false;
+            }
+        }
+
+        for (int i0 = 0; i0 < imgHeight; i0++)
+        {
+            uchar *line = maskFloor.ptr<uchar>(i0);
+
+            if (line[imgWidth - 1])
+                return Point(imgWidth - 1, i0);
+            if (line[0])
+                return Point(j, i);
+        }
+        cout << "unable to find point" << endl;
+        return Point(imgWidth - 1, imgHeight - 1);
+    }
+
+    void tmpViewFloorPoints(Robot *robot)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, maskFloor, maskHole;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_Y, imgHSV, maskFloor);
+                Point endpoint = detectWallEndPoint(maskFloor);
+                circle(imgRGB, endpoint, 0, Scalar(0, 255, 0), 5);
+                // vector<vector<Point>> contours;
+                // vector<Vec4i> hierarchy;
+                // findContours(maskFloor, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
+                // // draw contours on the original image
+                // cvtColor(maskFloor, imgRGB, COLOR_GRAY2RGB);
+                // // drawContours(imgRGB, contours, -1, Scalar(0, 255, 0), 2);
+                // cout << "contourssize()" << contours.size() << endl;
+                // for (size_t i = 0; i < contours.size(); i++)
                 // {
-                //     leftMotor->setVelocity(0);
-                //     rightMotor->setVelocity(0);
-                //     return;
+                //     cout << "contours[i].size()" << contours[i].size() << endl;
+                //     for (size_t j = 0; j < contours[i].size(); j++)
+                //     {
+                //         circle(imgRGB, contours[i][j], 0, Scalar(0, 255, 0), 2);
+                //     }
                 // }
+
+                showImgRGB(imgRGB);
             }
         }
     }

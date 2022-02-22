@@ -121,8 +121,8 @@ namespace arm
   {
     // if (object == 0)
     // {
-      handleMotor->setVelocity(0.7);
-      handleMotor->setPosition(angle);
+    handleMotor->setVelocity(0.7);
+    handleMotor->setPosition(angle);
     //}
     // if (object == 3)
     // {
@@ -136,9 +136,14 @@ namespace arm
       robot->step(TIME_STEP);
     }
   }
+
+  // void down(Robot *robot){
+  //   handleMotor->setVelocity(0.7);
+  //   handleMotor->setPosition(1.57);
+  // }
+
   void shoot(Robot *robot)
   {
-
     handleMotor->setVelocity(1);
     handleMotor->setPosition(1.57);
     for (int i = 0; i < 200; i++)
