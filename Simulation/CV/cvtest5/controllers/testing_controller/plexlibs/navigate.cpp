@@ -151,6 +151,71 @@ namespace navigate
         }
     }
 
+    void drawContPoints(Mat &imgRGB, vector<Point> &contours)
+    {
+
+        size_t n = contours.size();
+        cout << "n: " << n << endl;
+        for (size_t j = 0; j < n; j++)
+        {
+            circle(imgRGB, contours[j], 0, Scalar(0, 255, 0), 2);
+        }
+    }
+
+    void detectObject2(Robot *robot)
+    {
+        cout << "detect obg2" << endl;
+        float p_coefficient = 0.1;
+        const unsigned char *image;
+        const int width = camera->getWidth();
+        const int height = camera->getHeight();
+        Mat imageMat = Mat(Size(width, height), CV_8UC4);
+        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
+        Mat imgRGB, imgHSV, imgGray, mask, maskRGB, maskGray;
+        vector<vector<Point>> contours;
+        vector<Point> poly;
+        vector<Vec4i> hierarchy;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+
+            image = camera->getImage();
+
+            if (image)
+            {
+                imageMat.data = (uchar *)image;
+                cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_O, imgHSV, mask);
+
+                cvtColor(imgRGB, imgGray, COLOR_RGB2GRAY);
+                // bitwise_and(imgGray, mask, maskGray);
+                // findContours(maskGray, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+                vector<Vec3f> circles;
+                HoughCircles(imgGray, circles, HOUGH_GRADIENT, 1,
+                             1,            // change this value to detect circles with different distances to each other
+                             100, 15, 0, 0 // change the last two parameters
+                                           // (min_radius & max_radius) to detect larger circles
+                );
+
+                cout << "circles.size()" << circles.size() << endl;
+
+                for (size_t i = 0; i < circles.size(); i++)
+                {
+                    Vec3i c = circles[i];
+                    Point center = Point(c[0], c[1]);
+                    // circle center
+                    circle(imgRGB, center, 1, Scalar(0, 100, 100), 3, LINE_AA);
+                    // circle outline
+                    int radius = c[2];
+                    circle(imgRGB, center, radius, Scalar(255, 0, 255), 3, LINE_AA);
+                }
+                // mosaic::showImgGray(imgGray);
+                mosaic::showImgRGB(imgRGB);
+            }
+        }
+    }
     void navigateObject(Robot *robot)
     {
         cout << "navigateobj" << endl;
@@ -160,7 +225,7 @@ namespace navigate
         const int height = camera->getHeight();
         Mat imageMat = Mat(Size(width, height), CV_8UC4);
         Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB;
+        Mat imgRGB, imgHSV, imgGray, mask, maskRGB, maskGray;
         vector<vector<Point>> contours;
         vector<Point> poly;
         vector<Vec4i> hierarchy;
@@ -179,7 +244,7 @@ namespace navigate
 
                 vision::getMask(CLR_O, imgHSV, mask);
 
-                findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+                findContours(mask, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
                 cout << "nav:end of find cont" << endl;
 
@@ -213,40 +278,41 @@ namespace navigate
                     if (pixel >= 120)
 
                     {
-
-                        leftMotor->setVelocity(0);
-                        rightMotor->setVelocity(0);
-                        return;
+                        // leftMotor->setVelocity(0);
+                        // rightMotor->setVelocity(0);
+                        // return;
                     }
                     if (largestContourArea > 0)
                     {
                         Scalar color = Scalar(0, 255, 0);
 
                         cvtColor(mask, imgRGB, COLOR_GRAY2RGB);
-                        drawContours(imgRGB, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+                        // drawContours(imgRGB, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+
+                        drawContPoints(imgRGB, contours[largestContour]);
 
                         mosaic::showImgRGB(imgRGB);
 
-                        Moments mu = moments(contours[largestContour], false);
+                        // Moments mu = moments(contours[largestContour], false);
 
-                        int centerx = mu.m10 / mu.m00;
-                        float error = width / 2 - centerx;
-                        cout << "error :" << error << endl;
-                        if (error < 30)
-                        {
-                            leftMotor->setVelocity((-error * p_coefficient) + 1);
-                            rightMotor->setVelocity((error * p_coefficient) + 1);
-                        }
-                        else
-                        {
-                            leftMotor->setVelocity((-error * p_coefficient));
-                            rightMotor->setVelocity((error * p_coefficient));
-                        }
+                        // int centerx = mu.m10 / mu.m00;
+                        // float error = width / 2 - centerx;
+                        // cout << "error :" << error << endl;
+                        // if (error < 30)
+                        // {
+                        //     leftMotor->setVelocity((-error * p_coefficient) + 1);
+                        //     rightMotor->setVelocity((error * p_coefficient) + 1);
+                        // }
+                        // else
+                        // {
+                        //     leftMotor->setVelocity((-error * p_coefficient));
+                        //     rightMotor->setVelocity((error * p_coefficient));
+                        // }
                     }
                     else
                     {
-                        leftMotor->setVelocity(0.1);
-                        rightMotor->setVelocity(-0.1);
+                        // leftMotor->setVelocity(0.1);
+                        // rightMotor->setVelocity(-0.1);
                     }
                 }
             }

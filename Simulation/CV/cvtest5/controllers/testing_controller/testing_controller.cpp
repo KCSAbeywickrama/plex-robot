@@ -33,6 +33,7 @@
 using namespace webots;
 using namespace std;
 using namespace cv;
+
 // obj 0-cylinder/box
 // obj 1 - box
 // obj 2 - cylinder
@@ -61,18 +62,18 @@ int main(int argc, char **argv)
 
     cout << "cvtest5" << endl;
     arm::init(robot);
-    arm::shoot(robot);
-    // mosaic::init(robot);
-    // mosaic::goYellow2Box(robot);
+    // arm::shoot(robot);
+    mosaic::init(robot);
+
     // navigate::init(robot);
-    // navigate::navigateObject(robot);
+    // navigate::detectObject2(robot);
     // wall::init(robot);
     // wall::follow(robot);
     // cout << "wall end" << endl;
-    // arm::gripObject(robot, 0.001, 0);
-    // arm::raise(robot, 1.4);
-    // mosaic::tmpGoHoles(robot);
-    // arm::shoot(robot);
+    arm::gripObject(robot, 0.001, 0);
+    arm::raise(robot, 1.4);
+    mosaic::goYellow2Cylinder(robot);
+    arm::shoot(robot);
 
     while (robot->step(TIME_STEP) != -1)
       ;
