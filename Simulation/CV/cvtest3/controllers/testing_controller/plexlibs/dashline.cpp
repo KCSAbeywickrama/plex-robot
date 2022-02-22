@@ -2,7 +2,7 @@
 
 namespace dashline
 {
-  double kp =4;
+  double kp = 4;
   double ki = 0.001;
   double kd = 0.2;
   double p = 0;
@@ -74,7 +74,7 @@ namespace dashline
     values[5] = 1 - int((s6->getValue()) / t);
     values[6] = 1 - int((s7->getValue()) / t);
     values[7] = 1 - int((s8->getValue()) / t);
-    
+
     for (int i = 0; i <= s; i++)
     {
       act += values[i];
@@ -89,27 +89,30 @@ namespace dashline
 
   void endcheck(Robot *robot)
   {
-  if(act>5){
-  et+=1;
-  etime=robot->getTime();
-  }
-  else if((robot->getTime()-etime)>0.2 && act < 5){
-  et=0;
-  }
-  while(robot->step(TIME_STEP) != -1 && (robot->getTime()-etime)<0.1 && etime!=0 && et>6 && act<8){
-  ls=PATH_BASE_SPEED;
-  rs=PATH_BASE_SPEED;
-  speedset();
-  sensor_check();
-  if (act==0){
-  et=0;
-  end=1;
-  }
-  }
+    if (act > 5)
+    {
+      et += 1;
+      etime = robot->getTime();
+    }
+    else if ((robot->getTime() - etime) > 0.2 && act < 5)
+    {
+      et = 0;
+    }
+    while (robot->step(TIME_STEP) != -1 && (robot->getTime() - etime) < 0.1 && etime != 0 && et > 6 && act < 8)
+    {
+      ls = PATH_BASE_SPEED;
+      rs = PATH_BASE_SPEED;
+      speedset();
+      sensor_check();
+      if (act == 0)
+      {
+        et = 0;
+        end = 1;
+      }
+    }
   }
 
-
-void tcheck(Robot *robot)
+  void tcheck(Robot *robot)
   {
     if (values[7] == 1 && values[0] == 0)
     {
@@ -139,10 +142,9 @@ void tcheck(Robot *robot)
     }
   }
 
-void pid()
+  void pid()
   {
-  
-  
+
     error = 0;
     pos = 0;
     if (act != 0)
@@ -161,15 +163,14 @@ void pid()
     {
       error = 0;
     }
-    
-    
+
     p = error;
     i = i + error;
     d = error - lasterror;
     lasterror = error;
     speed = kp * p + ki * i + kd * d;
     speedset();
-    
+
     ls = PATH_BASE_SPEED + speed;
     rs = PATH_BASE_SPEED - speed;
 
@@ -192,25 +193,24 @@ void pid()
     speedset();
   }
 
-
-  void dashfollow(Robot *robot)
+  void follow(Robot *robot)
   {
-      while (robot->step(TIME_STEP) != -1)
+    while (robot->step(TIME_STEP) != -1)
+    {
+      if (end)
       {
-        if (end)
-        {
-          ls = 0;
-          rs = 0;
-          speedset();
-          break;
-        }
-        else
-        {
-          sensor_check();
-          tcheck(robot);
-          pid();
-          endcheck(robot);
-        }
+        ls = 0;
+        rs = 0;
+        speedset();
+        break;
+      }
+      else
+      {
+        sensor_check();
+        tcheck(robot);
+        pid();
+        endcheck(robot);
       }
     }
+  }
 }
