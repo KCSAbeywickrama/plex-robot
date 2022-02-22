@@ -61,11 +61,11 @@ int main(int argc, char **argv)
 
     cout << "cvtest5" << endl;
     arm::init(robot);
-
-    mosaic::init(robot);
+    arm::shoot(robot);
+    // mosaic::init(robot);
     // mosaic::goYellow2Box(robot);
-    navigate::init(robot);
-    navigate::navigateObject(robot);
+    // navigate::init(robot);
+    // navigate::navigateObject(robot);
     // wall::init(robot);
     // wall::follow(robot);
     // cout << "wall end" << endl;
