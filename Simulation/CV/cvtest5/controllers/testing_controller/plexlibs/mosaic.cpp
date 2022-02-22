@@ -542,48 +542,68 @@ namespace mosaic
             }
         }
 
-        int i1 = 0;
-        for (i1 = 0; i1 < imgHeight; i1++)
-        {
-            uchar *line = maskFloor.ptr<uchar>(i1);
-            if (line[0])
-                break;
-        }
+        // int i1 = 0;
+        // for (i1 = 0; i1 < imgHeight; i1++)
+        // {
+        //     uchar *line = maskFloor.ptr<uchar>(i1);
+        //     if (line[0])
+        //         break;
+        // }
 
-        int i2 = 0;
-        for (i2 = 0; i2 < imgHeight; i2++)
-        {
-            uchar *line = maskFloor.ptr<uchar>(i2);
-            if (line[imgWidth - 1])
-                break;
-        }
+        // for (int i0 = 0; i0 < imgHeight; i0++)
+        // {
+        //     uchar *line = maskFloor.ptr<uchar>(i0);
 
-        int di1 = i1 - i;
-        int di2 = i2 - i;
+        //     if (line[0])
+        //     {
+        //         return;
+        //     }
 
-        if (di1 < 0)
-            di1 = -di1;
-        if (di2 < 0)
-            di2 = -di2;
+        //     if (line[imgWidth - 1])
+        //     {
+        //         i = i0;
+        //         j = imgWidth - 1;
+        //         return;
+        //     }
+        // }
 
-        int dj1 = j;
-        int dj2 = imgWidth - j - 1;
+        // i = imgHeight - 1;
+        // j = imgWidth - 1;
 
-        if (dj1 < 1)
-            dj1 = 1;
-        if (dj2 < 1)
-            dj2 = 1;
+        // int i2 = 0;
+        // for (i2 = 0; i2 < imgHeight; i2++)
+        // {
+        //     uchar *line = maskFloor.ptr<uchar>(i2);
+        //     if (line[imgWidth - 1])
+        //         break;
+        // }
 
-        float d1 = (float)di1 / (float)dj1;
-        float d2 = (float)di2 / (float)dj2;
+        // int di1 = i1 - i;
+        // int di2 = i2 - i;
 
-        cout << "d1:" << d1 << " d2:" << d2 << endl;
+        // if (di1 < 0)
+        //     di1 = -di1;
+        // if (di2 < 0)
+        //     di2 = -di2;
 
-        if (d1 > d2)
-        {
-            i = i2;
-            j = imgWidth - 1;
-        }
+        // int dj1 = j;
+        // int dj2 = imgWidth - j - 1;
+
+        // if (dj1 < 1)
+        //     dj1 = 1;
+        // if (dj2 < 1)
+        //     dj2 = 1;
+
+        // float d1 = (float)di1 / (float)dj1;
+        // float d2 = (float)di2 / (float)dj2;
+
+        // cout << "d1:" << d1 << " d2:" << d2 << endl;
+
+        // if (d1 > d2)
+        // {
+        //     i = i2;
+        //     j = imgWidth - 1;
+        // }
         // if (j < imgWidth / 3)
         //     j = imgWidth - 1;
     }
@@ -660,7 +680,7 @@ namespace mosaic
         const unsigned char *image;
         Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
         Mat imgRGB, imgHSV, maskFloor, maskHole;
-        int prevJ = 0;
+
         while (robot->step(TIME_STEP) != -1)
         {
             image = camera->getImage();
@@ -694,19 +714,19 @@ namespace mosaic
                     }
                 }
 
-                int dj = j - prevJ;
-                prevJ = j;
+                // int dj = j - prevJ;
+                // prevJ = j;
 
-                if (dj < 0)
-                    dj = -dj;
+                // if (dj < 0)
+                //     dj = -dj;
 
-                if (dj > 20)
-                {
-                    leftMotor->setVelocity(MOSAIC_SPEED);
-                    rightMotor->setVelocity(0);
-                    delay(robot, 10);
-                    continue;
-                }
+                // if (dj > 20)
+                // {
+                //     leftMotor->setVelocity(MOSAIC_SPEED);
+                //     rightMotor->setVelocity(0);
+                //     delay(robot, 10);
+                //     continue;
+                // }
 
                 j2m = (2 * j2 - 3 * i2 / 5) / 2;
 
