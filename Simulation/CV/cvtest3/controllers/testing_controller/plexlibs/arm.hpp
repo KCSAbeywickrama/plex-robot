@@ -14,4 +14,5 @@ namespace arm
   void gripObject(Robot *robot, float ps, int obj);
   void raise(Robot *robot,float angle);
   void shoot(Robot *robot);
+  void ballShoot(Robot *robot);
 }
