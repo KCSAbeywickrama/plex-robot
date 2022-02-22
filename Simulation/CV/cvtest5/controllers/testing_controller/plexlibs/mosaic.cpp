@@ -528,6 +528,212 @@ namespace mosaic
         goFront(robot, 20);
     }
 
+    void getFloorEndPoint(Mat &maskFloor, int &i, int &j)
+    {
+        bool find = true;
+
+        for (i = 0; i < imgHeight && find; i++)
+        {
+            uchar *line = maskFloor.ptr<uchar>(i);
+            for (j = imgWidth - 1; j > 0 && find; j--)
+            {
+                if (line[j])
+                    find = false;
+            }
+        }
+
+        int i1 = 0;
+        for (i1 = 0; i1 < imgHeight; i1++)
+        {
+            uchar *line = maskFloor.ptr<uchar>(i1);
+            if (line[0])
+                break;
+        }
+
+        int i2 = 0;
+        for (i2 = 0; i2 < imgHeight; i2++)
+        {
+            uchar *line = maskFloor.ptr<uchar>(i2);
+            if (line[imgWidth - 1])
+                break;
+        }
+
+        int di1 = i1 - i;
+        int di2 = i2 - i;
+
+        if (di1 < 0)
+            di1 = -di1;
+        if (di2 < 0)
+            di2 = -di2;
+
+        int dj1 = j;
+        int dj2 = imgWidth - j - 1;
+
+        if (dj1 < 1)
+            dj1 = 1;
+        if (dj2 < 1)
+            dj2 = 1;
+
+        float d1 = (float)di1 / (float)dj1;
+        float d2 = (float)di2 / (float)dj2;
+
+        cout << "d1:" << d1 << " d2:" << d2 << endl;
+
+        if (d1 > d2)
+        {
+            i = i2;
+            j = imgWidth - 1;
+        }
+        // if (j < imgWidth / 3)
+        //     j = imgWidth - 1;
+    }
+
+    void goYellow2Box(Robot *robot)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, maskFloor, maskHole;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_Y, imgHSV, maskFloor);
+                int i = imgHeight - 1;
+                int j = imgWidth - 1;
+                getFloorEndPoint(maskFloor, i, j);
+
+                vision::getMask(CLR_W, imgHSV, maskHole);
+                cvtColor(maskHole, imgRGB, COLOR_GRAY2RGB);
+
+                int i1 = 0;
+                int j1 = 0;
+                int j1m = 0;
+                bool find = true;
+
+                for (j1 = 0; (j1 < imgWidth) && find; j1++)
+                {
+                    for (i1 = 0; i1 < i && find; i1++)
+                    {
+                        uchar *line = maskHole.ptr<uchar>(i1);
+                        if (line[j1])
+                            find = false;
+                        circle(imgRGB, Point(j1, i1), 0, Scalar(255, 255, 0), 5);
+                    }
+                }
+
+                j1m = (2 * j1 + (int)(1 * i1)) / 2;
+
+                int error = j1m - (imgWidth / 2);
+                float p_coefficient = 0.1;
+
+                cout << "error: ";
+                cout << error << endl;
+
+                leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
+                rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
+
+                circle(imgRGB, Point(j, i), 0, Scalar(0, 255, 0), 3);
+                circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 3);
+                circle(imgRGB, Point(j1 + (int)(1 * i1), i1), 0, Scalar(255, 0, 0), 3);
+                circle(imgRGB, Point(j1m, i1), 0, Scalar(255, 0, 255), 3);
+                showImgRGB(imgRGB);
+
+                if (i1 > 50)
+                {
+                    leftMotor->setVelocity(0);
+                    rightMotor->setVelocity(0);
+                    return;
+                }
+            }
+        }
+    }
+
+    void goYellow2Cylinder(Robot *robot)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, maskFloor, maskHole;
+        int prevJ = 0;
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_Y, imgHSV, maskFloor);
+                int i = imgHeight - 1;
+                int j = imgWidth - 1;
+                getFloorEndPoint(maskFloor, i, j);
+
+                vision::getMask(CLR_W, imgHSV, maskHole);
+                cvtColor(maskHole, imgRGB, COLOR_GRAY2RGB);
+
+                int i2 = 0;
+                int j2 = 0;
+                int j2m = 0;
+                bool find = true;
+                for (j2 = (j - 2); j2 > 0 && find; j2--)
+                {
+                    for (i2 = 0; i2 < i && find; i2++)
+                    {
+                        uchar *line = maskHole.ptr<uchar>(i2);
+                        if (line[j2])
+                            find = false;
+                        // circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 5);
+                    }
+                }
+
+                int dj = j - prevJ;
+                prevJ = j;
+
+                if (dj < 0)
+                    dj = -dj;
+
+                if (dj > 20)
+                {
+                    leftMotor->setVelocity(MOSAIC_SPEED);
+                    rightMotor->setVelocity(0);
+                    delay(robot, 10);
+                    continue;
+                }
+
+                j2m = (2 * j2 - 3 * i2 / 5) / 2;
+
+                int error = j2m - (imgWidth / 2);
+                float p_coefficient = 0.1;
+                cout << "error: ";
+                cout << error << endl;
+
+                leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
+                rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
+
+                circle(imgRGB, Point(j, i), 0, Scalar(0, 255, 0), 5);
+                circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 3);
+                circle(imgRGB, Point(j2 - 3 * i2 / 5, i2), 0, Scalar(0, 0, 255), 3);
+                circle(imgRGB, Point(j2m, i2), 0, Scalar(0, 255, 255), 3);
+                showImgRGB(imgRGB);
+
+                if (i2 > 50)
+                {
+                    leftMotor->setVelocity(0);
+                    rightMotor->setVelocity(0);
+                    return;
+                }
+            }
+        }
+    }
+
     void tmpGoHoles(Robot *robot)
     {
         const unsigned char *image;
@@ -631,35 +837,6 @@ namespace mosaic
         }
     }
 
-    Point detectWallEndPoint(Mat &maskFloor)
-    {
-        int i = 0;
-        int j = imgWidth - 1;
-        bool find = true;
-
-        for (i = 0; i < imgHeight && find; i++)
-        {
-            uchar *line = maskFloor.ptr<uchar>(i);
-            for (j = imgWidth - 1; j > 0 && find; j--)
-            {
-                if (line[j])
-                    find = false;
-            }
-        }
-
-        for (int i0 = 0; i0 < imgHeight; i0++)
-        {
-            uchar *line = maskFloor.ptr<uchar>(i0);
-
-            if (line[imgWidth - 1])
-                return Point(imgWidth - 1, i0);
-            if (line[0])
-                return Point(j, i);
-        }
-        cout << "unable to find point" << endl;
-        return Point(imgWidth - 1, imgHeight - 1);
-    }
-
     void tmpViewFloorPoints(Robot *robot)
     {
         const unsigned char *image;
@@ -677,8 +854,8 @@ namespace mosaic
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
                 vision::getMask(CLR_Y, imgHSV, maskFloor);
-                Point endpoint = detectWallEndPoint(maskFloor);
-                circle(imgRGB, endpoint, 0, Scalar(0, 255, 0), 5);
+                // Point endpoint = detectWallEndPoint(maskFloor);
+                // circle(imgRGB, endpoint, 0, Scalar(0, 255, 0), 5);
                 // vector<vector<Point>> contours;
                 // vector<Vec4i> hierarchy;
                 // findContours(maskFloor, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);

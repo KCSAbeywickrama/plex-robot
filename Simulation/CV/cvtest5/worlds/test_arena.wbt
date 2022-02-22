@@ -531,7 +531,7 @@ DEF New_entrance_path Transform {
   ]
 }
 DEF plexRobot Robot {
-  translation 0.382332 0.0284713 0.233772
+  translation 0.382604 0.0284832 0.063772
   rotation 0.00129276029692618 0.9999982296834572 0.0013672603140376318 -1.572395307179586
   children [
     DistanceSensor {
@@ -877,8 +877,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 7.469852514317724e-11 -7.31154967401064e-08 0.11248551453378619
-        rotation -1 0 0 1.5709999999973738
+        translation 7.469852514317716e-11 -7.311549674010669e-08 0.11248551453378619
+        rotation -1 0 0 1.5709999999973716
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
@@ -1094,8 +1094,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05699999619767793 -2.228380778825718e-06 8.086318086221923e-07
-        rotation 0.18138886232965834 0.18124446868864683 0.9665653227757149 4.679185004084511
+        translation 0.05699999619767793 -2.228380778825718e-06 8.086318086221926e-07
+        rotation 0.18138886232965873 0.18124446868864721 0.9665653227757149 4.679185004084511
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -1132,8 +1132,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 -2.6868281241971975e-06 -1.9320679666932623e-06
-        rotation -0.13178975321872616 0.1316848069610079 0.9824920216277532 1.5876624502202321
+        translation -0.05699999618581658 -2.686828124197198e-06 -1.9320679666932606e-06
+        rotation -0.1317897532187266 0.13168480696100832 0.9824920216277531 1.5876624502202321
         children [
           DEF wheel Shape {
             appearance PBRAppearance {

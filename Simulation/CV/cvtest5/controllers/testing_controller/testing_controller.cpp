@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     arm::init(robot);
 
     mosaic::init(robot);
-    mosaic::tmpViewFloorPoints(robot);
+    mosaic::goYellow2Cylinder(robot);
     // navigate::init(robot);
     // wall::init(robot);
     // wall::follow(robot);

@@ -40,4 +40,6 @@ namespace mosaic
     void directExit(Robot *robot);
     void tmpGoHoles(Robot *robot);
     void tmpViewFloorPoints(Robot *robot);
+    void goYellow2Box(Robot *robot);
+    void goYellow2Cylinder(Robot *robot);
 }
