@@ -17,11 +17,11 @@ namespace arm
   void gripObject(Robot *robot, float ps, int obj)
   {
     float value;
-    if (obj == 3)
+    if (obj == OBJ_BALL)
     {
       value = 0.043;
     }
-    else if (obj == 0)
+    else if (obj == OBJECT)
     {
       value = 0.038;
     }

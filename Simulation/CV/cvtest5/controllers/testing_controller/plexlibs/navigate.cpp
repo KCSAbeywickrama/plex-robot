@@ -362,7 +362,7 @@ namespace navigate
         }
     }
 
-    void navigateBall(Robot *robot, string color)
+    void navigateBall(Robot *robot, int red)
     {
         cout << "navigate ball" << endl;
         float p_coefficient = 0.1;
@@ -377,13 +377,13 @@ namespace navigate
         vector<Vec4i> hierarchy;
 
         int clrCode = CLR_R;
-        if (color == "blue")
+        if (red == 0)
         {
             // hmin = 109, smin = 112, vmin = 50;
             // hmax = 120, smax = 255, vmax = 255;
             clrCode = CLR_B;
         }
-        else if (color == "red")
+        else if (red == 1)
         {
             // hmin = 0, smin = 50, vmin = 50;
             // hmax = 11, smax = 255, vmax = 255;
