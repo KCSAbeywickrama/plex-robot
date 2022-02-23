@@ -71,6 +71,7 @@ int main(int argc, char **argv)
     // mosaic::goFront(robot, 300);
 
     navigate::init(robot);
+
     navigate::navigateObject(robot);
     navigate::detectObject3(robot);
     mosaic::lookFromLeft(robot);

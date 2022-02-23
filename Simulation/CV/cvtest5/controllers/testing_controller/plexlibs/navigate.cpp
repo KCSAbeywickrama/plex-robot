@@ -253,6 +253,8 @@ namespace navigate
                 drawContPoints(imgRGB, contourPoly);
 
                 mosaic::showImgRGB(imgRGB);
+
+                break;
             }
         }
     }
@@ -319,9 +321,9 @@ namespace navigate
                     if (pixel >= 120)
 
                     {
-                        // leftMotor->setVelocity(0);
-                        // rightMotor->setVelocity(0);
-                        // return;
+                        leftMotor->setVelocity(0);
+                        rightMotor->setVelocity(0);
+                        return;
                     }
                     if (largestContourArea > 0)
                     {
@@ -334,26 +336,26 @@ namespace navigate
 
                         mosaic::showImgRGB(imgRGB);
 
-                        // Moments mu = moments(contours[largestContour], false);
+                        Moments mu = moments(contours[largestContour], false);
 
-                        // int centerx = mu.m10 / mu.m00;
-                        // float error = width / 2 - centerx;
-                        // cout << "error :" << error << endl;
-                        // if (error < 30)
-                        // {
-                        //     leftMotor->setVelocity((-error * p_coefficient) + 1);
-                        //     rightMotor->setVelocity((error * p_coefficient) + 1);
-                        // }
-                        // else
-                        // {
-                        //     leftMotor->setVelocity((-error * p_coefficient));
-                        //     rightMotor->setVelocity((error * p_coefficient));
-                        // }
+                        int centerx = mu.m10 / mu.m00;
+                        float error = width / 2 - centerx;
+                        cout << "error :" << error << endl;
+                        if (error < 30)
+                        {
+                            leftMotor->setVelocity((-error * p_coefficient) + 1);
+                            rightMotor->setVelocity((error * p_coefficient) + 1);
+                        }
+                        else
+                        {
+                            leftMotor->setVelocity((-error * p_coefficient));
+                            rightMotor->setVelocity((error * p_coefficient));
+                        }
                     }
                     else
                     {
-                        // leftMotor->setVelocity(0.1);
-                        // rightMotor->setVelocity(-0.1);
+                        leftMotor->setVelocity(0.1);
+                        rightMotor->setVelocity(-0.1);
                     }
                 }
             }

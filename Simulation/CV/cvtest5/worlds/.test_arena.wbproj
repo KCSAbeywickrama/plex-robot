@@ -11,5 +11,3 @@ globalOptionalRendering: ContactPoints::CoordinateSystem::CameraFrustums
 consoles: Console:All:All
 renderingDevicePerspectives: robot(1):cam;1;1;0;0
 renderingDevicePerspectives: robot(1):display;1;1;0;0
-renderingDevicePerspectives: robot(2):cam;1;0.96875;0;0
-renderingDevicePerspectives: robot(2):display;1;1.01563;0.737409;0
