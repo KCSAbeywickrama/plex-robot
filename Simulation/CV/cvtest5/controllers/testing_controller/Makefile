@@ -71,12 +71,12 @@ space := $(null) $(null)
 WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 
 INCLUDE = -I$(OPENCV_DIR)/include
-LIBRARIES = -L"$(OPENCV_DIR)/x64/mingw/lib" -lopencv_core452 -lopencv_imgproc452 -lopencv_imgcodecs452 -lopencv_highgui452 -lopencv_features2d452
+LIBRARIES = -L"$(OPENCV_DIR)/x64/mingw/lib" -lopencv_core452 -lopencv_imgproc452 -lopencv_imgcodecs452
 
 # $(info    VAR is $(INCLUDE))
 # $(info    VAR is $(LIBRARIES))
 # Comiples suscess
 # INCLUDE = -I"M:/OpenCV/mingcv/include/opencv4"
 # LIBRARIES = -L"M:/OpenCV/mingcv/lib" -lopencv_core -lopencv_imgproc
-CXX_SOURCES = testing_controller.cpp plexlibs/vision.cpp plexlibs/arm.cpp plexlibs/navigate.cpp plexlibs/keyhole.cpp plexlibs/mosaic.cpp plexlibs/wall.cpp  plexlibs/normline.cpp plexlibs/dashline.cpp 
+CXX_SOURCES = testing_controller.cpp plexlibs/vision.cpp plexlibs/arm.cpp plexlibs/navigate.cpp plexlibs/keyhole.cpp plexlibs/mosaic.cpp plexlibs/wall.cpp  plexlibs/normline.cpp plexlibs/dashline.cpp plexlibs/mscstps.cpp
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include

@@ -21,7 +21,7 @@ namespace arm
     {
       value = 0.043;
     }
-    else if (obj == OBJECT)
+    else if (obj == OBJ_KEY)
     {
       value = 0.038;
     }
@@ -163,20 +163,22 @@ namespace arm
     handleMotor->setVelocity(1);
     handleMotor->setPosition(0);
   }
-    void ballShoot(Robot *robot){
-    int red=1;
-    if (red==0){
-        mosaic::turnRight(robot);
-        mosaic::goFront(robot,295);
-        mosaic::turnLeft(robot);
-        shoot(robot);}
-    if (red==1){
-        mosaic::turnLeft(robot);
-        mosaic::goFront(robot,295);
-        mosaic::turnRight(robot);
-        shoot(robot);
-
-
+  void ballShoot(Robot *robot)
+  {
+    int red = 1;
+    if (red == 0)
+    {
+      mosaic::turnRight(robot);
+      mosaic::goFront(robot, 295);
+      mosaic::turnLeft(robot);
+      shoot(robot);
+    }
+    if (red == 1)
+    {
+      mosaic::turnLeft(robot);
+      mosaic::goFront(robot, 295);
+      mosaic::turnRight(robot);
+      shoot(robot);
     }
   }
 
