@@ -64,16 +64,19 @@ int main(int argc, char **argv)
     arm::init(robot);
     // arm::shoot(robot);
     mosaic::init(robot);
-    mosaic::lookFromLeft(robot);
-    // mosaic::delay(robot, 30);
-    // mosaic::lookFromRight(robot);
+
     // mosaic::turnLeft(robot);
     // mosaic::delay(robot, 30);
     // mosaic::turnRight(robot);
     // mosaic::goFront(robot, 300);
 
-    // navigate::init(robot);
-    // navigate::detectObject3(robot);
+    navigate::init(robot);
+    navigate::navigateObject(robot);
+    navigate::detectObject3(robot);
+    mosaic::lookFromLeft(robot);
+    navigate::detectObject3(robot);
+    mosaic::lookFromRight(robot);
+    navigate::detectObject3(robot);
     // wall::init(robot);
     // wall::follow(robot);
     // cout << "wall end" << endl;

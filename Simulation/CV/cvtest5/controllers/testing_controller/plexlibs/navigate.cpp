@@ -151,14 +151,12 @@ namespace navigate
         }
     }
 
-    void drawContPoints(Mat &imgRGB, vector<Point> &contours)
+    void drawContPoints(Mat &imgRGB, vector<Point> &contour)
     {
-
-        size_t n = contours.size();
-        cout << "n: " << n << endl;
+        size_t n = contour.size();
         for (size_t j = 0; j < n; j++)
         {
-            circle(imgRGB, contours[j], 0, Scalar(255, 0, 0), 2);
+            circle(imgRGB, contour[j], 0, Scalar(255, 0, 0), 2);
         }
     }
 
@@ -246,16 +244,14 @@ namespace navigate
 
                 findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-                vector<Point> contours_poly;
+                vector<Point> contourPoly;
 
-                approxPolyDP(Mat(contours[0]), contours_poly, 3, true);
+                approxPolyDP(Mat(contours[0]), contourPoly, 3, true);
 
-                drawContPoints(imgRGB, contours_poly);
+                size_t n = contourPoly.size();
+                cout << "poly n: " << n << endl;
+                drawContPoints(imgRGB, contourPoly);
 
-                // bitwise_and(imgGray, mask, maskGray);
-                // findContours(maskGray, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
-
-                // mosaic::showImgGray(imgGray);
                 mosaic::showImgRGB(imgRGB);
             }
         }
