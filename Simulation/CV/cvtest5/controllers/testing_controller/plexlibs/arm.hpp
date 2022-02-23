@@ -6,6 +6,10 @@
 #include <iostream>
 
 #define TIME_STEP 16
+
+#define OBJECT 0
+#define OBJ_BALL 3
+
 using namespace webots;
 using namespace std;
 namespace arm
