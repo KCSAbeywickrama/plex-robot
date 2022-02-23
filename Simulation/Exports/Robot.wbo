@@ -1,7 +1,7 @@
 #VRML_OBJ R2021b utf8
 DEF plexRobot Robot {
-  translation -0.362327 0.03044 0.369652
-  rotation 0.0013016794703885008 0.9999985931327441 0.0010579995695340126 -1.834195307179586
+  translation -1.04196 0.0322485 0.383271
+  rotation 0.024002490931545606 -0.514567805589566 -0.8571136761712647 0.00310596
   children [
     DistanceSensor {
       translation -2.38898e-05 0.07 0.075
@@ -247,6 +247,7 @@ DEF plexRobot Robot {
                 children [
                   Shape {
                     appearance PBRAppearance {
+                      baseColor 0.360784 0 0
                       roughness 1
                       metalness 0
                     }
@@ -261,6 +262,7 @@ DEF plexRobot Robot {
                 children [
                   Shape {
                     appearance PBRAppearance {
+                      baseColor 0.360784 0 0
                       roughness 1
                       metalness 0
                     }
@@ -275,6 +277,7 @@ DEF plexRobot Robot {
                 children [
                   Shape {
                     appearance PBRAppearance {
+                      baseColor 0.360784 0 0
                       roughness 1
                       metalness 0
                     }
@@ -381,8 +384,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 7.469852514317709e-11 -7.31154967401067e-08 0.11248551453378619
-        rotation -1 0 0 1.5709999999973705
+        translation 7.469852514317719e-11 -7.311549672019779e-08 0.11248551453378619
+        rotation -1 0 0 1.5709999999971658
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
@@ -598,8 +601,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05699999619767793 -2.22838077882572e-06 8.08631808622194e-07
-        rotation 0.1813888623296584 0.18124446868864727 0.9665653227757153 4.67918500408451
+        translation 0.05699999619767793 -2.228380778825722e-06 8.086318086221946e-07
+        rotation 0.1813888623296581 0.18124446868864727 0.966565322775715 4.679185004084511
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -636,8 +639,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 -2.686828124197193e-06 -1.9320679666932598e-06
-        rotation -0.1317897532187277 0.13168480696100834 0.9824920216277528 1.5876624502202326
+        translation -0.05699999618581658 -2.686828124197198e-06 -1.932067966693263e-06
+        rotation -0.13178975321872755 0.13168480696100773 0.9824920216277528 1.5876624502202323
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -660,8 +663,8 @@ DEF plexRobot Robot {
         }
       }
     }
-    DEF leftCaster Solid {
-      translation 0.055 -0.01625 0.09
+    DEF Caster Solid {
+      translation 0 -0.01625 0.09
       children [
         DEF caster Shape {
           appearance PBRAppearance {
@@ -679,28 +682,8 @@ DEF plexRobot Robot {
       physics Physics {
       }
     }
-    DEF rightCaster Solid {
-      translation -0.055 -0.01625 0.09
-      rotation 0 0 1 1.57
-      children [
-        DEF caster Shape {
-          appearance PBRAppearance {
-            roughness 1
-            metalness 0
-          }
-          geometry Sphere {
-            radius 0.01375
-          }
-        }
-      ]
-      name "solid(3)"
-      contactMaterial "casterMat"
-      boundingObject USE caster
-      physics Physics {
-      }
-    }
   ]
-  name "robot(2)"
+  name "robot(1)"
   boundingObject USE basePlate
   physics Physics {
     density -1

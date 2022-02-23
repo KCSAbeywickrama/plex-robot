@@ -42,10 +42,9 @@ namespace mosaic
         robot->step(TIME_STEP);
     }
 
-    void turnLeft(Robot *robot)
+    void turnLeft(Robot *robot, float rightThres)
     {
         float rightStart = rightPosSensor->getValue();
-        float rightThres = 3.608;
         leftMotor->setVelocity(-MOSAIC_SPEED);
         rightMotor->setVelocity(MOSAIC_SPEED);
 
@@ -56,12 +55,11 @@ namespace mosaic
         rightMotor->setVelocity(0);
     }
 
-    void turnRight(Robot *robot)
+    void turnRight(Robot *robot, float leftThres)
     {
         float leftStart = leftPosSensor->getValue();
-        float leftThres = 3.608;
-        leftMotor->setVelocity(2);
-        rightMotor->setVelocity(-2);
+        leftMotor->setVelocity(MOSAIC_SPEED);
+        rightMotor->setVelocity(-MOSAIC_SPEED);
 
         while (robot->step(TIME_STEP) != -1 && (leftPosSensor->getValue() - leftStart) < leftThres)
             ;
@@ -70,8 +68,85 @@ namespace mosaic
         rightMotor->setVelocity(0);
     }
 
+    void delay(Robot *robot, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            robot->step(TIME_STEP);
+        }
+    }
+
+    void driftLeft(Robot *robot)
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            rightMotor->setVelocity(-2);
+            leftMotor->setVelocity(0);
+            delay(robot, 5);
+            rightMotor->setVelocity(0);
+            leftMotor->setVelocity(-2);
+            delay(robot, 5);
+        }
+
+        rightMotor->setVelocity(0);
+        leftMotor->setVelocity(0);
+    }
+
+    void lookFromLeft(Robot *robot)
+    {
+
+        float leftThres = 6.5;
+        float leftStart = leftPosSensor->getValue();
+        leftMotor->setVelocity(-MOSAIC_SPEED);
+        rightMotor->setVelocity(-MOSAIC_SPEED / 3.0);
+
+        while (robot->step(TIME_STEP) != -1 && (leftStart - leftPosSensor->getValue()) < leftThres)
+            ;
+
+        goFront(robot, 300);
+
+        float rightThres = 4.5;
+        float rightStart = rightPosSensor->getValue();
+        leftMotor->setVelocity(MOSAIC_SPEED);
+        rightMotor->setVelocity(-MOSAIC_SPEED);
+
+        while (robot->step(TIME_STEP) != -1 && (rightStart - rightPosSensor->getValue()) < rightThres)
+            ;
+
+        leftMotor->setVelocity(0);
+        rightMotor->setVelocity(0);
+    }
+
+    void lookFromRight(Robot *robot)
+    {
+
+        float rightThres = 7.5;
+        float rightStart = rightPosSensor->getValue();
+        rightMotor->setVelocity(-MOSAIC_SPEED);
+        leftMotor->setVelocity(-MOSAIC_SPEED / 3.0);
+
+        while (robot->step(TIME_STEP) != -1 && (rightStart - rightPosSensor->getValue()) < rightThres)
+            ;
+
+        goFront(robot, 500);
+        turnLeft(robot);
+        goFront(robot, 250);
+
+        float leftThres = 3.5;
+        float leftStart = leftPosSensor->getValue();
+        rightMotor->setVelocity(MOSAIC_SPEED);
+        leftMotor->setVelocity(-MOSAIC_SPEED);
+
+        while (robot->step(TIME_STEP) != -1 && (leftStart - leftPosSensor->getValue()) < leftThres)
+            ;
+
+        leftMotor->setVelocity(0);
+        rightMotor->setVelocity(0);
+    }
+
     void goFront(Robot *robot, float distance)
     {
+        // distance in mm
         cout << "front" << endl;
         float rad = distance / 30.0;
         float leftStart = leftPosSensor->getValue();
@@ -135,14 +210,6 @@ namespace mosaic
         Mat _img;
         cvtColor(img, _img, COLOR_GRAY2RGB);
         showImgRGB(_img);
-    }
-
-    void delay(Robot *robot, int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            robot->step(TIME_STEP);
-        }
     }
 
     void showFilter(Robot *robot, int color)
@@ -743,109 +810,6 @@ namespace mosaic
                 circle(imgRGB, Point(j2 - 3 * i2 / 5, i2), 0, Scalar(0, 0, 255), 3);
                 circle(imgRGB, Point(j2m, i2), 0, Scalar(0, 255, 255), 3);
                 showImgRGB(imgRGB);
-
-                if (i2 > 50)
-                {
-                    leftMotor->setVelocity(0);
-                    rightMotor->setVelocity(0);
-                    return;
-                }
-            }
-        }
-    }
-
-    void tmpGoHoles(Robot *robot)
-    {
-        const unsigned char *image;
-        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
-        Mat imgRGB, imgHSV, maskFloor, maskHole;
-
-        while (robot->step(TIME_STEP) != -1)
-        {
-            image = camera->getImage();
-            if (image)
-            {
-
-                imgCam.data = (uchar *)image;
-                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
-                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
-
-                vision::getMask(CLR_Y, imgHSV, maskFloor);
-                int i = 0;
-                int j = imgWidth - 1;
-                bool find = true;
-
-                for (i = 0; i < imgHeight && find; i++)
-                {
-                    uchar *line = maskFloor.ptr<uchar>(i);
-                    for (j = imgWidth - 1; j > 0 && find; j--)
-                    {
-                        if (line[j])
-                            find = false;
-                    }
-                }
-
-                circle(imgRGB, Point(j, i), 0, Scalar(0, 255, 0), 5);
-
-                vision::getMask(CLR_W, imgHSV, maskHole);
-                cvtColor(maskHole, imgRGB, COLOR_GRAY2RGB);
-
-                int i1 = 0;
-                int j1 = 0;
-                int j1m = 0;
-                find = true;
-                // for (j1 = 0; (j1 < (j - 2)) && find; j1++)
-                for (j1 = 0; (j1 < imgWidth) && find; j1++)
-                {
-                    for (i1 = 0; i1 < i && find; i1++)
-                    {
-                        uchar *line = maskHole.ptr<uchar>(i1);
-                        if (line[j1])
-                            find = false;
-                        // circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 5);
-                    }
-                }
-
-                j1m = (2 * j1 + (int)(1 * i1)) / 2;
-                // j1 += 7; // correction
-
-                circle(imgRGB, Point(j1, i1), 0, Scalar(255, 0, 0), 3);
-                circle(imgRGB, Point(j1 + (int)(1 * i1), i1), 0, Scalar(255, 0, 0), 3);
-                circle(imgRGB, Point(j1m, i1), 0, Scalar(255, 255, 0), 3);
-
-                int i2 = 0;
-                int j2 = 0;
-                int j2m = 0;
-                find = true;
-                for (j2 = (j - 2); j2 > 0 && find; j2--)
-                {
-                    for (i2 = 0; i2 < i && find; i2++)
-                    {
-                        uchar *line = maskHole.ptr<uchar>(i2);
-                        if (line[j2])
-                            find = false;
-                        // circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 5);
-                    }
-                }
-                j2m = (2 * j2 - 3 * i2 / 5) / 2;
-                // j2 -= 7; // correction
-
-                circle(imgRGB, Point(j2, i2), 0, Scalar(0, 0, 255), 3);
-                circle(imgRGB, Point(j2 - 3 * i2 / 5, i2), 0, Scalar(0, 0, 255), 3);
-                circle(imgRGB, Point(j2m, i2), 0, Scalar(0, 255, 255), 3);
-
-                showImgRGB(imgRGB);
-
-                int error = j2m - (imgWidth / 2);
-                error = (error / 2) * 2;
-                float p_coefficient = 0.1;
-                cout << " i1:" << i1;
-                cout << " i2:" << i2;
-                cout << " lineerror: ";
-                cout << error << endl;
-
-                leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
-                rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
 
                 if (i2 > 50)
                 {

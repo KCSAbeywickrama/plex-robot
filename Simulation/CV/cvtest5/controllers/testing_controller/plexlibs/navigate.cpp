@@ -158,7 +158,7 @@ namespace navigate
         cout << "n: " << n << endl;
         for (size_t j = 0; j < n; j++)
         {
-            circle(imgRGB, contours[j], 0, Scalar(0, 255, 0), 2);
+            circle(imgRGB, contours[j], 0, Scalar(255, 0, 0), 2);
         }
     }
 
@@ -216,6 +216,51 @@ namespace navigate
             }
         }
     }
+
+    void detectObject3(Robot *robot)
+    {
+        cout << "detect obg3" << endl;
+        float p_coefficient = 0.1;
+        const unsigned char *image;
+        const int width = camera->getWidth();
+        const int height = camera->getHeight();
+        Mat imageMat = Mat(Size(width, height), CV_8UC4);
+        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
+        Mat imgRGB, imgHSV, imgGray, mask, maskRGB, maskGray;
+        vector<vector<Point>> contours;
+        vector<Point> poly;
+        vector<Vec4i> hierarchy;
+
+        while (robot->step(TIME_STEP) != -1)
+        {
+
+            image = camera->getImage();
+
+            if (image)
+            {
+                imageMat.data = (uchar *)image;
+                cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_O, imgHSV, mask);
+
+                findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+
+                vector<Point> contours_poly;
+
+                approxPolyDP(Mat(contours[0]), contours_poly, 3, true);
+
+                drawContPoints(imgRGB, contours_poly);
+
+                // bitwise_and(imgGray, mask, maskGray);
+                // findContours(maskGray, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+
+                // mosaic::showImgGray(imgGray);
+                mosaic::showImgRGB(imgRGB);
+            }
+        }
+    }
+
     void navigateObject(Robot *robot)
     {
         cout << "navigateobj" << endl;

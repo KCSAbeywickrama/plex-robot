@@ -23,5 +23,6 @@ namespace navigate
     void navigateBall(Robot *robot, string color);
     void detectObject(Robot *robot, int &object);
     void detectObject2(Robot *robot);
+    void detectObject3(Robot *robot);
     void init(Robot *robot);
 }
