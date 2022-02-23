@@ -7,9 +7,6 @@
 
 #define TIME_STEP 16
 
-#define OBJ_KEY 0
-#define OBJ_BALL 3
-
 using namespace webots;
 using namespace std;
 namespace arm

@@ -43,7 +43,7 @@ namespace navigate
     {
         double maxArea = 0;
         id = 0;
-        for (int j = 0; j < contours.size(); j++)
+        for (size_t j = 0; j < contours.size(); j++)
         {
             double newArea = contourArea(contours.at(j));
             if (newArea > maxArea)
@@ -61,13 +61,13 @@ namespace navigate
         size_t n = contour.size();
         for (size_t j = 0; j < n; j++)
         {
-            circle(imgRGB, contour[j], 0, Scalar(255, 0, 0), 2);
+            circle(imgRGB, contour[j], 0, Scalar(0, 255, 0), 2);
         }
     }
 
     int detectObject(Robot *robot)
     {
-        cout << "detecting obg" << endl;
+        cout << "detecting obgect" << endl;
 
         const unsigned char *image;
 
@@ -78,52 +78,50 @@ namespace navigate
         vector<Point> contourPoly;
         vector<Vec4i> hierarchy;
 
-        while (robot->step(TIME_STEP) != -1)
+        image = camera->getImage();
+
+        if (image)
         {
+            imageMat.data = (uchar *)image;
+            cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+            cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-            image = camera->getImage();
+            vision::getMask(CLR_O, imgHSV, mask);
 
-            if (image)
-            {
-                imageMat.data = (uchar *)image;
-                cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
-                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+            findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-                vision::getMask(CLR_O, imgHSV, mask);
+            int largestContour, largestContourArea;
+            getMaxAreaContourId(contours, largestContour, largestContourArea);
 
-                findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+            approxPolyDP(Mat(contours[largestContour]), contourPoly, 3, true);
 
-                int largestContour, largestContourArea;
-                getMaxAreaContourId(contours, largestContour, largestContourArea);
+            size_t n = contourPoly.size();
+            cout << "poly n: " << n << endl;
+            drawContPoints(imgRGB, contourPoly);
+            mosaic::showImgRGB(imgRGB);
 
-                approxPolyDP(Mat(contours[largestContour]), contourPoly, 3, true);
+            if (n > 6)
+                return OBJ_CYLNDR;
 
-                size_t n = contourPoly.size();
-                cout << "poly n: " << n << endl;
-                drawContPoints(imgRGB, contourPoly);
-
-                mosaic::showImgRGB(imgRGB);
-            }
+            return OBJ_BOX;
         }
+
+        return -1;
     }
 
     void navigateObject(Robot *robot)
     {
-        cout << "navigateobj" << endl;
+        cout << "navigate obj" << endl;
         float p_coefficient = 0.1;
         const unsigned char *image;
-        const int width = camera->getWidth();
-        const int height = camera->getHeight();
-        Mat imageMat = Mat(Size(width, height), CV_8UC4);
-        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, imgGray, mask, maskRGB, maskGray;
+        Mat imageMat = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
         vector<vector<Point>> contours;
         vector<Point> poly;
         vector<Vec4i> hierarchy;
 
         while (robot->step(TIME_STEP) != -1)
         {
-
             image = camera->getImage();
 
             if (image)
@@ -166,7 +164,7 @@ namespace navigate
 
                     cout << "area" << largestContourArea << "pixel  " << pixel << ' ';
 
-                    if (pixel >= 120)
+                    if (pixel >= 100)
 
                     {
                         leftMotor->setVelocity(0);
@@ -175,19 +173,10 @@ namespace navigate
                     }
                     if (largestContourArea > 0)
                     {
-                        Scalar color = Scalar(0, 255, 0);
-
-                        cvtColor(mask, imgRGB, COLOR_GRAY2RGB);
-                        // drawContours(imgRGB, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
-
-                        drawContPoints(imgRGB, contours[largestContour]);
-
-                        mosaic::showImgRGB(imgRGB);
-
                         Moments mu = moments(contours[largestContour], false);
 
                         int centerx = mu.m10 / mu.m00;
-                        float error = width / 2 - centerx;
+                        float error = imgWidth / 2 - centerx;
                         cout << "error :" << error << endl;
                         if (error < 30)
                         {
@@ -199,6 +188,10 @@ namespace navigate
                             leftMotor->setVelocity((-error * p_coefficient));
                             rightMotor->setVelocity((error * p_coefficient));
                         }
+
+                        cvtColor(mask, imgRGB, COLOR_GRAY2RGB);
+                        drawContPoints(imgRGB, contours[largestContour]);
+                        mosaic::showImgRGB(imgRGB);
                     }
                     else
                     {
@@ -214,7 +207,6 @@ namespace navigate
     {
         cout << "navigate ball" << endl;
         float p_coefficient = 0.1;
-        int hmin, hmax, smin, smax, vmin, vmax;
         const unsigned char *image;
         const int width = camera->getWidth();
         const int height = camera->getHeight();
@@ -240,10 +232,6 @@ namespace navigate
                 cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-                // Commented by CSA
-                // Scalar lower(hmin, smin, vmin);
-                // Scalar upper(hmax, smax, vmax);
-                // inRange(imgHSV, lower, upper, mask);
                 vision::getMask(clrCode, imgHSV, mask);
 
                 cvtColor(mask, maskRGB, COLOR_GRAY2RGB);

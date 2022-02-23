@@ -95,7 +95,7 @@ namespace mosaic
     void lookFromLeft(Robot *robot)
     {
 
-        float leftThres = 6.5;
+        float leftThres = 5.8;
         float leftStart = leftPosSensor->getValue();
         leftMotor->setVelocity(-MOSAIC_SPEED);
         rightMotor->setVelocity(-MOSAIC_SPEED / 3.0);
@@ -103,7 +103,7 @@ namespace mosaic
         while (robot->step(TIME_STEP) != -1 && (leftStart - leftPosSensor->getValue()) < leftThres)
             ;
 
-        goFront(robot, 300);
+        goFront(robot, 290);
 
         float rightThres = 4.5;
         float rightStart = rightPosSensor->getValue();
@@ -119,8 +119,7 @@ namespace mosaic
 
     void lookFromRight(Robot *robot)
     {
-
-        float rightThres = 7.5;
+        float rightThres = 5.5;
         float rightStart = rightPosSensor->getValue();
         rightMotor->setVelocity(-MOSAIC_SPEED);
         leftMotor->setVelocity(-MOSAIC_SPEED / 3.0);
@@ -128,11 +127,9 @@ namespace mosaic
         while (robot->step(TIME_STEP) != -1 && (rightStart - rightPosSensor->getValue()) < rightThres)
             ;
 
-        goFront(robot, 500);
-        turnLeft(robot);
-        goFront(robot, 250);
+        goFront(robot, 350);
 
-        float leftThres = 3.5;
+        float leftThres = 5.0;
         float leftStart = leftPosSensor->getValue();
         rightMotor->setVelocity(MOSAIC_SPEED);
         leftMotor->setVelocity(-MOSAIC_SPEED);
@@ -547,7 +544,8 @@ namespace mosaic
         goCyan2Magenta(robot);
         goFront(robot, 350);
         goMagenta2Yellow(robot);
-        // turnLeft(robot);
+        // goBack(robot, 300);
+        // goMagenta2Yellow(robot);
     }
 
     void exit(Robot *robot)
@@ -711,7 +709,7 @@ namespace mosaic
                         uchar *line = maskHole.ptr<uchar>(i1);
                         if (line[j1])
                             find = false;
-                        circle(imgRGB, Point(j1, i1), 0, Scalar(255, 255, 0), 5);
+                        // circle(imgRGB, Point(j1, i1), 0, Scalar(255, 255, 0), 5);
                     }
                 }
 
@@ -819,6 +817,16 @@ namespace mosaic
                 }
             }
         }
+    }
+
+    void goHole2Cyan(Robot *robot)
+    {
+        turnRight(robot, TURN_THRES_90 * 2);
+        alignWhileGoing(robot, CLR_M, 110);
+        goFront(robot, 300);
+        turnLeft(robot);
+        alignWhileGoing(robot, CLR_C, 110);
+        goFront(robot, 100);
     }
 
     void tmpViewFloorPoints(Robot *robot)
