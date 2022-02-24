@@ -85,7 +85,6 @@ namespace normline
     act = 0;
     for(int i =0; i<8;i++){
     value[i]=(sensors[i]->getValue());
-    //std::cout << 2.53268-1.23521*pow(value[i],0.239678) << std::endl;
     if(value[i]>value_max){
     value_max=value[i];
     }
@@ -98,22 +97,10 @@ namespace normline
     t=(2.53268-1.23521*pow(value_min,0.239678)+2.53268-1.23521*pow(value_max,0.239678))/2;
     }
     
-    std::cout << "**************" << std::endl;
-    std::cout <<"t = "<< t << std::endl;
-    std::cout << value_min<< std::endl;
-    std::cout << value_max<< std::endl;
-    std::cout << "--------------" << std::endl;
-    
-    
-    
     for(int i =0; i<8;i++){
     values[i] = 1- int((float)((2.53268-1.23521*pow(value[i],0.239678)) / t));
-    std::cout << values[i] << std::endl;
     act+=values[i];
     }
-    /*std::cout << "**************" << std::endl;
-    std::cout << t << std::endl;
-    std::cout << "--------------" << std::endl;*/
   }
 
     void speedset()
@@ -225,4 +212,4 @@ namespace normline
             }
         }
     }
-}//pp
+}

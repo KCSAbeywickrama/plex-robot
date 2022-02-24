@@ -58,7 +58,6 @@ namespace dashline
     for (int i = 0; i < 8; i++)
     {
       value[i] = (sensors[i]->getValue());
-      std::cout << 2.53268 - 1.23521 * pow(value[i], 0.239678) << std::endl;
       if (value[i] > value_max)
       {
         value_max = value[i];
@@ -73,19 +72,11 @@ namespace dashline
       t = (2.53268 - 1.23521 * pow(value_min, 0.239678) + 2.53268 - 1.23521 * pow(value_max, 0.239678)) / 2;
     }
 
-    std::cout << "t:" << t << std::endl;
-    std::cout << "value_min:" << value_min << std::endl;
-    std::cout << "value_max:" << value_max << std::endl;
-
     for (int i = 0; i < 8; i++)
     {
       values[i] = 1 - int((float)((2.53268 - 1.23521 * pow(value[i], 0.239678)) / t));
-      // std::cout << values[i] << std::endl;
       act += values[i];
     }
-    /*std::cout << "**************" << std::endl;
-    std::cout << t << std::endl;
-    std::cout << "--------------" << std::endl;*/
   }
 
   void speedset()
@@ -99,7 +90,6 @@ namespace dashline
     if (act > 5)
     {
       et += 1;
-      // std::cout << et << std::endl;
       etime = robot->getTime();
     }
     else if ((robot->getTime() - etime) > 0.2 && act < 5)
@@ -110,7 +100,6 @@ namespace dashline
     {
       L_speed = PATH_BASE_SPEED;
       R_speed = PATH_BASE_SPEED;
-      std::cout << "**************" << std::endl;
       speedset();
       sensor_check();
       if (act == 0)
