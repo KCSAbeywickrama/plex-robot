@@ -315,4 +315,54 @@ namespace navigate
             }
         }
     }
+    void checkNear(Robot *robot)
+    {
+        cout<<"check near"<<endl;
+        while (robot->step(TIME_STEP) != -1)
+        {
+            const unsigned char *image;
+            Mat imageMat = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+            Mat imgRGB, imgHSV, mask;
+            vector<vector<Point>> contours;
+            vector<Vec4i> hierarchy;
+
+            image = camera->getImage();
+
+                if (image)
+                {
+                    imageMat.data = (uchar *)image;
+                    cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+                    cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+                
+                    vision::getMask(CLR_O, imgHSV, mask);
+
+                    findContours(mask, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+        
+
+                        int largestContour, largestContourArea;
+                        int pixel;
+                        getMaxAreaContourId(contours, largestContour, largestContourArea);
+                    
+                        Point extTop = *min_element(contours[largestContour].begin(), contours[largestContour].end(),
+                                                        [](const Point &lhs, const Point &rhs)
+                                                        {
+                                                            return lhs.y < rhs.y;
+                                                        });
+                        circle(imgRGB, extTop, 0, Scalar(255, 0, 0), 5);
+                        mosaic::showImgRGB(imgRGB);
+                        pixel = extTop.y;
+                        cout<<"pixel: "<<pixel<<endl;
+                        if (pixel<=70)
+                        {
+                            mosaic::goFront(robot,5);
+                            
+                        }
+                        else
+                        {
+                           return ;
+                        }
+                }
+        }            
+    }
 }

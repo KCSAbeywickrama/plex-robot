@@ -23,4 +23,5 @@ namespace navigate
     void navigateBall(Robot *robot, int redBall);
     int detectObject(Robot *robot);
     void init(Robot *robot);
+    void checkNear(Robot *robot);
 }
