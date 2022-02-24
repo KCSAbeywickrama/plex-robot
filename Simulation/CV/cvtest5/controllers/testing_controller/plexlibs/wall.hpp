@@ -4,6 +4,7 @@
 #include <webots/Motor.hpp>
 #include <webots/DistanceSensor.hpp>
 #include <iostream>
+#include <cmath>
 
 #define TIME_STEP 16
 #define MAX_SPEED 6
