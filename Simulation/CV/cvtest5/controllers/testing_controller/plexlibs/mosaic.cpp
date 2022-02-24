@@ -559,13 +559,6 @@ namespace mosaic
         alignWhileGoing(robot, CLR_W, 112);
     }
 
-    void directExit(Robot *robot)
-    {
-        rotateLeftUntil(robot, CLR_W);
-        delay(robot, 100);
-        alignWhileGoing(robot, CLR_W, 112);
-    }
-
     void goWall2MagentaEnc(Robot *robot)
     {
         goFront(robot, 500);
