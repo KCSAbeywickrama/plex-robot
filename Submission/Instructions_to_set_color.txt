@@ -1,0 +1,6 @@
+plese update 24th line as bellow of robot_controller.cpp to select a vall color.
+
+int redBall = 1; //for red ball
+int redBall = 0; //for blue ball
+
+then clean & build

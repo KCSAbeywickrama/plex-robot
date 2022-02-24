@@ -1,0 +1,11 @@
+a. Contact material 01 name:casterMat
+b. Contact material 02 name:default
+c. CoulombFriction value:0
+
+a. Contact material 01 name:wheelMat
+b. Contact material 02 name:default
+c. CoulombFriction value:4
+
+a. Contact material 01 name:touchMat
+b. Contact material 02 name:default
+c. CoulombFriction value:2

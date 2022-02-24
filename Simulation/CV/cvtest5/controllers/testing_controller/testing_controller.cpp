@@ -18,6 +18,9 @@
 using namespace webots;
 using namespace std;
 
+// update this for changing the ball
+// int redBall = 1; //for red ball
+// int redBall = 0; //for blue ball
 int redBall = 0;
 
 int main(int argc, char **argv)
