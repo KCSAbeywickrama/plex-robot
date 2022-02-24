@@ -20,7 +20,9 @@ namespace mscstps
                 object = navigate::detectObject(robot);
             }
         }
+        navigate::checkNear(robot);
         arm::gripObject(robot, 0.001, 0);
+        arm::loose(robot);
         navigate::checkNear(robot);
         arm::gripObject(robot, 0.001, 0);
         arm::raise(robot, 1.4);

@@ -186,8 +186,9 @@ namespace arm
   }
   void loose(Robot *robot)
   {
-    leftSlider->setPosition(0.032);
-    rightSlider->setPosition(0.032); 
+    //cout<<"loose"<<endl;
+    leftSlider->setPosition(0.035);
+    rightSlider->setPosition(0.035); 
   }
 
 

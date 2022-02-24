@@ -16,4 +16,5 @@ namespace arm
   void raise(Robot *robot, float angle);
   void shoot(Robot *robot);
   void ballShoot(Robot *robot, int redBall);
+  void loose(Robot *robot);
 }
