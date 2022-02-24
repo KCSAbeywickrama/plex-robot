@@ -36,13 +36,19 @@ namespace mscstps
         arm::shoot(robot);
     }
 
-    void run(Robot *robot)
+    void run(Robot *robot, int redBall)
     {
         navigate::init(robot);
-
-        pickAndInsert(robot);
-        mosaic::goHole2Cyan(robot);
-        pickAndInsert(robot);
+        // pickAndInsert(robot);
+        // mosaic::goHole2Cyan(robot);
+        // pickAndInsert(robot);
+        // mosaic::turnRight(robot);
+        navigate::navigateBall(robot, redBall);
+        arm::gripObject(robot, 0.001, OBJ_BALL);
+        arm::raise(robot, 1.2);
+        mosaic::exit(robot);
+        arm::raise(robot, 0.0);
+        mosaic::goFront(robot, 140);
     }
 }
 

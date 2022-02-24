@@ -46,6 +46,7 @@ namespace mosaic
     void goCylinder2MagentaEnc(Robot *robot);
     void preAlignKeyHole(Robot *robot);
     void alignWhileGoing(Robot *robot, int color, int dis);
+    void alignToWall(Robot *robot);
     void exit(Robot *robot);
     void tmpViewFloorPoints(Robot *robot);
     void goYellow2Box(Robot *robot);

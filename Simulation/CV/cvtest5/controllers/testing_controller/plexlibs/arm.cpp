@@ -26,7 +26,9 @@ namespace arm
       value = 0.038;
     }
     cout << "gripping object " << value << endl;
-    while (robot->step(TIME_STEP) != -1)
+    int checkCount = 0;
+    int checkCount2 = 0;
+    while (robot->step(TIME_STEP) != -1 && checkCount < 25 && checkCount2 < 5)
     {
 
       leftTouch->enable(TIME_STEP);
@@ -75,12 +77,14 @@ namespace arm
           {
             robot->step(TIME_STEP);
           }
+          checkCount++;
         }
       }
       ps += 0.001;
       if (leftSliderEncoder->getValue() >= 0.05 || leftSliderEncoder->getValue() <= 0.0)
       {
         ps = 0;
+        checkCount2++;
       }
     }
   }

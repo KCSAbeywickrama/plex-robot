@@ -9,5 +9,5 @@ using namespace std;
 
 namespace mscstps
 {
-    void run(Robot *robot);
+    void run(Robot *robot, int redBall);
 }

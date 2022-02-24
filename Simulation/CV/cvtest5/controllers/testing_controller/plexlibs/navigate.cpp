@@ -78,34 +78,64 @@ namespace navigate
         vector<Point> contourPoly;
         vector<Vec4i> hierarchy;
 
-        image = camera->getImage();
-
-        if (image)
+        for (int i = 0; i < 15; i++)
         {
-            imageMat.data = (uchar *)image;
-            cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
-            cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+            image = camera->getImage();
 
-            vision::getMask(CLR_O, imgHSV, mask);
+            if (image)
+            {
+                imageMat.data = (uchar *)image;
+                cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
 
-            findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+                vision::getMask(CLR_O, imgHSV, mask);
 
-            int largestContour, largestContourArea;
-            getMaxAreaContourId(contours, largestContour, largestContourArea);
+                uchar *line = mask.ptr<uchar>(110);
+                bool skip = false;
+                for (int j = 0; j < imgWidth; j++)
+                {
+                    if (line[j])
+                    {
+                        mosaic::goBack(robot, 10);
+                        skip = true;
+                        break;
+                    }
+                }
 
-            approxPolyDP(Mat(contours[largestContour]), contourPoly, 3, true);
+                if (skip)
+                {
+                    cout << "skip" << endl;
+                    continue;
+                }
 
-            size_t n = contourPoly.size();
-            cout << "poly n: " << n << endl;
-            drawContPoints(imgRGB, contourPoly);
-            mosaic::showImgRGB(imgRGB);
+                findContours(mask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-            if (n > 6)
-                return OBJ_CYLNDR;
+                int largestContour, largestContourArea;
+                getMaxAreaContourId(contours, largestContour, largestContourArea);
 
-            return OBJ_BOX;
+                approxPolyDP(Mat(contours[largestContour]), contourPoly, 2, true);
+
+                size_t n = contourPoly.size();
+                cout << "poly n: " << n << endl;
+
+                // Point p1(0, 112), p2(127, 112);
+
+                // int thickness = 2;
+
+                // // Line drawn using 8 connected
+                // // Bresenham algorithm
+                // line(imgRGB, p1, p2, Scalar(255, 0, 255),
+                //      thickness, LINE_8);
+
+                drawContPoints(imgRGB, contourPoly);
+                mosaic::showImgRGB(imgRGB);
+
+                if (n > 6)
+                    return OBJ_CYLNDR;
+
+                return OBJ_BOX;
+            }
         }
-
         return -1;
     }
 
@@ -129,17 +159,13 @@ namespace navigate
                 imageMat.data = (uchar *)image;
                 cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
                 cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
-                cout << "matrix size :" << imageMat.size() << endl;
 
                 vision::getMask(CLR_O, imgHSV, mask);
 
                 findContours(mask, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
-                cout << "nav:end of find cont" << endl;
-
                 if (contours.empty())
                 {
-                    cout << "not found" << endl;
                     leftMotor->setVelocity(0.5);
                     rightMotor->setVelocity(-0.5);
                 }
@@ -162,8 +188,6 @@ namespace navigate
                         pixel = 10;
                     }
 
-                    cout << "area" << largestContourArea << "pixel  " << pixel << ' ';
-
                     if (pixel >= 100)
 
                     {
@@ -177,7 +201,7 @@ namespace navigate
 
                         int centerx = mu.m10 / mu.m00;
                         float error = imgWidth / 2 - centerx;
-                        cout << "error :" << error << endl;
+
                         if (error < 30)
                         {
                             leftMotor->setVelocity((-error * p_coefficient) + 1);
@@ -208,11 +232,8 @@ namespace navigate
         cout << "navigate ball" << endl;
         float p_coefficient = 0.1;
         const unsigned char *image;
-        const int width = camera->getWidth();
-        const int height = camera->getHeight();
-        Mat imageMat = Mat(Size(width, height), CV_8UC4);
-        Mat imgAnd = Mat(Size(width, height), CV_8UC4);
-        Mat imgRGB, imgHSV, mask, maskRGB, imgGray; // imgCanny ,imgDil,
+        Mat imageMat = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
         vector<vector<Point>> contours;
         vector<Vec4i> hierarchy;
 
@@ -234,12 +255,7 @@ namespace navigate
 
                 vision::getMask(clrCode, imgHSV, mask);
 
-                cvtColor(mask, maskRGB, COLOR_GRAY2RGB);
-                bitwise_and(imgRGB, maskRGB, imgAnd);
-
-                cvtColor(imgAnd, imgGray, COLOR_RGB2GRAY);
-                // findContours(imgGray, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-                findContours(imgGray, contours, hierarchy, RETR_LIST, CHAIN_APPROX_NONE);
+                findContours(mask, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
                 if (contours.empty())
                 {
@@ -267,8 +283,6 @@ namespace navigate
                         pixel = 10;
                     }
 
-                    cout << largestContourArea << ' ' << pixel << ' ';
-
                     if (pixel >= 120)
                     {
 
@@ -284,17 +298,11 @@ namespace navigate
                     }
                     if (largestContourArea > 0)
                     {
-                        Scalar color = Scalar(0, 255, 0);
-                        drawContours(imgAnd, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
-                        ImageRef *ir = display->imageNew(width, height, imgAnd.data, Display::RGB);
-
-                        display->imagePaste(ir, 0, 0, false);
-                        display->imageDelete(ir);
                         Moments mu = moments(contours[largestContour], false);
 
                         int centerx = mu.m10 / mu.m00;
-                        float error = width / 2 - centerx;
-                        cout << error << endl;
+                        float error = imgWidth / 2 - centerx;
+
                         if (error < 30)
                         {
                             leftMotor->setVelocity((-error * p_coefficient) + 1);
@@ -305,6 +313,10 @@ namespace navigate
                             leftMotor->setVelocity((-error * p_coefficient));
                             rightMotor->setVelocity((error * p_coefficient));
                         }
+
+                        Scalar color = Scalar(0, 255, 0);
+                        drawContours(imgRGB, contours, largestContour, color, 2, LINE_8, hierarchy, 0);
+                        mosaic::showImgRGB(imgRGB);
                     }
                     else
                     {
@@ -315,10 +327,12 @@ namespace navigate
             }
         }
     }
+
     void checkNear(Robot *robot)
     {
-        cout<<"check near"<<endl;
-        while (robot->step(TIME_STEP) != -1)
+        cout << "check near" << endl;
+        int checkCount = 0;
+        while (robot->step(TIME_STEP) != -1 && checkCount < 25)
         {
             const unsigned char *image;
             Mat imageMat = Mat(Size(imgWidth, imgHeight), CV_8UC4);
@@ -328,41 +342,39 @@ namespace navigate
 
             image = camera->getImage();
 
-                if (image)
+            if (image)
+            {
+                imageMat.data = (uchar *)image;
+                cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_O, imgHSV, mask);
+
+                findContours(mask, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+                int largestContour, largestContourArea;
+                int pixel;
+                getMaxAreaContourId(contours, largestContour, largestContourArea);
+
+                Point extTop = *min_element(contours[largestContour].begin(), contours[largestContour].end(),
+                                            [](const Point &lhs, const Point &rhs)
+                                            {
+                                                return lhs.y < rhs.y;
+                                            });
+                circle(imgRGB, extTop, 0, Scalar(255, 0, 0), 5);
+                mosaic::showImgRGB(imgRGB);
+                pixel = extTop.y;
+                cout << "pixel: " << pixel << endl;
+                if (pixel <= 65)
                 {
-                    imageMat.data = (uchar *)image;
-                    cvtColor(imageMat, imgRGB, COLOR_BGRA2RGB);
-                    cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
-                
-                    vision::getMask(CLR_O, imgHSV, mask);
-
-                    findContours(mask, contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-
-        
-
-                        int largestContour, largestContourArea;
-                        int pixel;
-                        getMaxAreaContourId(contours, largestContour, largestContourArea);
-                    
-                        Point extTop = *min_element(contours[largestContour].begin(), contours[largestContour].end(),
-                                                        [](const Point &lhs, const Point &rhs)
-                                                        {
-                                                            return lhs.y < rhs.y;
-                                                        });
-                        circle(imgRGB, extTop, 0, Scalar(255, 0, 0), 5);
-                        mosaic::showImgRGB(imgRGB);
-                        pixel = extTop.y;
-                        cout<<"pixel: "<<pixel<<endl;
-                        if (pixel<=70)
-                        {
-                            mosaic::goFront(robot,5);
-                            
-                        }
-                        else
-                        {
-                           return ;
-                        }
+                    mosaic::goFront(robot, 5);
                 }
-        }            
+                else
+                {
+                    return;
+                }
+            }
+            checkCount++;
+        }
     }
 }
