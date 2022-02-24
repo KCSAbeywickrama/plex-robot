@@ -1,7 +1,6 @@
 #VRML_OBJ R2021b utf8
 DEF plexRobot Robot {
-  translation -1.04196 0.0322485 0.383271
-  rotation 0.024002490931545606 -0.514567805589566 -0.8571136761712647 0.00310596
+  translation 0.99 0.0491599 0.8
   children [
     DistanceSensor {
       translation -2.38898e-05 0.07 0.075
@@ -183,9 +182,19 @@ DEF plexRobot Robot {
           ]
           name "ds_fright"
           lookupTable [
-            0 70 0.01
-            0.1 70 0.01
-            0.8 0 0.01
+            0 2.4 0.001
+            0.1 2.4 0.001
+            0.12 2 0.001
+            0.16 1.6 0.001
+            0.2 1.4 0.001
+            0.23 1.2 0.001
+            0.3 1 0.001
+            0.38 0.8 0.001
+            0.4 0.75 0.001
+            0.5 0.6 0.001
+            0.6 0.55 0.001
+            0.7 0.47 0.001
+            0.8 0.4 0.001
           ]
           type "infra-red"
         }
@@ -201,9 +210,19 @@ DEF plexRobot Robot {
           ]
           name "ds_fleft"
           lookupTable [
-            0 70 0.01
-            0.1 70 0.01
-            0.8 0 0.01
+            0 2.4 0.001
+            0.1 2.4 0.001
+            0.12 2 0.001
+            0.16 1.6 0.001
+            0.2 1.4 0.001
+            0.23 1.2 0.001
+            0.3 1 0.001
+            0.38 0.8 0.001
+            0.4 0.75 0.001
+            0.5 0.6 0.001
+            0.6 0.55 0.001
+            0.7 0.47 0.001
+            0.8 0.4 0.001
           ]
           type "infra-red"
         }
@@ -218,11 +237,22 @@ DEF plexRobot Robot {
           ]
           name "ds_left"
           lookupTable [
-            0 70 0.01
-            0.1 70 0.01
-            0.8 0 0.01
+            0 2.4 0.001
+            0.1 2.4 0.001
+            0.12 2 0.001
+            0.16 1.6 0.001
+            0.2 1.4 0.001
+            0.23 1.2 0.001
+            0.3 1 0.001
+            0.38 0.8 0.001
+            0.4 0.75 0.001
+            0.5 0.6 0.001
+            0.6 0.55 0.001
+            0.7 0.47 0.001
+            0.8 0.4 0.001
           ]
           type "infra-red"
+          aperture 0.2094
         }
       ]
     }
@@ -384,8 +414,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 7.469852514317719e-11 -7.311549672019779e-08 0.11248551453378619
-        rotation -1 0 0 1.5709999999971658
+        translation 7.469852514317719e-11 -7.311549672019783e-08 0.11248551453378619
+        rotation -1 0 0 1.570999999997164
         children [
           DEF leftSlider SliderJoint {
             jointParameters JointParameters {
@@ -601,8 +631,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation 0.05699999619767793 -2.228380778825722e-06 8.086318086221946e-07
-        rotation 0.1813888623296581 0.18124446868864727 0.966565322775715 4.679185004084511
+        translation 0.05699999619767793 -2.2283807788257263e-06 8.086318086221962e-07
+        rotation 0.1813888623296587 0.18124446868864724 0.9665653227757149 4.679185004084511
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -639,8 +669,8 @@ DEF plexRobot Robot {
         }
       ]
       endPoint Solid {
-        translation -0.05699999618581658 -2.686828124197198e-06 -1.932067966693263e-06
-        rotation -0.13178975321872755 0.13168480696100773 0.9824920216277528 1.5876624502202323
+        translation -0.05699999618581658 -2.6868281241971975e-06 -1.9320679666932623e-06
+        rotation -0.13178975321872805 0.13168480696100768 0.9824920216277528 1.5876624502202326
         children [
           DEF wheel Shape {
             appearance PBRAppearance {
@@ -683,11 +713,11 @@ DEF plexRobot Robot {
       }
     }
   ]
-  name "robot(1)"
+  name "robot(2)"
   boundingObject USE basePlate
   physics Physics {
     density -1
     mass 0.7
   }
-  controller "testing_controller"
+  controller "my_controller"
 }
