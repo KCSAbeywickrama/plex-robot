@@ -93,7 +93,7 @@ namespace navigate
             int largestContour, largestContourArea;
             getMaxAreaContourId(contours, largestContour, largestContourArea);
 
-            approxPolyDP(Mat(contours[largestContour]), contourPoly, 3, true);
+            approxPolyDP(Mat(contours[largestContour]), contourPoly, 2, true);
 
             size_t n = contourPoly.size();
             cout << "poly n: " << n << endl;
@@ -353,7 +353,7 @@ namespace navigate
                         mosaic::showImgRGB(imgRGB);
                         pixel = extTop.y;
                         cout<<"pixel: "<<pixel<<endl;
-                        if (pixel<=70)
+                        if (pixel<=65)
                         {
                             mosaic::goFront(robot,5);
                             
