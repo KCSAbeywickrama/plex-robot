@@ -35,13 +35,13 @@ namespace wall
     {
         while (robot->step(TIME_STEP) != -1 && mosaic::notIn(robot))
         {
-            double leftDS = 80 - (ds[0]->getValue());
-            double frontLeftDS = 80 - (ds[1]->getValue());
-            double frontRightDS = 80 - (ds[2]->getValue());
+            double leftDS = (33.8482 / pow((ds[0]->getValue()), 1.01532)) - 4.50349;
+            double frontLeftDS = (33.8482 / pow((ds[1]->getValue()), 1.01532)) - 4.50349;
+            double frontRightDS = (33.8482 / pow((ds[2]->getValue()), 1.01532)) - 4.50349;
 
-            if (leftDS > 50)
+            if (leftDS > 55)
             {
-                leftDS = 50;
+                leftDS = 55;
             }
 
             double perror = leftDS - 17;
@@ -73,7 +73,7 @@ namespace wall
             if (bgin == 0)
             {
                 int i = 0;
-                if (leftDS > 35 || (perror < 3 && perror > -3))
+                if (leftDS > 35 || (perror < 3 && perror > -3) || (frontLeftDS < 30 && frontRightDS < 30))
                 {
                     bgin = 1;
                 }
@@ -88,19 +88,27 @@ namespace wall
                     {
                         i = -1;
                     }
-                    left_motor->setVelocity(BASE_SPEED - 3 * i);
-                    right_motor->setVelocity(BASE_SPEED + 3 * i);
-                    robot->step(400);
-                    left_motor->setVelocity(BASE_SPEED);
-                    right_motor->setVelocity(BASE_SPEED);
-                    robot->step(1000);
-                    left_motor->setVelocity(BASE_SPEED + 3 * i);
-                    right_motor->setVelocity(BASE_SPEED - 3 * i);
-                    robot->step(370);
-                    left_motor->setVelocity(BASE_SPEED);
-                    right_motor->setVelocity(BASE_SPEED);
-                    robot->step(1000);
-                    bgin = 1;
+                    if (i != 0)
+                    {
+                        left_motor->setVelocity(BASE_SPEED - 3 * i);
+                        right_motor->setVelocity(BASE_SPEED + 3 * i);
+                        robot->step(400);
+                        left_motor->setVelocity(BASE_SPEED);
+                        right_motor->setVelocity(BASE_SPEED);
+                        robot->step(1000);
+                        left_motor->setVelocity(BASE_SPEED + 3 * i);
+                        right_motor->setVelocity(BASE_SPEED - 3 * i);
+                        robot->step(370);
+                        left_motor->setVelocity(BASE_SPEED);
+                        right_motor->setVelocity(BASE_SPEED);
+                        robot->step(1000);
+                        bgin = 1;
+                    }
+
+                    if (i == 0)
+                    {
+                        bgin = 1;
+                    }
                 }
             }
 
@@ -127,8 +135,8 @@ namespace wall
 
             else if (derror == 0 && leftDS > 40)
             {
-                left_motor->setVelocity(BASE_SPEED - l / 5);
-                right_motor->setVelocity(BASE_SPEED + r / 5);
+                left_motor->setVelocity(BASE_SPEED - l / 4.5);
+                right_motor->setVelocity(BASE_SPEED + r / 4.5);
             }
 
             else if (derror > 0)
