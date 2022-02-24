@@ -16,7 +16,7 @@ namespace arm
 
   void gripObject(Robot *robot, float ps, int obj)
   {
-    float value;
+    float value=0.038;
     if (obj == OBJ_BALL)
     {
       value = 0.043;
@@ -57,8 +57,8 @@ namespace arm
         {
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
-          handleMotor->setVelocity(0.5);
-          handleMotor->setPosition(1.57);
+          // handleMotor->setVelocity(0.5);
+          // handleMotor->setPosition(1.57);
           for (int i = 0; i < 10; i++)
           {
             robot->step(TIME_STEP);
@@ -184,5 +184,11 @@ namespace arm
       shoot(robot);
     }
   }
+  void loose(Robot *robot)
+  {
+    leftSlider->setPosition(0.032);
+    rightSlider->setPosition(0.032); 
+  }
+
 
 }

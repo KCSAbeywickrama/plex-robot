@@ -32,11 +32,11 @@ int main(int argc, char **argv)
   {
 
     arm::init(robot);
-    normline::init(robot);
-    normline::follow(robot);
+    // normline::init(robot);
+    // normline::follow(robot);
     mosaic::init(robot);
-    wall::init(robot);
-    wall::follow(robot);
+    // wall::init(robot);
+    // wall::follow(robot);
     mscstps::run(robot, redBall);
     dashline::init(robot, redBall);
     dashline::follow(robot);
