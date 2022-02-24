@@ -607,6 +607,21 @@ namespace mosaic
             }
         }
 
+        for (int i0 = 0; i0 < imgHeight; i0++)
+        {
+            uchar *line = maskFloor.ptr<uchar>(i0);
+
+            if (line[imgWidth - 1])
+            {
+                j = imgWidth - 1;
+                i = i0;
+                return;
+            }
+
+            if (line[0])
+                return;
+        }
+
         // int i1 = 0;
         // for (i1 = 0; i1 < imgHeight; i1++)
         // {
