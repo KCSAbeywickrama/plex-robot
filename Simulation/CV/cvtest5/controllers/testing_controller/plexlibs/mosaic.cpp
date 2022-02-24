@@ -103,9 +103,9 @@ namespace mosaic
         while (robot->step(TIME_STEP) != -1 && (leftStart - leftPosSensor->getValue()) < leftThres)
             ;
 
-        goFront(robot, 290);
+        goFront(robot, 370);
 
-        float rightThres = 4.5;
+        float rightThres = 5.4;
         float rightStart = rightPosSensor->getValue();
         leftMotor->setVelocity(MOSAIC_SPEED);
         rightMotor->setVelocity(-MOSAIC_SPEED);
@@ -119,6 +119,7 @@ namespace mosaic
 
     void lookFromRight(Robot *robot)
     {
+
         float rightThres = 5.5;
         float rightStart = rightPosSensor->getValue();
         rightMotor->setVelocity(-MOSAIC_SPEED);
@@ -127,7 +128,9 @@ namespace mosaic
         while (robot->step(TIME_STEP) != -1 && (rightStart - rightPosSensor->getValue()) < rightThres)
             ;
 
-        goFront(robot, 350);
+        goFront(robot, 390);
+        // turnLeft(robot);
+        // goFront(robot, 250);
 
         float leftThres = 5.0;
         float leftStart = leftPosSensor->getValue();
@@ -483,6 +486,63 @@ namespace mosaic
         }
     }
 
+    void alignToWall(Robot *robot)
+    {
+        const unsigned char *image;
+        Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
+        Mat imgRGB, imgHSV, mask;
+        // aligning
+        while (robot->step(TIME_STEP) != -1)
+        {
+            image = camera->getImage();
+            if (image)
+            {
+
+                imgCam.data = (uchar *)image;
+                cvtColor(imgCam, imgRGB, COLOR_BGRA2RGB);
+                cvtColor(imgRGB, imgHSV, COLOR_RGB2HSV);
+
+                vision::getMask(CLR_Y, imgHSV, mask);
+
+                int i1 = 0;
+                for (i1 = 0; i1 < imgHeight; i1++)
+                {
+                    uchar *line = mask.ptr<uchar>(i1);
+                    if (line[0])
+                        break;
+                }
+
+                int i2 = 0;
+                for (i2 = 0; i2 < imgHeight; i2++)
+                {
+                    uchar *line = mask.ptr<uchar>(i2);
+                    if (line[imgWidth - 1])
+                        break;
+                }
+
+                int error = i2 - i1;
+                error = (error / 2) * 2;
+                float p_coefficient = 0.2;
+                cout << " i1:" << i1;
+                cout << " i2:" << i2;
+                cout << " align wall lineerror: ";
+                cout << error << endl;
+
+                leftMotor->setVelocity(clipSpeed(error * p_coefficient));
+                rightMotor->setVelocity(clipSpeed(-error * p_coefficient));
+
+                // if (error < 2 && error > -2)
+                // {
+                //     leftMotor->setVelocity(0);
+                //     rightMotor->setVelocity(0);
+                //     return;
+                // }
+
+                showImgGray(mask);
+            }
+        }
+    }
+
     void goUntil(Robot *robot, int color, int dis)
     {
         const unsigned char *image;
@@ -527,6 +587,7 @@ namespace mosaic
     {
         cout << "rotate" << endl;
         rotateRightUntil(robot, CLR_M);
+        // rotateLeftUntil(robot, CLR_M);
         delay(robot, 10);
         alignWhileGoing(robot, CLR_M, 112);
     }
@@ -612,7 +673,9 @@ namespace mosaic
             }
 
             if (line[0])
+            {
                 return;
+            }
         }
 
         // int i1 = 0;
@@ -750,6 +813,10 @@ namespace mosaic
 
     void goYellow2Cylinder(Robot *robot)
     {
+
+        goBack(robot, 100);
+        goMagenta2Yellow(robot);
+
         const unsigned char *image;
         Mat imgCam = Mat(Size(imgWidth, imgHeight), CV_8UC4);
         Mat imgRGB, imgHSV, maskFloor, maskHole;
@@ -768,6 +835,14 @@ namespace mosaic
                 int i = imgHeight - 1;
                 int j = imgWidth - 1;
                 getFloorEndPoint(maskFloor, i, j);
+
+                if (j < (imgWidth / 2))
+                {
+                    leftMotor->setVelocity(MOSAIC_SPEED);
+                    rightMotor->setVelocity(MOSAIC_SPEED / 3.0);
+                    delay(robot, 10);
+                    continue;
+                }
 
                 vision::getMask(CLR_W, imgHSV, maskHole);
                 cvtColor(maskHole, imgRGB, COLOR_GRAY2RGB);
@@ -819,8 +894,7 @@ namespace mosaic
 
                 if (i2 > 50)
                 {
-                    leftMotor->setVelocity(0);
-                    rightMotor->setVelocity(0);
+                    goFront(robot, 10);
                     return;
                 }
             }

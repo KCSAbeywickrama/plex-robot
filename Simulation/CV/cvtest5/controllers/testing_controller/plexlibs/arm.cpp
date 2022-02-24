@@ -25,8 +25,10 @@ namespace arm
     {
       value = 0.038;
     }
-    cout << "gripping object " << value << endl;
-    while (robot->step(TIME_STEP) != -1)
+
+    int checkCount = 0;
+    int checkCount2 = 0;
+    while (robot->step(TIME_STEP) != -1 && checkCount < 25 && checkCount2 < 5)
     {
 
       leftTouch->enable(TIME_STEP);
@@ -61,12 +63,12 @@ namespace arm
           {
             robot->step(TIME_STEP);
           }
-          cout << " done gripping" << endl;
+          //cout << " done gripping" << endl;
           return;
         }
         else
         {
-          cout << "turn" << endl;
+          //cout << "turn" << endl;
           leftSlider->setPosition(ps - 0.005);
           rightSlider->setPosition(ps - 0.005);
           leftMotor->setVelocity(1.5);
@@ -75,12 +77,14 @@ namespace arm
           {
             robot->step(TIME_STEP);
           }
+          checkCount++;
         }
       }
       ps += 0.001;
       if (leftSliderEncoder->getValue() >= 0.05 || leftSliderEncoder->getValue() <= 0.0)
       {
         ps = 0;
+        checkCount2++;
       }
     }
   }
@@ -163,17 +167,16 @@ namespace arm
     handleMotor->setVelocity(1);
     handleMotor->setPosition(0);
   }
-  void ballShoot(Robot *robot)
+  void ballShoot(Robot *robot, int redBall)
   {
-    int red = 1;
-    if (red == 0)
+    if (redBall)
     {
       mosaic::turnRight(robot);
       mosaic::goFront(robot, 295);
       mosaic::turnLeft(robot);
       shoot(robot);
     }
-    if (red == 1)
+    else
     {
       mosaic::turnLeft(robot);
       mosaic::goFront(robot, 295);
