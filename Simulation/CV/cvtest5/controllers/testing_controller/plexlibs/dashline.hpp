@@ -11,6 +11,6 @@ using namespace webots;
 
 namespace dashline
 {
-    void init(Robot *robot);
+    void init(Robot *robot, int _redBall);
     void follow(Robot *robot);
 }

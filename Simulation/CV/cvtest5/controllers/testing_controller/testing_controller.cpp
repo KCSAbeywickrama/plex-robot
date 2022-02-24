@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     wall::init(robot);
     wall::follow(robot);
     mscstps::run(robot, redBall);
-    dashline::init(robot);
+    dashline::init(robot, redBall);
     dashline::follow(robot);
     arm::ballShoot(robot, redBall);
 
