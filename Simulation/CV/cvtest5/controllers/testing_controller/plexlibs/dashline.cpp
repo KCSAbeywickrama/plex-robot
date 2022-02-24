@@ -75,7 +75,7 @@ namespace dashline
       t = (value_min + value_max) / 2;
     }
     // std::cout << "**************" << std::endl;
-    // std::cout <<"t = "<< t << std::endl;
+    std::cout << "t = " << t << std::endl;
     // std::cout << "--------------" << std::endl;
   }
 
@@ -182,7 +182,7 @@ namespace dashline
     speedset();
   }
 
-  void dashfollow(Robot *robot)
+  void follow(Robot *robot)
   {
     while (robot->step(TIME_STEP) != -1)
     {

@@ -171,16 +171,16 @@ namespace arm
   {
     if (redBall)
     {
-      mosaic::turnLeft(robot);
-      mosaic::goFront(robot, 295);
       mosaic::turnRight(robot);
+      mosaic::goFront(robot, 295);
+      mosaic::turnLeft(robot);
       shoot(robot);
     }
     else
     {
-      mosaic::turnRight(robot);
-      mosaic::goFront(robot, 295);
       mosaic::turnLeft(robot);
+      mosaic::goFront(robot, 295);
+      mosaic::turnRight(robot);
       shoot(robot);
     }
   }

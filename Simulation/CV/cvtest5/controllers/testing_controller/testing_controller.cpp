@@ -18,7 +18,7 @@
 using namespace webots;
 using namespace std;
 
-int redBall = 1;
+int redBall = 0;
 
 int main(int argc, char **argv)
 {
