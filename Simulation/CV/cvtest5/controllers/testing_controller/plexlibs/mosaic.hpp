@@ -14,6 +14,11 @@
 #define MOSAIC_SPEED 2
 #define TURN_THRES_90 3.608
 
+#define OBJ_KEY 0
+#define OBJ_CYLNDR 1
+#define OBJ_BOX 2
+#define OBJ_BALL 3
+
 using namespace webots;
 using namespace std;
 using namespace cv;
@@ -46,4 +51,5 @@ namespace mosaic
     void tmpViewFloorPoints(Robot *robot);
     void goYellow2Box(Robot *robot);
     void goYellow2Cylinder(Robot *robot);
+    void goHole2Cyan(Robot *robot);
 }

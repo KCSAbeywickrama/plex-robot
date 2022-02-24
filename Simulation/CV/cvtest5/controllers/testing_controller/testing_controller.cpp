@@ -27,6 +27,7 @@
 #include "plexlibs/keyhole.hpp"
 #include "plexlibs/normline.hpp"
 #include "plexlibs/dashline.hpp"
+#include "plexlibs/mscstps.hpp"
 
 #define TIME_STEP 16
 #define OBJ_BOX 1
@@ -41,6 +42,8 @@ using namespace cv;
 // obj 1 - box
 // obj 2 - cylinder
 // obj 3 - ball
+
+int red = 0;
 
 int main(int argc, char **argv)
 {
@@ -66,11 +69,16 @@ int main(int argc, char **argv)
 
     cout << "cvtest5" << endl;
     arm::init(robot);
-    arm::shoot(robot);
-    // mosaic::init(robot);
-    // mosaic::goYellow2Box(robot);
-    // navigate::init(robot);
-    // navigate::navigateObject(robot);
+    // arm::shoot(robot);
+    mosaic::init(robot);
+    mscstps::run(robot);
+    // mosaic::turnLeft(robot);
+    // mosaic::delay(robot, 30);
+    // mosaic::turnRight(robot);
+    // mosaic::goFront(robot, 300);
+    while (robot->step(TIME_STEP) != -1)
+      ;
+
     // wall::init(robot);
     // wall::follow(robot);
     // cout << "wall end" << endl;
@@ -119,8 +127,8 @@ int main(int argc, char **argv)
     }
     cout << "object 2 start" << endl;
     navigate::navigateObject(robot);
-    arm::gripObject(robot, 0.001, OBJECT);
-    navigate::detectObject(robot, object);
+    arm::gripObject(robot, 0.001, 0);
+    // navigate::detectObject(robot, object);
     arm::raise(robot, 1.2);
 
     mosaic::preAlignKeyHole(robot);
