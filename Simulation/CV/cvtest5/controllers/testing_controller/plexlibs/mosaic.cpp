@@ -148,7 +148,7 @@ namespace mosaic
     void goFront(Robot *robot, float distance)
     {
         // distance in mm
-        cout << "front" << endl;
+        // cout << "front" << endl;
         float rad = distance / 30.0;
         float leftStart = leftPosSensor->getValue();
         float rightStart = rightPosSensor->getValue();
@@ -327,7 +327,7 @@ namespace mosaic
                         break;
                 }
 
-                cout << "i1:" << i1 << endl;
+                // cout << "i1:" << i1 << endl;
 
                 if (i1 >= 0)
                     break;
@@ -366,7 +366,7 @@ namespace mosaic
                         break;
                 }
 
-                cout << "i1:" << i1 << endl;
+                // cout << "i1:" << i1 << endl;
 
                 if (i1 >= 0)
                     break;
@@ -413,10 +413,10 @@ namespace mosaic
                 int error = i2 - i1;
                 error = (error / 2) * 2;
                 float p_coefficient = 0.8;
-                cout << " i1:" << i1;
-                cout << " i2:" << i2;
-                cout << " lineerror: ";
-                cout << error << endl;
+                // cout << " i1:" << i1;
+                // cout << " i2:" << i2;
+                // cout << " lineerror: ";
+                // cout << error << endl;
 
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient));
@@ -467,10 +467,10 @@ namespace mosaic
                 int error = i2 - i1;
                 error = (error / 2) * 2;
                 float p_coefficient = 0.1;
-                cout << " i1:" << i1;
-                cout << " i2:" << i2;
-                cout << " lineerror: ";
-                cout << error << endl;
+                // cout << " i1:" << i1;
+                // cout << " i2:" << i2;
+                // cout << " lineerror: ";
+                // cout << error << endl;
 
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
@@ -524,10 +524,10 @@ namespace mosaic
                 int error = i2 - i1;
                 error = (error / 2) * 2;
                 float p_coefficient = 0.2;
-                cout << " i1:" << i1;
-                cout << " i2:" << i2;
-                cout << " align wall lineerror: ";
-                cout << error << endl;
+                // cout << " i1:" << i1;
+                // cout << " i2:" << i2;
+                // cout << " align wall lineerror: ";
+                // cout << error << endl;
 
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient));
@@ -568,7 +568,7 @@ namespace mosaic
                     if (line[imgWidth / 2])
                         break;
                 }
-                cout << " i:" << i;
+                // cout << " i:" << i;
 
                 if (i > dis)
                 {
@@ -586,7 +586,7 @@ namespace mosaic
 
     void goCyan2Magenta(Robot *robot)
     {
-        cout << "rotate" << endl;
+        // cout << "rotate" << endl;
         rotateRightUntil(robot, CLR_M);
         // rotateLeftUntil(robot, CLR_M);
         delay(robot, 10);
@@ -595,9 +595,9 @@ namespace mosaic
 
     void goMagenta2Yellow(Robot *robot)
     {
-        cout << "rotate" << endl;
+        // cout << "rotate" << endl;
         rotateRightUntil(robot, CLR_Y);
-        cout << "go while align" << endl;
+        // cout << "go while align" << endl;
         alignWhileGoing(robot, CLR_Y, 110);
     }
 
@@ -612,7 +612,7 @@ namespace mosaic
 
     void exit(Robot *robot)
     {
-        cout << "rotate" << endl;
+        // cout << "rotate" << endl;
         rotateRightUntil(robot, CLR_C);
         alignWhileGoing(robot, CLR_C, 112);
         turnRight(robot);
@@ -790,8 +790,8 @@ namespace mosaic
                 int error = j1m - (imgWidth / 2);
                 float p_coefficient = 0.1;
 
-                cout << "error: ";
-                cout << error << endl;
+                // cout << "error: ";
+                // cout << error << endl;
 
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
@@ -881,8 +881,8 @@ namespace mosaic
 
                 int error = j2m - (imgWidth / 2);
                 float p_coefficient = 0.1;
-                cout << "error: ";
-                cout << error << endl;
+                // cout << "error: ";
+                // cout << error << endl;
 
                 leftMotor->setVelocity(clipSpeed(error * p_coefficient + MOSAIC_SPEED));
                 rightMotor->setVelocity(clipSpeed(-error * p_coefficient + MOSAIC_SPEED));
