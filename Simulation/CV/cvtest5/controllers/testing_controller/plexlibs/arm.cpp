@@ -184,6 +184,11 @@ namespace arm
       shoot(robot);
     }
   }
+  void loose(Robot *robot)
+  {
+    leftSlider->setPosition(0.032);
+    rightSlider->setPosition(0.032); 
+  }
 
 
 }
