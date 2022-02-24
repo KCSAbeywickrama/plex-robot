@@ -604,7 +604,7 @@ namespace mosaic
     void preAlignKeyHole(Robot *robot)
     {
         goCyan2Magenta(robot);
-        goFront(robot, 350);
+        goFront(robot, 400);
         goMagenta2Yellow(robot);
         // goBack(robot, 300);
         // goMagenta2Yellow(robot);
@@ -815,7 +815,7 @@ namespace mosaic
     void goYellow2Cylinder(Robot *robot)
     {
 
-        goBack(robot, 100);
+        goBack(robot, 200);
         goMagenta2Yellow(robot);
 
         const unsigned char *image;
