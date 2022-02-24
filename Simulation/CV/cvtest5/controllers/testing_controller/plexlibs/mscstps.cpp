@@ -20,6 +20,12 @@ namespace mscstps
                 object = navigate::detectObject(robot);
             }
         }
+
+        if (object == OBJ_CYLNDR)
+            cout << "cylender detected" << endl;
+        else if (object == OBJ_BOX)
+            cout << "box detected" << endl;
+
         navigate::checkNear(robot);
         arm::gripObject(robot, 0.001, 0);
         arm::loose(robot);
