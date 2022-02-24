@@ -25,7 +25,7 @@ namespace dashline
   double value[8];
   double value_max=0;
   double value_min=1000;  
-  int redBall = 1;
+  int redBall = 0;
   bool end = 0;
   DistanceSensor *sensors[8];
   const char* sensor_names[8]={"s0","s1","s2","s3","s4","s5","s6","s7"};
@@ -33,7 +33,7 @@ namespace dashline
   Motor *lm;
   Motor *rm;
 
-  void init(Robot *robot,int _redBall)
+  void init(Robot *robot)
   {
     for(int i=0;i<8;i++){
     sensors[i]=robot->getDistanceSensor(sensor_names[i]);
@@ -46,7 +46,7 @@ namespace dashline
     rm->setPosition(INFINITY);
     lm->setVelocity(0);
     rm->setVelocity(0);   
-	redBall = _redBall;
+	//redBall = _redBall;
   }
   
   void sensor_check()
@@ -124,6 +124,7 @@ void T_check(Robot *robot)
         tc += 1;
         if (tc > 2 && redBall)
         {
+  speedset();
           tc = 0;
             while (robot->step(TIME_STEP) != -1 && values[7] == 1)
             {
@@ -207,3 +208,4 @@ void pid()
       }
     }
 }
+//pp
