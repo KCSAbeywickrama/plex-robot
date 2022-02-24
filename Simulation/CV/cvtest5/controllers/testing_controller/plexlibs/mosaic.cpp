@@ -117,7 +117,7 @@ namespace mosaic
         rightMotor->setVelocity(0);
     }
 
-   void lookFromRight(Robot *robot)
+    void lookFromRight(Robot *robot)
     {
 
         float rightThres = 5.5;
