@@ -17,7 +17,7 @@ namespace normline
     double rs;
     double ls;
     int pos;
-    int t = 500;
+    double t = 500;
     int s = 8;
     int act = 0;
     int v1;
@@ -28,31 +28,25 @@ namespace normline
     int v6;
     int v7;
     int v8;
-    int values[8];
+    double value[8];
+    double values[8];
     int red = 1;
     double lasterror = 0;
+    DistanceSensor *sensors[8];
+    const char* sensor_names[8]={"s0","s1","s2","s3","s4","s5","s6","s7"};
+    double value_max=0;
+    double value_min=1000; 
 
-    DistanceSensor *s1;
-    DistanceSensor *s2;
-    DistanceSensor *s3;
-    DistanceSensor *s4;
-    DistanceSensor *s5;
-    DistanceSensor *s6;
-    DistanceSensor *s7;
-    DistanceSensor *s8;
     Motor *lm;
     Motor *rm;
 
     void init(Robot *robot)
     {
-        s1 = robot->getDistanceSensor("s0");
-        s2 = robot->getDistanceSensor("s1");
-        s3 = robot->getDistanceSensor("s2");
-        s4 = robot->getDistanceSensor("s3");
-        s5 = robot->getDistanceSensor("s4");
-        s6 = robot->getDistanceSensor("s5");
-        s7 = robot->getDistanceSensor("s6");
-        s8 = robot->getDistanceSensor("s7");
+        
+        for(int i=0;i<8;i++){
+        sensors[i]=robot->getDistanceSensor(sensor_names[i]);
+        sensors[i]->enable(TIME_STEP);
+        }
 
         lm = robot->getMotor("leftMotor");
         rm = robot->getMotor("rightMotor");
@@ -61,14 +55,6 @@ namespace normline
         rm->setPosition(INFINITY);
         lm->setVelocity(0);
         rm->setVelocity(0);
-        s1->enable(TIME_STEP);
-        s2->enable(TIME_STEP);
-        s3->enable(TIME_STEP);
-        s4->enable(TIME_STEP);
-        s5->enable(TIME_STEP);
-        s6->enable(TIME_STEP);
-        s7->enable(TIME_STEP);
-        s8->enable(TIME_STEP);
     }
 
     void squre_check()
@@ -92,33 +78,43 @@ namespace normline
     }
 
     void sensor_check()
+    
     {
-        act = 0;
-        for (int i = 0; i <= s; i++)
-        {
-            values[i] = 0;
-        }
-        v1 = 1 - int((s1->getValue()) / t);
-        values[0] = v1;
-        v2 = 1 - int((s2->getValue()) / t);
-        values[1] = v2;
-        v3 = 1 - int((s3->getValue()) / t);
-        values[2] = v3;
-        v4 = 1 - int((s4->getValue()) / t);
-        values[3] = v4;
-        v5 = 1 - int((s5->getValue()) / t);
-        values[4] = v5;
-        v6 = 1 - int((s6->getValue()) / t);
-        values[5] = v6;
-        v7 = 1 - int((s7->getValue()) / t);
-        values[6] = v7;
-        v8 = 1 - int((s8->getValue()) / t);
-        values[7] = v8;
-        for (int i = 0; i <= s; i++)
-        {
-            act += values[i];
-        }
+    value_max=0;
+    value_min=1000;  
+    act = 0;
+    for(int i =0; i<8;i++){
+    value[i]=(sensors[i]->getValue());
+    //std::cout << 2.53268-1.23521*pow(value[i],0.239678) << std::endl;
+    if(value[i]>value_max){
+    value_max=value[i];
     }
+    if(value[i]<value_min){
+    value_min=value[i];
+    }
+    
+    }
+    if(abs(value_min-value_max)>0.005){
+    t=(2.53268-1.23521*pow(value_min,0.239678)+2.53268-1.23521*pow(value_max,0.239678))/2;
+    }
+    
+    std::cout << "**************" << std::endl;
+    std::cout <<"t = "<< t << std::endl;
+    std::cout << value_min<< std::endl;
+    std::cout << value_max<< std::endl;
+    std::cout << "--------------" << std::endl;
+    
+    
+    
+    for(int i =0; i<8;i++){
+    values[i] = 1- int((float)((2.53268-1.23521*pow(value[i],0.239678)) / t));
+    std::cout << values[i] << std::endl;
+    act+=values[i];
+    }
+    /*std::cout << "**************" << std::endl;
+    std::cout << t << std::endl;
+    std::cout << "--------------" << std::endl;*/
+  }
 
     void speedset()
     {
@@ -229,4 +225,4 @@ namespace normline
             }
         }
     }
-}
+}//pp
