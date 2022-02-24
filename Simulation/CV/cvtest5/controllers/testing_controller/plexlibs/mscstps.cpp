@@ -40,7 +40,7 @@ namespace mscstps
         else if (object == OBJ_BOX)
             mosaic::goYellow2Box(robot);
         else
-            cout << "onject detect error" << endl;
+            cout << "object detect error" << endl;
 
         arm::shoot(robot);
     }
