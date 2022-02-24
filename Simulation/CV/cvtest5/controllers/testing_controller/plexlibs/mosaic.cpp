@@ -117,7 +117,7 @@ namespace mosaic
         rightMotor->setVelocity(0);
     }
 
-    void lookFromRight(Robot *robot)
+   void lookFromRight(Robot *robot)
     {
 
         float rightThres = 5.5;
@@ -128,18 +128,19 @@ namespace mosaic
         while (robot->step(TIME_STEP) != -1 && (rightStart - rightPosSensor->getValue()) < rightThres)
             ;
 
-        goFront(robot, 390);
+        goFront(robot, 470);
         // turnLeft(robot);
         // goFront(robot, 250);
 
-        float leftThres = 5.0;
+        float leftThres = 4.0;
         float leftStart = leftPosSensor->getValue();
         rightMotor->setVelocity(MOSAIC_SPEED);
         leftMotor->setVelocity(-MOSAIC_SPEED);
 
         while (robot->step(TIME_STEP) != -1 && (leftStart - leftPosSensor->getValue()) < leftThres)
             ;
-
+        goFront(robot, 290);
+        turnLeft(robot);
         leftMotor->setVelocity(0);
         rightMotor->setVelocity(0);
     }
