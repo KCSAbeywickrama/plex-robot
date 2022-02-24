@@ -57,8 +57,8 @@ namespace arm
         {
           leftMotor->setVelocity(0.0);
           rightMotor->setVelocity(0.0);
-          handleMotor->setVelocity(0.5);
-          handleMotor->setPosition(1.57);
+          // handleMotor->setVelocity(0.5);
+          // handleMotor->setPosition(1.57);
           for (int i = 0; i < 10; i++)
           {
             robot->step(TIME_STEP);
