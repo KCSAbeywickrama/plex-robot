@@ -16,7 +16,7 @@ namespace arm
 
   void gripObject(Robot *robot, float ps, int obj)
   {
-    float value;
+    float value=0.038;
     if (obj == OBJ_BALL)
     {
       value = 0.043;

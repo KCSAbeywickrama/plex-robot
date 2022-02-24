@@ -104,8 +104,8 @@ namespace dashline
   et=0;
   }
   while(robot->step(TIME_STEP) != -1 && (robot->getTime()-etime)<0.1 && etime!=0 && et>6 && act<8){
-  L_speed=BASE_SPEED;
-  R_speed=BASE_SPEED;
+  L_speed=PATH_BASE_SPEED;
+  R_speed=PATH_BASE_SPEED;
   std::cout << "**************" << std::endl;
   speedset();
   sensor_check();
@@ -129,7 +129,7 @@ void T_check(Robot *robot)
             {
               sensor_check();
               L_speed = 0;
-              R_speed = BASE_SPEED;
+              R_speed = PATH_BASE_SPEED;
               speedset();
             }
         }
