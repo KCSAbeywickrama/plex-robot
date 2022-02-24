@@ -612,7 +612,9 @@ namespace mosaic
             }
 
             if (line[0])
+            {
                 return;
+            }
         }
 
         // int i1 = 0;
@@ -768,6 +770,14 @@ namespace mosaic
                 int i = imgHeight - 1;
                 int j = imgWidth - 1;
                 getFloorEndPoint(maskFloor, i, j);
+
+                if (j < (imgWidth / 2))
+                {
+                    leftMotor->setVelocity(MOSAIC_SPEED);
+                    rightMotor->setVelocity(MOSAIC_SPEED / 3.0);
+                    delay(robot, 10);
+                    continue;
+                }
 
                 vision::getMask(CLR_W, imgHSV, maskHole);
                 cvtColor(maskHole, imgRGB, COLOR_GRAY2RGB);

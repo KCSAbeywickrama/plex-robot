@@ -33,8 +33,6 @@
 #define OBJ_BOX 1
 #define OBJ_CYLINDER 2
 
-
-
 using namespace webots;
 using namespace std;
 using namespace cv;
@@ -51,9 +49,8 @@ int main(int argc, char **argv)
   Robot *robot = new Robot();
 
   string objName;
-  int red = 1; //1 if red , else 0
+  int red = 1; // 1 if red , else 0
   int object;
-
 
   while (robot->step(TIME_STEP) != -1)
   {
@@ -71,7 +68,7 @@ int main(int argc, char **argv)
     arm::init(robot);
     // arm::shoot(robot);
     mosaic::init(robot);
-    mscstps::run(robot);
+    mosaic::goYellow2Cylinder(robot);
     // mosaic::turnLeft(robot);
     // mosaic::delay(robot, 30);
     // mosaic::turnRight(robot);
@@ -87,7 +84,8 @@ int main(int argc, char **argv)
     // mosaic::tmpGoHoles(robot);
     // arm::shoot(robot);
 
-    while (robot->step(TIME_STEP) != -1);
+    while (robot->step(TIME_STEP) != -1)
+      ;
 
     mosaic::preAlignKeyHole(robot);
     cout << "chamod out" << endl;
