@@ -18,11 +18,11 @@ namespace dashline
   int et = 0;
   int tc = 0;
   int pos;
-  double t = 800;
+  double t = 0.3;
   int s = 8;
   int act = 0;
-  int values[8];
-  int value[8];
+  double values[8];
+  double value[8];
   double value_max = 0;
   double value_min = 1000;
   int redBall = 1;
@@ -58,25 +58,36 @@ namespace dashline
     for (int i = 0; i < 8; i++)
     {
       value[i] = (sensors[i]->getValue());
-      values[i] = 1 - int((sensors[i]->getValue()) / t);
-      act += values[i];
-      std::cout << value[i] << std::endl;
+      std::cout << 2.53268 - 1.23521 * pow(value[i], 0.239678) << std::endl;
       if (value[i] > value_max)
       {
         value_max = value[i];
       }
-      if (value[i] < value_min)
+      if (abs(value_min - value_max) > 10)
       {
-        value_min = value[i];
+        t = (value_min + value_max) / 2;
       }
     }
-    if (abs(value_min - value_max) > 10)
+    if (abs(value_min - value_max) > 0.005)
     {
-      t = (value_min + value_max) / 2;
+      t = (2.53268 - 1.23521 * pow(value_min, 0.239678) + 2.53268 - 1.23521 * pow(value_max, 0.239678)) / 2;
     }
-    // std::cout << "**************" << std::endl;
+
+    std::cout << "**************" << std::endl;
     std::cout << "t = " << t << std::endl;
-    // std::cout << "--------------" << std::endl;
+    std::cout << value_min << std::endl;
+    std::cout << value_max << std::endl;
+    std::cout << "--------------" << std::endl;
+
+    for (int i = 0; i < 8; i++)
+    {
+      values[i] = 1 - int((float)((2.53268 - 1.23521 * pow(value[i], 0.239678)) / t));
+      // std::cout << values[i] << std::endl;
+      act += values[i];
+    }
+    /*std::cout << "**************" << std::endl;
+    std::cout << t << std::endl;
+    std::cout << "--------------" << std::endl;*/
   }
 
   void speedset()
@@ -89,7 +100,6 @@ namespace dashline
   {
     if (act > 5)
     {
-
       et += 1;
       // std::cout << et << std::endl;
       etime = robot->getTime();
