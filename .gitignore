@@ -27,7 +27,6 @@ Packages
 *.rar
 *.tar
 *.xz
-*.zip
 
 OS generated files
 .DS_Store

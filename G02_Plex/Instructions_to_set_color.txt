@@ -1,0 +1,14 @@
+plese update 24th line as bellow of robot_controller.cpp to select a ball color.
+
+int redBall = 1; //for red ball
+int redBall = 0; //for blue ball
+
+then clean & build
+
+To compile & run our project, opencv lib(headers) need to be located in libraries folder & precompiled binaries need to be located in controller location. i.e. same sturcture of our PlexProject folder is needed.
+
+So please copy "PlexProject\controllers\robot_controller" directory to the directory "controllers"
+& copy "PlexProject\libraries\OpenCV452" directory to the directory "libraries"
+
+Extract first and include all the STL files in the "CAD_files.zip" into the directory "world"
+
