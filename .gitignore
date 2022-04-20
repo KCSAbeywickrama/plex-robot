@@ -55,6 +55,7 @@ IDE files
 .vscode
 # !.vscode/c_cpp_properties.json
 imgs
+.VSCodeCounter
 
 .vs
 x64
